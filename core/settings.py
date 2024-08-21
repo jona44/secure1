@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g72dfo-0u@r#g3p4%k)yg448ixcy)mmkcxv=fku0a9vp#bau%-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['13.244.144.178','localhost','127.0.0.1']
 
 
 # Application definition
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'whitenoise.runserver_nostatic',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -123,4 +125,22 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, ),]
+STATIC_ROOT = BASE_DIR/'static'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+    
+
+LOGIN_REDIRECT_URL = 'login_redirect'
+LOGOUT_REDIRECT_URL = 'login'
+
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 TEMPLATE_DIRS = [(BASE_DIR, 'templates')]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
