@@ -1,0 +1,26 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+ <div class="row">
+    <div class="col-md-6 offset-md-3 text-white">
+         <h2 class="text-warning">Academic Calendar Details({{ academic_calendar.academic_year }})</h2>
+        <p><strong>Academic Year :</strong> <span class="text-info">{{  academic_calendar.academic_year}}</span></p>
+        <p><strong>Term :</strong> <span class="text-info">{{ academic_calendar.term }}</span></p>
+        <p><strong>Start Date :</strong> <span class="text-info">{{ academic_calendar.start_date }}</span></p>
+        <p><strong>End Date</strong> : <span class="text-info">{{ academic_calendar.end_date }}</span></p>
+        <h2 class="text-warning">Holidays</h2>
+        <ul>
+            {% for holiday in academic_calendar.holidays.all %}
+                <li>{{ holiday.date }} - {{ holiday.name }} - {{ holiday.note }}</li>
+            {% empty %}
+                <li>No holidays added yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+   
+ </div>
+
+{% endblock %}
+

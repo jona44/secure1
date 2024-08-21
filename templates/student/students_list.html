@@ -1,0 +1,30 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="mt-5">
+   <div class="row offset-md-1">
+    <div class="col-8 rounded p-5 shado p-3 bg1">
+        <h2 class="text-center text-danger">Student </h2>
+        <hr class="text-primary">
+        
+         <table class="table">
+            <tr>
+                <th>student name</th>
+                <th>Gender</th>
+                <th>Class</th>
+            </tr>
+            {% for student in students%}
+            <tr>
+              <td>{{student.student}}</td>
+              <td>{{student.gender}}</td>
+              <td>{{student.assigned_class}}</td>
+            </tr>
+            {% endfor%}
+         </table>
+        
+    </div>
+  </div>
+</div>
+ 
+{% endblock %}

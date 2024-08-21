@@ -1,0 +1,21 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-warning">Admin Profile</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ profile.user.get_full_name }}</h5>
+            <p class="card-text"><strong>Email:</strong> {{ profile.user.email }}</p>
+            <p class="card-text"><strong>Position:</strong> {{ profile.user.position }}</p>
+            <p class="card-text"><strong>User Type:</strong> {{ profile.user.user_type }}</p>
+            <p class="card-text"><strong>School:</strong> {{ profile.school.school_name }}</p>
+            <p class="card-text"><strong>Address:</strong> {{ profile.school.address }}</p>
+            <p class="card-text"><strong>Phone Number:</strong> {{ profile.school.phone_number }}</p>
+            <p class="card-text"><strong>School Email:</strong> {{ profile.school.email }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

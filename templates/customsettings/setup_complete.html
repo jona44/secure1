@@ -1,0 +1,12 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Setup Complete</h2>
+    <div class="alert alert-success" role="alert">
+        The setup is complete! Your school is now ready to use.
+    </div>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="row offset-1 mt-5">
+    
+    <div class="col-8 bg2 rounded p-3">
+        <h2 class="text-center text-primary "> Mark </h2>
+        <h4 class="text-warning">{{captured_classroom.classroom}} Total learners-{{all_students_count}}</h4>
+
+        <div class="progress my-3" style="height: 30px; ">
+          <div class="progress-bar bg-success " role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+        </div>
+        
+        <div class="text-center d-flex  justify-content-center "> 
+          <div class=" bg1 p-3 rounded border-success">{{ student_before }}</div>
+          <div class=" bg1 mx-2 p-2 rounded"> <h3 class="text-success">{{ current_student }}</h3> </div>
+          <div class=" bg1 p-3 rounded">{{ student_after }}</div>
+        </div>
+
+        <div>
+           <p> <strong>Subject</strong> : <span class="text-warning">{{ captured_classroom.capture.subject }}</span></p>
+           <p> <strong>Test Type</strong> : <span class="text-warning">{{ captured_classroom.capture.test_type }}</span></p>
+           <p> <strong>Subject Topic</strong> : <span class="text-warning">{{ captured_classroom.capture.topic }}</span> </p>
+           <p> <strong>Total Mark</strong> : <span class="text-warning">{{ captured_classroom.capture.total_mark }}</span> </p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy}}
+            <input type="hidden" name="classroom_id" value="{{ classroom_id }}">
+            <button type="submit" class="btn btn-primary">Register &raquo;</button>
+         </form>   <hr>
+          <div>
+            <a href="{% url 'success_page' captured_classroom.id %}  "><button class="btn btn-primary">view all</button></a>
+          </div>
+       
+    </div>
+  </div>
+
+  <script>
+    // Function to focus on a specific field
+    function focusOnField(fieldName) {
+      document.getElementById(fieldName).focus();
+    }
+
+    // Call the focus function on page load (after the form is rendered)
+    window.onload = function() {
+      // Assuming 'id_mark' is the ID of your mark field
+      focusOnField('id_mark'); 
+    };
+  </script>
+
+{% endblock %}

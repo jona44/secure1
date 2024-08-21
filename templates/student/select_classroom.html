@@ -1,0 +1,47 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+
+<div class="row w-75 offset-1">
+<h2 class="text-primary">Select Classroom for &nbsp; {{student}} {{class_students }}</h2>
+  {% for data in class_data %}
+  <div class="col-md-4 mb-4 ">
+    <div class=" shado bg1 p-2 rounded">
+      <div class="body">
+        <h3 class=" text-center text-success">{{ data.classroom.name }}</h3>
+        <div class="d-flex">
+          <h5 class="text-primary">Class Teacher:&nbsp;&nbsp; </h5>
+        {% if data.classroom.class_teacher %}
+            <p> {{ data.classroom.class_teacher.first_name }} {{ data.classroom.class_teacher.last_name }}</p>
+        {% else %}
+             <p>  No teacher assigned</p>
+        {% endif %}
+        </div>
+        <div class="d-flex"><h5 class="text-primary">Total Students</h5>  :&nbsp;&nbsp; {{ data.total_students }}</div>
+        <div class="row p-3 ">
+          <h5 class="text-primary">Gender Count</h5>
+            <div class="col-md-6 ">
+                Girls:&nbsp;&nbsp; {{ data.female_count }}
+                <div class="progress">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: {{ data.female_percentage }}%;" aria-valuenow=" {{ data.female_count }}" aria-valuemin="0" aria-valuemax="{{ data.total_students }}">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 ">
+            Boys:&nbsp;&nbsp; {{ data.male_count }}
+              <div class="progress">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ data.male_percentage }}%;" aria-valuenow="  {{ data.male_count }}" aria-valuemin="0" aria-valuemax="{{ data.total_students }}">
+                </div>
+              </div>  
+          </div>
+      </div>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'assign_classroom' pk=student.pk %}?classroom_id={{ data.classroom.id }}" class="btn btn-primary">Assign Classroom</a>
+    </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+{% endblock %}

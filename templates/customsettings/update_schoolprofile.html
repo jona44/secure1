@@ -1,0 +1,16 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-warning">Update SchoolProfile</h2>
+    <div class="progress mb-4">
+        <div class="progress-bar" role="progressbar" style="width: 16.66%;" aria-valuenow="1" aria-valuemin="0" aria-valuemax="6">Step 1 of 6</div>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Next</button>
+    </form>
+</div>
+{% endblock %}

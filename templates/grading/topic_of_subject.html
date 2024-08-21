@@ -1,0 +1,22 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="row justify-content-center">
+    
+    <div class="col-8 bg2 rounded p-5">
+        <h2 class="text-center text-primary">Subject Topic </h2>
+        <hr class="text-success">
+        {% for the_topic in topic %}
+        {{the_topic}}
+        {%endfor%}
+        <form method="post">
+            {% csrf_token %}
+                {{ form|crispy}}
+            <button type="submit" class="btn btn-primary">Register &raquo;</button>
+       </form>
+    </div>
+  </div>
+
+{% endblock %}

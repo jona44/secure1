@@ -1,0 +1,10 @@
+{% extends "partials/base.html" %}
+
+{% block content %}
+  <h2>SchoolHead Profile: {{ profile.school_admin.username }}</h2>
+  <ul>
+    <li><strong>Contact Number:</strong> {{ profile.contact_number }}</li>
+    <li><strong>Assigned School:</strong> {{ profile.assigned_school_name }}</li>
+    <li><strong>Admin Role:</strong> {{ profile.admin }}</li>
+  </ul>
+{% endblock %}

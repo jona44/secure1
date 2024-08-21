@@ -1,0 +1,37 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="row offset-1 mt-5">
+    <div class="col-md-8 bg2 rounded h-100">
+      <div class="d-grid  gap-2 p-1 h-100 overflow-auto">
+          <div class="p-3 bg1 rounded text-white">
+              <p> <strong> subject </strong> : <span class="text-warning">{{ capture.subject }}</span></p>
+              <p> <strong> Test Type </strong> : <span class="text-warning">{{ capture.test_type }}</span></p>
+              <p><strong> Topic</strong> :  <span class="text-warning">{{ capture.topic }}</span></p>
+              <p><strong>Term</strong> :  <span class="text-warning">{{ capture.academic_year.term }}</span></p>
+              <p><strong>Academi Year</strong> :  <span class="text-warning">{{ capture.academic_year.academic_year }}</span></p>
+             
+              <a href="{% url 'edit_capture' capture.id %}"><button class="btn btn-success ">Edit Capture</button></a>
+              <a href="{% url 'capture' capture.subject.id %}"><button class="btn btn-info ">Create a New Capture</button></a>
+          </div>
+      </div>
+      
+  </div>
+    <div class="col-8 bg2 rounded p-5">
+        <h2 class="text-center text-primary">Select Class </h2>
+        <hr class="text-success">
+       <!-- captured_classroom.html -->
+       <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-grid">
+          <button type="submit" class="btn btn-warning">Submit</button>
+        </div>
+        
+    </form>
+    </div>
+  </div>
+  
+  {% endblock %}

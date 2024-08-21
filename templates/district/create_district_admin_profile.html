@@ -1,0 +1,21 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+  <div class=" container mt-5 ">
+    <div class="row justify-content-center  ">
+       <div class="col rounded p-5  bg1  mt-5 ">
+          <h2 class="text-primary text-center"> District Admin Profile </h2>
+            <hr class="text-primary">
+            <form method="post">
+                {% csrf_token %}
+                  {{ form|crispy}}
+                 
+                  <hr class="text-primary">
+                <button type="submit" class="btn btn-primary">Next &raquo;</button>
+            </form>
+       </div>
+     </div>
+   </div>
+{% endblock %}

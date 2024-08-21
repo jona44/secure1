@@ -1,0 +1,4 @@
+<!-- registration/activation_email.html -->
+
+Click the link below to activate your account:
+<a href="{{ protocol }}://{{ domain }}{% url 'activate_account' uidb64=uid token=token %}">Activate</a>

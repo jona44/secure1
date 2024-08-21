@@ -1,0 +1,42 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container-fluid  w-75 offset mt-5 ">
+        <h1 class=" text-primary mb-4">Student Profile</h1>
+        <!-- Display StudentProfile details -->
+            <div class="col-md-8 shado rounded p-3">
+            <div class="d-flex justify-content-between">
+               <div>
+                  <h5 class="card-title text-success">Profile Details</h5>
+                </div>
+                <div>
+                   <a href="{% url 'edit_student_profile' student_profile.pk %}">
+                      <button class="btn btn-primary">edit profile</button>
+                   </a>
+                </div>
+            </div>
+                <p> <strong>Name:</strong> <span > {{ student_profile.student.get_full_name }}</span></p>
+                <p><strong>Gender:</strong> <span >{{ student_profile.gender }}</span></p>
+                <p><strong>Grade Level:</strong> <span >{{student_profile.grade_level}}</span></p>
+                <p><strong>Class:</strong> <span >{{ student_profile.assigned_class }}</span></p>   
+                <p>
+                   <strong>Subjects:</strong><span ></span>
+                    {% for subject in student_profile.subjects.all %}
+                    <span class="badge badge-primary">{{subject}}</span> {% if not forloop.last %}, {% endif %}{% endfor %}
+                </p>
+                <p><strong>Date of Birth:</strong> <span >{{ student_profile.date_of_birth }}</span></p>
+                <p><strong>Address:</strong> <span ></span>{{ student_profile.address }}</p>
+
+                <!-- Display GuardianProfile details if available -->
+            <div class="mt-4">
+                <h5 class="card-title text-danger">Guardian Details</h5><span ></span>
+                <p> <strong>Guardian Name:</strong><span > {{ student_profile.guardian_name }}</span></p>
+                <p> <strong>Contact Number:</strong> <span > {{ student_profileguardian_number }}</span></p>
+                <p> <strong>Email:</strong> <span > {{ student_profile.guardian_email }}<span></p>
+                <p> <strong>Guardian Address:</strong> <span > {{ student_profile.address }}<span></p>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -156,7 +156,9 @@ LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = '/login'
 LOGOUT_URL = '/logout'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 TEMPLATE_DIRS = [(BASE_DIR, 'templates')]
 
 MEDIA_URL = '/media/'

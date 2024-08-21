@@ -1,0 +1,25 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Subject List</h1>
+                <ul>
+                    {% for school_subject in all_subjects %}
+                        <li>
+                            <ul>
+                                {% for subject in school_subject.subjects.all %}
+                                    <li>{{ subject }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'create_schoolsubjects_step2' %} " class="btn btn-light">Edit Subject List</a>
+                <a href="{% url 'class_name'%}" class="btn btn-light">next step </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

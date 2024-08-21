@@ -1,0 +1,41 @@
+{% extends 'partials/base.html' %}
+{% block title %}Teacher List{% endblock %}
+
+{% block content %}
+<div class="container h-75 ">
+  <h2  class="text-warning">Teacher List</h2>
+  <div class="container">
+    <div class="row  ">
+      {% for teacher in all_teachers %}
+      <div class="col-md-8 mb-4 offset-md-2 ">
+        <div class=" p-3 bg1">
+          <div>
+            <a href="{% url 'update_teacher_profile' teacher.pk %}">
+              <button class="btn btn-info">update profile</button>
+            </a>
+            <h5 > <strong>Name : </strong><span class="text-warning"> {{ teacher_profile.teacher.first_name }} {{ teacher.teacher.last_name }}</span></h5>
+            <p><strong>Assigned School : </strong><span class="text-warning">{{ teacher.assigned_school}}</span> </p>
+            <p><strong>Assigned Class : </strong><span class="text-warning">{{ teacher.assigned_class}}</span> </p>
+            <p><strong>Contact Number : </strong ><span class="text-warning">{{ teacher.contact_number}}</span> </p>
+            <p><strong>Email : </strong> <span class="text-warning">{{ teacher.teacher.email }}</span></p>
+            <p><strong>My Classes : </strong> <span class="text-warning"></span></p>
+          <div class="card p-2">
+                {%for classes in teacher.classes_taught.all %}
+               {{ classes}}
+               {%endfor%}
+            </div>
+            <p > <strong>Base Subjects:</strong> <span class="text-warning">{{ teacher.base_subject }}</span></p>
+            <p><strong>subjects_taught : </strong> </p>
+            <div class="card p-2">
+              {% for subjects_taught in teacher.subjects_taught.all %}
+              {{subjects_taught}}
+              {%endfor%}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+  <h2>Assign Classroom</h2>
+  <p>Assign a classroom to {{ student_profile.student.first_name }} {{ student_profile.student.last_name }}</p>
+  <form method="post" action="{% url 'assign_classroom' student_id=student_profile.id %}">
+    {% csrf_token %}
+    <label for="classroom">Choose a Classroom:</label>
+    <select name="classroom" id="classroom">
+      {% for classroom in classrooms %}
+        <option value="{{ classroom.id }}">{{ classroom }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Assign Classroom</button>
+  </form>
+{% endblock %}

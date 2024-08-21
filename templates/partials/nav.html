@@ -1,0 +1,11 @@
+<nav class=" position-fixed w-100" style="height: 100px;">
+    <h1 class="display-2 text-primary "> Secure High School </h1>
+    <br>
+    <div class="d-block bg-dark flexend p-1">
+        <a href="{%url 'login'%}">login</a>
+        <a href="{%url 'logout'%}">logout</a> 
+        <span class="text-warning">{{request.user}}</span>
+     </div>
+    
+</nav>
+ 

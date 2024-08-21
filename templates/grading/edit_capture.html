@@ -1,0 +1,25 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+ <div class="row d-flex justify-content-center gap-2">
+   
+    <div class="col-md-6 bg2 p-3 rounded">
+        <form method="post">
+            {% csrf_token %}
+            <!-- Display student full names for confirmation -->
+            <h2 class="text-warning">Edit Capture Details {{classroom}}</h2>
+            
+                         <h4 class="text-center text-success">{{subject}}</h4> 
+            {% for student in students %}
+                <h3>{{ student.student.get_full_name }}</h3>
+                <label for="grade">Grade:</label>
+                <input type="text" name="grade_{{ student.id }}" id="grade_{{ student.id }}" required>
+                <br><br>
+            {% endfor %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-primary">Submit Grades</button>
+        </form>
+    </div>
+ </div>
+{% endblock %}

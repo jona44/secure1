@@ -1,0 +1,5 @@
+{% for group_name, group in widget.optgroups.items %}
+    {% for option in group %}
+        <button type="button" name="{{ widget.name }}" value="{{ option.value }}">{{ option.label }}</button>
+    {% endfor %}
+{% endfor %}

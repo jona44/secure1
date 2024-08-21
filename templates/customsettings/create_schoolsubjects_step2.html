@@ -1,0 +1,29 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row  ">
+    <div class="col-md-6 offset-md-3  p-3 rounded">
+        <h3 class="text-primary">School Subject Form</h3>
+        
+       <form method="post">
+        {% csrf_token %}
+        <div class="col-md d-flex flex-wrap bg1 p-4 m-2 rounded">
+            {% for checkbox in form.school_subjects %}
+            &nbsp;&nbsp; <div class="form-check">
+                &nbsp;&nbsp;{{ checkbox }}
+                   
+                </div>
+            {% endfor %}
+            </div>
+         
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+
+    
+
+  
+{% endblock %}

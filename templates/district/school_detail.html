@@ -1,0 +1,23 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-1">
+        <h1 class="text-warning">{{ school.school_name }}</h1>
+        <div >
+          <p > School Head: <span class="text-warning">{{ school.school_head }}</span></p>
+          <p >Deputy Head: <span class="text-warning">{{ school.deputy_head }}</span></p>
+          <address>
+            <p >Address: <span class="text-warning">{{ school.address }}</span></p>
+          </address>
+          <p>Phone Number: <span class="text-warning">{{ school.phone_number }}</span></p>
+          <p >Email: <span class="text-warning">{{ school.email }}</span></p>
+        </div>
+        
+      </div>
+    </div></span>
+  </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+  <div class="container offset-1 mt-5">
+    <div class="card bg1 p-3 mb-3">
+      <h1 class="text-white">Student Grades</h1>
+      <h4 class="text-primary">Student: <span class="text-info">{{student}}</span> </h4>
+      <h4 class="text-primary">Subject: <span class="text-info">{{subject}}</span> </h4>
+      <h4 class="text-primary">Average Grade: <span class="text-info">{{grade_average}}%</span> </h4>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Grade</th>
+                <th>Mark</th>
+                <th>Pass Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in student_grades %}
+            <tr>
+                <td>{{ grade.date|date:"M d, Y" }}</td>
+                <td>{{ grade.grade }}</td>
+                <td>{{ grade.mark }}</td>
+                <td>{{ grade.pass_code }}</td>
+              </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No grades found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% endblock %}

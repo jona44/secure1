@@ -1,0 +1,34 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        <h1>School Profile Details</h1>
+        <div>
+            {% if schoolprofile.school_logo %}
+                <img src="{{ schoolprofile.school_logo.url }}" width="250" alt="{{ schoolprofile.school_name }}" class="img-fluid mb-3">
+            {% else %}
+                <p>No logo available.</p>
+            {% endif %}
+        </div>
+        
+        <p><strong>School Name:</strong> {{ schoolprofile.school_name }}</p>
+        <p><strong>Address:</strong> {{ schoolprofile.school_name.address }}</p>
+        <p><strong>Email:</strong> {{ schoolprofile.school_name.email }}</p>
+        <p><strong>Phone:</strong> {{ schoolprofile.school_name.phone_number }}</p>
+        <p><strong>Facebook:</strong> <a href="{{ schoolprofile.facebook }}">{{ schoolprofile.facebook }}</a></p>
+        <p><strong>Twitter:</strong> <a href="{{ schoolprofile.twitter }}">{{ schoolprofile.twitter }}</a></p>
+        <p><strong>Instagram:</strong> <a href="{{ schoolprofile.instagram }}">{{ schoolprofile.instagram }}</a></p>
+        <p><strong>Subjects:</strong>
+            <ul>
+                {% for subject in schoolprofile.school_subjects.all %}
+                    <li>{{ subject }}</li>
+                {% endfor %}
+            </ul>
+        </p>
+        <a href="{% url 'update_schoolprofile' schoolprofile.id %}" class="btn btn-light">Update School Profile</a>
+        <a href="{% url 'create_schoolsubjects_step2' %}" class="btn btn-light">Next Step 2</a>
+    </div>
+</div>
+{% endblock %}

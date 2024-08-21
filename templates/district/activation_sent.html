@@ -1,0 +1,20 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card mt-5">
+          <div class="card-body">
+            <h2 class="card-title">Activation Email Sent</h2>
+            <p class="card-text">An email with activation instructions has been sent to the provided email address.</p>
+            <p class="card-text">Please inform the user to check their email and follow the instructions to activate their account.</p>
+            <a href="{% url 'create_teacher_profile' user_id=new_user.id %}" class="btn btn-primary">Create staff Profile/Roaster</a>
+            <a href="{% url 'registration' %}" class="btn btn-secondary">staff Registration</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

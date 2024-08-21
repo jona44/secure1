@@ -1,0 +1,19 @@
+{% extends "partials/base.html" %}
+
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="col-md-8">
+    <h1 class="text-primary mb-4">Schools</h1>
+    <ul class=" list-group col-md-8 offset-md-2">
+      {% for school in schools %}
+        <li class="list-group-item">
+          <a href="{% url 'school_detail' school.id %}" class="text-decoration-none text-dark">{{ school.school_name }}</a>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No schools have been registered yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

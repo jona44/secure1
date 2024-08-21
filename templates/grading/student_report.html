@@ -1,0 +1,39 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+  <div class="container offset-md-1 mt-5">
+    <div class=" bg1 p-3 mb-3">
+      <h1 >Student Report</h1>
+      <h4 class="text-primary">Student: <span class="text-info">{{student}}</span> </h4>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Average Grade</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        {% for subject, data in subject_data.items %}
+        <tr>
+            <td>{{ subject }}</td>
+            <td>
+                {% if data.average_grade %}
+                    {{ data.average_grade }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+            <td>
+                {% if data.category %}
+                    {{ data.category }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+    </table>
+  </div>
+{% endblock %}

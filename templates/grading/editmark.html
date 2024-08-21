@@ -1,0 +1,27 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+
+<div class="row justify-content-center">
+  
+  <div class="col-8 bg2 rounded p-5 text-white" >
+      <h2 class="text-center text-warning"> Edit Mark  <p>{{ getmark.captured_classroom.classroom }}</h2>   <hr class="text-success">
+      <p><strong>Student </strong>: <span class="text-warning">{{ student }}</span></p>
+      <p> <strong>Subject</strong>: <span class="text-warning">{{ getmark.captured_classroom.capture.subject }}</span></p>
+      <p><strong>Test Type </strong>: <span class="text-warning">{{ getmark.captured_classroom.capture.test_type }}</span></p>
+      <p> <strong>Subject Topic</strong>: <span class="text-warning">{{ getmark.captured_classroom.capture.topic }}</span></p>
+      <p> <strong>Total Mark</strong>: <span class="text-warning">{{ getmark.captured_classroom.capture.total_mark }}</span></p>
+      <form method="post">
+          {% csrf_token %}
+              {{ form|crispy}}
+          <button type="submit" class="btn btn-primary">Register &raquo;</button>
+     </form>
+  </div>
+</div>
+
+{% endblock %}
+
+

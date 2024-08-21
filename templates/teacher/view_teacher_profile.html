@@ -1,0 +1,50 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container offset-1 mt-3">
+        <div class="row justify-content-center">
+            <div class="col-md-8"> 
+                 <a href="{% url 'update_teacher_profile' teacher_profile.pk %}">
+                <button class="btn btn-primary">update profile</button>
+            </a>
+                <h1 class="mt-4 text-primary">Teacher Profile</h1>
+              </div>
+            <div class="col-md-8">
+                <h3 class="mb-1 ">Teacher Name:&nbsp;&nbsp;</h3>{{ teacher_profile.teacher }}
+                <hr>
+            </div>
+        </div>
+        <div class="row justify-content-center ">
+            <div class="col-md-8">
+                <h5 class="mb-1  ">Base Class:</h5> {{ teacher_profile.assigned_class }}
+                <hr>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center mb-3">
+            <h5 class="mb-1 text-primary text-center">Classes Taught:</h5>
+            <div class="col-md-8  p-3">
+                    <div class="bg1 "> {% for classes in teacher_profile.classes_taught.all %}
+                       <div class="badge bg-dark">{{ classes }}</div> 
+                        {% endfor %}
+                    </div>
+            </div>
+        </div>
+            <div class="row d-flex justify-content-center">
+                <h5 class="mb-1 text-primary text-center">Subjects Taught:</h5>
+                <div class="col-md-8 bg1 p-3">
+                        {% for subject in teacher_profile.subjects_taught.all %}
+                        <span class="badge bg-dark ">{{ subject }}</span> 
+                        {% endfor %}
+                    
+                    
+                </div>
+                <div class="col-md-8 mt-3">
+                    <a href="{% url 'teacher_list'%}"><button class="btn btn-light">back to Teacher List</button></a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container offset-1 ">
+    <div class="text-white">
+        <h2 class="text-primary">Select or Create Capture for <span class="text-warning">{{ subject }}</span> </h2>
+        <h3  class="text-primary">Existing Captures</h3>
+        <ul>
+            {% for capture in existing_captures %}
+            <li>
+                <form method="post" action="{% url 'capture' subject.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="capture_id" value="{{ capture.id }}">
+                    <button type="submit" class="btn btn text-light"> <strong>Type :</strong>  {{ capture.test_type }} <strong>Topic:</strong> {{ capture.topic }}</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <button id="toggleForm" class="btn btn-secondary">Create New Capture</button>
+
+    <div id="captureForm" style="display:none; margin-top: 20px;">
+      <form method="post">
+          {% csrf_token %}
+          {{ form|crispy}}
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  <script>
+    document.getElementById("toggleForm").addEventListener("click", function() {
+      var form = document.getElementById("captureForm");
+      if (form.style.display === "none") {
+          form.style.display = "block";
+      } else {
+          form.style.display = "none";
+      }
+  });
+
+
+    // JavaScript to update the capture_id hidden input
+    const captureRadioButtons = document.querySelectorAll('input[name="capture_id"]');
+    captureRadioButtons.forEach(button => {
+      button.addEventListener('change', function() {
+        document.getElementById('capture_id').value = this.value;
+      });
+    });
+  </script>
+</div>
+{% endblock %}

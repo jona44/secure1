@@ -1,0 +1,16 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <div class="row justify-content-center">
+    {% for class in Classroom %}
+    <div class="col-8 bg-light rounded p-5">
+        <h2 class="text-center">Student Registration</h2>
+        <hr class="text-success">
+         {{class}}
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
