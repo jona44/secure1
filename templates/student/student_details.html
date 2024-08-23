@@ -1,6 +1,6 @@
 {% extends "partials/base.html" %}
 {% load crispy_forms_tags %}
-
+{% load custom_tags %}
 {% block content %}
     <div class="container-fluid  w-75 offset mt-5 ">
         <h1 class=" text-primary mb-4">Student Profile</h1>
@@ -12,7 +12,7 @@
                 </div>
                 <div>
                    <a href="{% url 'edit_student_profile' student_profile.pk %}">
-                      <button class="btn btn-primary">edit profile</button>
+                      <button class="btn btn-primary">Edit student profile</button>
                    </a>
                 </div>
             </div>
@@ -36,7 +36,16 @@
                 <p> <strong>Email:</strong> <span > {{ student_profile.guardian_email }}<span></p>
                 <p> <strong>Guardian Address:</strong> <span > {{ student_profile.address }}<span></p>
             </div>
+            <div>
+                <a href="{% url 'student_registration' %}">
+                   <button class="btn btn-outline-warning">Register another Student</button>
+                </a>
+                <a href="{% get_dashboard_url user %}">
+                   <button class="btn btn-outline-warning">Dashboard</button>
+                </a>
+             </div>
         </div>
+        
     </div>
     
 {% endblock %}
