@@ -1,8 +1,8 @@
 <h1 class="visually-hidden">Sidebars examples</h1>
 
 {% load custom_tags %}
-
-<div class="d-flex flex-column flex-shrink-0 p-3   sidebar fixed" style="width: 280px; height: 100vh;">
+<div class="align-items-center justify-content-left">
+<div class="d-flex flex-column  p-3 justify-content-left align-items-center sidebar fixed" style="width: 280px; height: 100vh;">
   
    {% if request.user.is_authenticated %}
                 {% if schoolprofile %}
@@ -102,5 +102,6 @@
       <li><hr class="dropdown-divider"></li>
       <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
     </ul>
+  </div>
   </div>
 </div>

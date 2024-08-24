@@ -6,7 +6,8 @@
        <div class=" col-4 bg1 rounded p-2">
        <h1 class="text-success">Success Page</h1>
        <h6 class="text-primary">Classroom: <span class="text-info">{{ classroom }}</span></h4>
-       <h6 class="text-primary">Subject: <span class="text-info">{{ capture.subject }}</span> Topic: <span class="text-info">{{ capture.topic }}</span> </h6>
+       <h6 class="text-primary">Subject: <span class="text-info">{{ capture.subject }} </span>
+       <h6 class="text-primary"> Topic: <span class="text-info">{{ capture.topic }} </span>
        <h6 class="text-primary">Test Type: <span class="text-info">{{ capture.test_type }}</span></h4>
       </div>
       <div class="col-8 d-flex bg1 rounded p-2 mx-2">
@@ -25,10 +26,11 @@
     
    
    
-    <table class= " table mt-3 rounded">
+    <table class= " table dark mt-3 rounded">
         <thead>
             <tr>
                 <th>Student</th>
+                <th></th>
                 <th>Mark</th>
                 <th>Grade</th>
                 <th>Symbol</th>
@@ -39,8 +41,8 @@
           {% for mark in marks_for_capture %}
               {% for student in mark.student.all %}
                   <tr>
-                    <td>{{ student }}
-                    <a href="{% url 'student_grades' student_id=student.id subject_id=subject_id %}">View Grades</a></td>
+                    <td>{{ student }}</td>
+                    <td><a href="{% url 'student_grades' student_id=student.id subject_id=subject_id %}">View Grades</a></td>
                     <td>{{ mark.mark }}</td>
                     <td>{{ mark.pass_code }} %</td>
                     <td>{{ mark.grade }} %</td>

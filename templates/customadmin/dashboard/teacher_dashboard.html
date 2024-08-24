@@ -6,13 +6,18 @@
     <h1 class="text-success">Teacher Dashboard</h1>
     <hr>
     <p><strong>Teacher</strong>: {{ request.user }}</p>
+    <p class="bg-secondary p-2">&nbsp;&nbsp;{{my_assigned_class}}</p>
     <hr>
     <h2>My Classes</h2>
-    <div class="row d-flex gap-3"> 
+    
+    
+    <div class="row d-flex gap-3 "> 
         {% if my_classes_students %}
             {% for class_info in my_classes_students %}
+            
             <div class="col-md bg1 rounded shado p-2">
-                <h3 class="text-primary">Class: {{ class_info.class_.name }}</h3>
+                <h6 class="text-primary">Class: {{ class_info.class_.name }}</h6>
+
                 <p class="bg1 p-1 rounded">Total Students: {{ class_info.students_count }}</p>
                 <p>Girls: <span class="badge rounded-pill bggirls">{{ class_info.female_students.count }}</span></p>
                 <p>Boys: <span class="badge rounded-pill bg-info">{{ class_info.male_students.count }}</span></p>
@@ -21,6 +26,7 @@
             {% endfor %}
         {% else %}
             <p>No classes assigned.</p>
+            
         {% endif %}
     </div>
     <hr>
@@ -34,6 +40,8 @@
         {% else %}
         <p>No subjects assigned.</p>
         {% endif %}
+      
+        
     </div>
 </div>
 {% endblock %}

@@ -64,6 +64,7 @@ def dashboard(request):
         try:
             teacher_profile = TeacherProfile.objects.get(teacher=request.user)
             school = teacher_profile.assigned_school
+            my_assigned_class = teacher_profile.assigned_class
             
             # Get Classes and Students for Teacher
             my_classes = teacher_profile.classes_taught.all()
@@ -83,7 +84,8 @@ def dashboard(request):
             
             context = {
                 'my_classes_students': my_classes_students,
-                'my_subjects': teacher_profile.subjects_taught.all()
+                'my_subjects': teacher_profile.subjects_taught.all(),
+                'my_assigned_class':my_assigned_class
             }
 
             return render(request, 'customadmin/dashboard/teacher_dashboard.html', context)
