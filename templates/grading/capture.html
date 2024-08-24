@@ -12,7 +12,7 @@
                 <form method="post" action="{% url 'capture' subject.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="capture_id" value="{{ capture.id }}">
-                    <button type="submit" class="btn btn text-light"> <strong>Type :</strong>  {{ capture.test_type }} <strong>Topic:</strong> {{ capture.topic }}</button>
+                    <button type="submit" class="btn btn-outline-warning"> <strong>Type :</strong>  {{ capture.test_type }} <strong>Topic:</strong> {{ capture.topic }}</button>
                 </form>
             </li>
             {% endfor %}
