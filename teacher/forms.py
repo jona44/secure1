@@ -1,7 +1,7 @@
 
 from django import forms
-
 from customsettings.models import SchoolProfile
+from student.models import ClassRoom
 from .models import TeacherProfile
 
 class TeacherProfileForm(forms.ModelForm):
@@ -32,9 +32,6 @@ class TeacherProfileForm(forms.ModelForm):
                 'class': 'form-check-input',
             }),
         }
-
-    
-            
             
 
 class UpdateStaffProfileForm(forms.ModelForm):
@@ -65,3 +62,4 @@ class UpdateStaffProfileForm(forms.ModelForm):
             'subjects_taught': forms.CheckboxSelectMultiple(attrs={
                 'class': 'form-check-input'}),
         }
+   

@@ -149,8 +149,8 @@ class CreateClassRoomForm(forms.ModelForm):
 
 class EditClassRoomForm(forms.ModelForm):
     class Meta:
-        model = ClassRoom  # replace with your actual model
-        fields = ['name','grd_level','class_teacher',]
+        model = ClassRoom
+        fields = ['name', 'grd_level', 'class_teacher']
         widgets = {
             'name': forms.Select(attrs={
                 'class': 'form-control',
@@ -166,9 +166,24 @@ class EditClassRoomForm(forms.ModelForm):
                 'style': 'background-color: #474955; color:white; border-color:red;',
                 }),
         }
+
     def __init__(self, *args, **kwargs):
         super(EditClassRoomForm, self).__init__(*args, **kwargs)
-        self.fields['class_teacher'].queryset = CustomUser.objects.filter(groups__name='teacher') 
+        # Get the current classroom instance
+        classroom = kwargs.get('instance')
+        
+        # Get all teachers assigned to a classroom, excluding the current classroom's teacher
+        assigned_teachers = CustomUser.objects.filter(
+            assigned_class__isnull=False
+        ).exclude(
+            assigned_class=classroom
+        )
+        
+        # Exclude these teachers from the queryset
+        self.fields['class_teacher'].queryset = CustomUser.objects.filter(
+            groups__name='teacher'
+        ).exclude(id__in=assigned_teachers)
+
    
 
 class AttendanceForm(forms.ModelForm):

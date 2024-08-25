@@ -2,40 +2,65 @@
 {% block title %}Teacher List{% endblock %}
 
 {% block content %}
-<div class="container h-75 ">
-  <h2  class="text-warning">Teacher List</h2>
+<div class="container h-75">
+  <h2 class="text-warning">Teacher List</h2>
   <div class="container">
-    <div class="row  ">
+    <div class="row">
+
       {% for teacher in all_teachers %}
-      <div class="col-md-8 mb-4 offset-md-2 ">
-        <div class=" p-3 bg1">
-          <div>
-            <a href="{% url 'update_teacher_profile' teacher.pk %}">
-              <button class="btn btn-info">update profile</button>
-            </a>
-            <h5 > <strong>Name : </strong><span class="text-warning"> {{ teacher_profile.teacher.first_name }} {{ teacher.teacher.last_name }}</span></h5>
-            <p><strong>Assigned School : </strong><span class="text-warning">{{ teacher.assigned_school}}</span> </p>
-            <p><strong>Assigned Class : </strong><span class="text-warning">{{ teacher.assigned_class}}</span> </p>
-            <p><strong>Contact Number : </strong ><span class="text-warning">{{ teacher.contact_number}}</span> </p>
-            <p><strong>Email : </strong> <span class="text-warning">{{ teacher.teacher.email }}</span></p>
-            <p><strong>My Classes : </strong> <span class="text-warning"></span></p>
+      <div class="col-md-8 mb-4 offset-md-1">
+        <!-- Unique IDs using teacher.id -->
+        <button id="toggleForm-{{ teacher.id }}" class="btn">{{ teacher.teacher }}</button>
+        <div id="captureForm-{{ teacher.id }}" style="display:none; margin-top: 20px;">
+          <h5><strong>Name : </strong><span class="text-warning">{{ teacher.teacher }}</span></h5>
+          <p><strong>Assigned School : </strong><span class="text-warning">{{ teacher.assigned_school }}</span></p>
+          <p><strong>Assigned Class : </strong><span class="text-warning">{{ teacher.assigned_class }}</span></p>
+          <p><strong>Contact Number : </strong><span class="text-warning">{{ teacher.contact_number }}</span></p>
+          <p><strong>Email : </strong><span class="text-warning">{{ teacher.teacher.email }}</span></p>
+          <p><strong>My Classes : </strong><span class="text-warning"></span></p>
           <div class="card p-2">
-                {%for classes in teacher.classes_taught.all %}
-               {{ classes}}
-               {%endfor%}
-            </div>
-            <p > <strong>Base Subjects:</strong> <span class="text-warning">{{ teacher.base_subject }}</span></p>
-            <p><strong>subjects_taught : </strong> </p>
-            <div class="card p-2">
-              {% for subjects_taught in teacher.subjects_taught.all %}
-              {{subjects_taught}}
-              {%endfor%}
-            </div>
+            {% for classes in teacher.classes_taught.all %}
+            {{ classes }}
+            {% endfor %}
           </div>
+          <p><strong>Base Subjects:</strong> <span class="text-warning">{{ teacher.base_subject }}</span></p>
+          <p><strong>subjects_taught : </strong></p>
+          <div class="card p-2">
+            {% for subjects_taught in teacher.subjects_taught.all %}
+            {{ subjects_taught }}
+            {% endfor %}
+          </div>
+          <hr>
+          <a href="{% url 'update_teacher_profile' teacher.pk %}">
+            <button class="btn btn-info">Update Profile</button>
+          </a>
         </div>
       </div>
       {% endfor %}
+      
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll('[id^="toggleForm-"]').forEach(function(button) {
+    button.addEventListener("click", function() {
+      var id = this.id.split('-')[1];
+      var form = document.getElementById("captureForm-" + id);
+      if (form.style.display === "none") {
+        form.style.display = "block";
+      } else {
+        form.style.display = "none";
+      }
+    });
+  });
+
+  // JavaScript to update the capture_id hidden input
+  const captureRadioButtons = document.querySelectorAll('input[name="capture_id"]');
+  captureRadioButtons.forEach(button => {
+    button.addEventListener('change', function() {
+      document.getElementById('capture_id').value = this.value;
+    });
+  });
+</script>
 {% endblock %}

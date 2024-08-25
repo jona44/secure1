@@ -82,8 +82,6 @@ def select_classroom(request, pk, grade_level_id):  # Add grade_level_id paramet
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     school = school_admin_profile.assigned_school_name
     # Filter classes based on the school associated with the school_admin
-   
-
     # Retrieve grade level from URL parameter
     try:
         grade_level = get_object_or_404(GradeLevel, pk=grade_level_id)
@@ -210,7 +208,7 @@ def all_classes(request):
         
         # Include classroom PK in the context data
         grade_level_data[grade_level].append({
-            'classroom_pk': classroom.pk,  # Use classroom.pk instead of classroom.id
+            'classroom_pk': classroom.pk,  
             'classroom': classroom,
             'total_students': total_students,
             'male_count': male_count,
@@ -221,42 +219,6 @@ def all_classes(request):
        
     return render(request, 'student/all_classes.html', {'grade_level_data': grade_level_data })
 
-# @login_required
-# @user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
-# def all_classes(request):
-#     # Get the school profile of the logged-in school_admin
-#     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-#     school = school_admin_profile.assigned_school_name
-#     # Filter classes based on the school associated with the school_admin
-#     classes = ClassRoom.objects.filter(name__schoolprofile=school.id).select_related('name__grd_level')
-    
-#     grade_level_data = {}
-#     for classroom in classes:
-#         class_students = classroom.students.all()
-#         total_students = class_students.count()
-#         male_count = class_students.filter(gender='male').count()
-#         female_count = class_students.filter(gender='female').count()
-#         grade_level = classroom.name.grd_level
-#         if grade_level not in grade_level_data:
-#             grade_level_data[grade_level] = []
-
-#         # Calculate percentage of female and male students
-#         total_count = male_count + female_count
-#         female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
-#         male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
-
-#         # Include classroom PK in the context data
-#         grade_level_data[grade_level].append({
-#             'classroom_pk': classroom.pk,
-#             'classroom': classroom,
-#             'total_students': total_students,
-#             'male_count': male_count,
-#             'female_count': female_count,
-#             'female_percentage': female_percentage,
-#             'male_percentage': male_percentage,
-#         })
-
-#     return render(request, 'student/all_classes.html', {'grade_level_data': grade_level_data})
 
 
 #-----------------------------------create_classroom---------------------------------------

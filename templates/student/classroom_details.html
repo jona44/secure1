@@ -11,6 +11,9 @@
       <a href="{% url 'attendance' classroom.id  %}"class="btn bg3 mb-2">Attendance Register</a>
       <p class="bg-secondary ">&nbsp;&nbsp;my class</p>
       {% endif %}
+      
+      <a href="{% url 'edit_classroom' classroom.pk %}" class="btn btn-warning">Update Classroom</a>
+            
 
       <hr class="text-success">
       <strong>Class Name:&nbsp;&nbsp;</strong> <span class="text-warning">{{ classroom.name }}</span>&nbsp;&nbsp;
