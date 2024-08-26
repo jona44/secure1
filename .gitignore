@@ -9,6 +9,8 @@ media
 profile_pics
 db.sqlite3-journal
 snippets
+*.sqlite3
+
 ### Linux ###
 *~
 
@@ -28,6 +30,7 @@ snippets
 *.DS_Store
 .AppleDouble
 .LSOverride
+*.sqlite3
 
 # Icon must end with two \r
 Icon
