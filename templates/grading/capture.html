@@ -1,51 +1,54 @@
 {% extends 'partials/base1.html' %}
 {% load crispy_forms_tags %}
+
 {% block content %}
 
-<div class="container offset-1 ">
-    <div class="text-white">
-        <h2 class="text-primary">Select or Create Capture for <span class="text-warning">{{ subject }}</span> </h2>
-        <h3  class="text-primary">Existing Captures</h3>
-        <ul>
-            {% for capture in existing_captures %}
-            <li>
-                <form method="post" action="{% url 'capture' subject.id %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="capture_id" value="{{ capture.id }}">
-                    <button type="submit" class="btn btn-outline-warning"> <strong>Type :</strong>  {{ capture.test_type }} <strong>Topic:</strong> {{ capture.topic }}</button>
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <button id="toggleForm" class="btn btn-secondary">Create New Capture</button>
+<div class="container offset-1">
+  <div class="text-white">
+      <h2 class="text-primary">Select or Create Capture for <span class="text-warning">{{ subject }}</span> </h2>
+      <h3 class="text-primary">Existing Captures</h3>
+      <ul>
+          {% for capture_dict in captures_with_status %}
+          <li>
+              <form method="post" action="{% url 'capture' subject.id %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="capture_id" value="{{ capture_dict.capture.id }}">
+                  <button type="submit" class="btn bg-secondary" >
+                      <strong>Type:</strong> {{ capture_dict.capture.test_type }} 
+                      <strong>Topic:</strong> {{ capture_dict.capture.topic }}
+                      <strong>Status:</strong> 
+                      {% if capture_dict.is_done %}
+                      <span class="badge rounded-pill bg-info">Completed</span>
+                      {% else %}
+                      <span class="badge rounded-pill bg-warning">In Progress</span>
+                      {% endif %}
+                  </button> 
+                  
+              </form><br>
+          </li>
+          {% endfor %}
+      </ul>
+  </div>
+  
+  <button id="toggleForm" class="btn btn-secondary">Create New Capture</button>
 
-    <div id="captureForm" style="display:none; margin-top: 20px;">
+  <div id="captureForm" style="display:none; margin-top: 20px;">
       <form method="post">
           {% csrf_token %}
-          {{ form|crispy}}
+          {{ form|crispy }}
           <button type="submit" class="btn btn-primary">Submit</button>
       </form>
-    </div>
+  </div>
+  
   <script>
-    document.getElementById("toggleForm").addEventListener("click", function() {
-      var form = document.getElementById("captureForm");
-      if (form.style.display === "none") {
-          form.style.display = "block";
-      } else {
-          form.style.display = "none";
-      }
-  });
-
-
-    // JavaScript to update the capture_id hidden input
-    const captureRadioButtons = document.querySelectorAll('input[name="capture_id"]');
-    captureRadioButtons.forEach(button => {
-      button.addEventListener('change', function() {
-        document.getElementById('capture_id').value = this.value;
+      document.getElementById("toggleForm").addEventListener("click", function() {
+          var form = document.getElementById("captureForm");
+          if (form.style.display === "none") {
+              form.style.display = "block";
+          } else {
+              form.style.display = "none";
+          }
       });
-    });
   </script>
 </div>
 {% endblock %}

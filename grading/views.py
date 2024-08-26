@@ -13,16 +13,23 @@ from customsettings.models import SchoolSubject, Subjects
 
 def capture(request, subject_id):
     subject = get_object_or_404(SchoolSubject, pk=subject_id)
-    academic_year = AcademicCalendar.objects.get(is_current=True)
-    teacher_profile = TeacherProfile.objects.get(teacher=request.user)
+    academic_year = get_object_or_404(AcademicCalendar, is_current=True)
+    teacher_profile = get_object_or_404(TeacherProfile, teacher=request.user)
     select_classes = teacher_profile.get_all_classes_taught()
-    # Get existing captures for the subject that are not fully captured
+
     existing_captures = Capture.objects.filter(
         subject=subject,
         academic_year=academic_year
     ).order_by('test_type', 'topic')
-    
-    existing_captures = [capture for capture in existing_captures if not capture.all_classes_captured()]
+
+    # Annotate each capture with a flag indicating if it's done
+    captures_with_status = []
+    for capture_instance in existing_captures:
+        is_done = capture_instance.all_classes_captured()  # Assuming this is a method in your model
+        captures_with_status.append({
+            'capture': capture_instance,
+            'is_done': is_done
+        })
 
     if request.method == 'POST':
         if 'capture_id' in request.POST:
@@ -62,10 +69,9 @@ def capture(request, subject_id):
     context = {
         'form': form,
         'subject': subject,
-        'existing_captures': existing_captures,
+        'captures_with_status': captures_with_status,
     }
     return render(request, 'grading/capture.html', context)
-
 
 #------------------------------------------------captured_classroom--------------------------------
 
