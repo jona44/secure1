@@ -339,3 +339,17 @@ pyrightconfig.json
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
+
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# Ignore swap files
+*.swp
+
+# Ignore compressed files
+*.gz
+
+# Ignore environment files (optional, if using virtualenv)
+.env/
+venv/
