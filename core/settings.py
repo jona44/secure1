@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     "crispy_bootstrap5",
-    #'storages',
+    'storages'
 ]
 AUTH_USER_MODEL = 'customadmin.CustomUser'
 
@@ -94,23 +94,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
-# DATABASES = {
-#    'default': {
-#       'ENGINE': 'django.db.backends.sqlite3',
-#      'NAME': BASE_DIR / 'db.sqlite3',
-#   }
-# }
-
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': os.getenv('DB_NAME'),
-         'USER': os.getenv('DB_USER'),
-         'PASSWORD': os.getenv('DB_PASSWORD'),
-         'HOST': os.getenv('DB_HOST'),
-         'PORT': os.getenv('DB_PORT', '5432'),
-     }
- }
+   'default': {
+      'ENGINE': 'django.db.backends.sqlite3',
+     'NAME': BASE_DIR / 'db.sqlite3',
+  }
+}
+
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql',
+#          'NAME': os.getenv('DB_NAME'),
+#          'USER': os.getenv('DB_USER'),
+#          'PASSWORD': os.getenv('DB_PASSWORD'),
+#          'HOST': os.getenv('DB_HOST'),
+#          'PORT': os.getenv('DB_PORT', '5432'),
+#      }
+#  }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -154,8 +154,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, ),]
-STATIC_ROOT = BASE_DIR/'static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = BASE_DIR/'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
