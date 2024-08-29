@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 class Capture(models.Model):
     CHOICES = [
         ('weekly', 'Weekly Exercise'),
-        ('assignment','Assigment'),
+        ('assignment','Assignment'),
         ('year', 'End-of-Year Exam')
     ]
    

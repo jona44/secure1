@@ -8,8 +8,7 @@ from teacher.models import TeacherProfile
 from student.models import ClassRoom
 from django.db.models import Avg
 from django.urls import reverse
-from customsettings.models import SchoolSubject, Subjects
-
+from district.models import Subjects
 
 def capture(request, subject_id):
     subject = get_object_or_404(SchoolSubject, pk=subject_id)
@@ -240,20 +239,21 @@ def edit_capture(request, capture_id):
 
 
 def student_grades(request, student_id, subject_id):
+    # Retrieve the student and subject instances
     student = get_object_or_404(StudentProfile, pk=student_id)
-    subject = get_object_or_404(Subjects, pk=subject_id)
+    subject = get_object_or_404(SchoolSubject, pk=subject_id)  # Ensure this is a Subjects instance
 
-    # Filter CapturedClassroom instances based on the student's enrollment (if applicable)
-    captured_classroom = CapturedClassroom.objects.filter(
-        capture__subject=subject,
-        # Add filter based on student enrollment if needed
-    ).first()
+    # Filter CapturedClassroom instances based on the subject instance
+    captured_classrooms = CapturedClassroom.objects.filter(capture__subject=subject)
 
-    if captured_classroom is None:
+    if not captured_classrooms.exists():
         return render(request, 'grading/no_captured_classroom.html', {'subject': subject})
 
-    # Retrieve grades for the student and captured classroom
-    student_grades = GetMark.objects.filter(student=student, captured_classroom=captured_classroom)
+    # Retrieve all GetMark instances for the student and captured classrooms
+    student_grades = GetMark.objects.filter(student=student, captured_classroom__in=captured_classrooms)
+
+    # Extract grades to render separately
+    grades_list = list(student_grades.values_list('grade', flat=True))
 
     # Calculate average grade using model's aggregate function
     grade_average = student_grades.aggregate(Avg('grade'))['grade__avg'] or 0
@@ -262,7 +262,8 @@ def student_grades(request, student_id, subject_id):
         'student_grades': student_grades,
         'student': student,
         'subject': subject,
-        'grade_average': grade_average
+        'grades_list': grades_list,  # Pass the list of grades to the context
+        'grade_average': grade_average,
     }
     return render(request, 'grading/student_grades.html', context)
 

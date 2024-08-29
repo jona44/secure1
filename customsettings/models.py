@@ -34,7 +34,7 @@ class ClassName(models.Model):
     
 
 class SchoolSubject(models.Model):
-    subjects        = models.ManyToManyField(Subjects)
+    subjects             = models.ManyToManyField(Subjects)
     schoolprofile_name   = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE,blank=True, null=True) 
 
     def __str__(self):

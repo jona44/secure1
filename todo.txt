@@ -1,6 +1,8 @@
-1.when all classes are captured return the capture all classes are done.
+1--DONE.when all classes are captured return the capture all classes are done.
 2.fix the report error issue.
 3.if a classroom is created it should be remove from selection.
 4.links to the dashboard on all pages.
 5.remove side bar for the teacher group to have normal top navbar.
-6.fix the the not rendering of static files.
+6 -- DONE.fix the the not rendering of static files.
+7. CSS.
+

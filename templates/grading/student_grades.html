@@ -3,7 +3,7 @@
 {% block content %}
   <div class="container offset-1 mt-5">
     <div class="card bg1 p-3 mb-3">
-      <h1 class="text-white">Student Grades</h1>
+      <h1>Student Grades</h1>
       <h4 class="text-primary">Student: <span class="text-info">{{student}}</span> </h4>
       <h4 class="text-primary">Subject: <span class="text-info">{{subject}}</span> </h4>
       <h4 class="text-primary">Average Grade: <span class="text-info">{{grade_average}}%</span> </h4>
@@ -18,9 +18,10 @@
             </tr>
         </thead>
         <tbody>
+          
             {% for grade in student_grades %}
             <tr>
-                <td>{{ grade.date|date:"M d, Y" }}</td>
+                <td>{{ grade.date|date:"M d, Y" }}{{number}}</td>
                 <td>{{ grade.grade }}</td>
                 <td>{{ grade.mark }}</td>
                 <td>{{ grade.pass_code }}</td>
@@ -32,5 +33,10 @@
             {% endfor %}
         </tbody>
     </table>
+    <ul>
+     
+  </ul>
   </div>
+  
+  
 {% endblock %}

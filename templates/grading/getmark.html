@@ -7,7 +7,7 @@
     
     <div class="col-8 bg1 rounded p-3">
         <h2 class="text-center text-primary "> Mark </h2>
-        <h4 class="text-warning">{{captured_classroom.classroom}} Total learners-{{all_students_count}}</h4>
+        <h4 >{{captured_classroom.classroom}} Total learners-{{all_students_count}}</h4>
 
         <div class="progress my-3" style="height: 30px; ">
           <div class="progress-bar bg-success " role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
@@ -20,10 +20,10 @@
         </div>
 
         <div>
-           <p> <strong>Subject</strong> : <span class="text-warning">{{ captured_classroom.capture.subject }}</span></p>
-           <p> <strong>Test Type</strong> : <span class="text-warning">{{ captured_classroom.capture.test_type }}</span></p>
-           <p> <strong>Subject Topic</strong> : <span class="text-warning">{{ captured_classroom.capture.topic }}</span> </p>
-           <p> <strong>Total Mark</strong> : <span class="text-warning">{{ captured_classroom.capture.total_mark }}</span> </p>
+           <p> <strong>Subject</strong> : <span class="text-secondary">{{ captured_classroom.capture.subject }}</span></p>
+           <p> <strong>Test Type</strong> : <span class="text-secondary">{{ captured_classroom.capture.test_type }}</span></p>
+           <p> <strong>Subject Topic</strong> : <span class="text-secondary">{{ captured_classroom.capture.topic }}</span> </p>
+           <p> <strong>Total Mark</strong> : <span class="text-secondary">{{ captured_classroom.capture.total_mark }}</span> </p>
         </div>
 
         <form method="post">

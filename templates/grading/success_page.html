@@ -42,7 +42,8 @@
               {% for student in mark.student.all %}
                   <tr>
                     <td>{{ student }}</td>
-                    <td><a href="{% url 'student_grades' student_id=student.id subject_id=subject_id %}">View Grades</a></td>
+                    <td><a href="{% url 'student_grades' student_id=student.id subject_id=subject_id %}">View Grades</a>
+                    </td>
                     <td>{{ mark.mark }}</td>
                     <td>{{ mark.pass_code }} %</td>
                     <td>{{ mark.grade }} %</td>
