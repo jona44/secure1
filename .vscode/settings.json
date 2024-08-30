@@ -1,11 +1,15 @@
 {
     "editor.fontSize": 18,
-    "editor.fontFamily": " open sans regular",
+    "editor.fontFamily": "Consolas, 'Courier New', monospace",
     "cSpell.words": [
         "capturedclassroom",
         "customsettings",
         "editmark",
+        "schoolprofile",
         "schoolsubject",
-        "studentprofile"
+        "schoolsubjects",
+        "studentprofile",
+        "teacheprofile",
+        "teacherprofile"
     ]
 }

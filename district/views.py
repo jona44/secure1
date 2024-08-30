@@ -222,7 +222,7 @@ def pre_teacherprofile(request, user_id):
 #-----------------------------pre_teacheprofile_details---------------------------
 
 
-def pre_teacheprofile_details(request, pk):
+def pre_teacherprofile_details(request, pk):
     teacher_profile = get_object_or_404(TeacherProfile, pk=pk)
     print("teacher Profile PK:", pk)  # Debugging statement
     return render(request, 'district/pre_teacherprofile_details.html', {'teacher_profile': teacher_profile})
@@ -499,3 +499,12 @@ def grade_level(request):
     
     return render(request, 'district/grade_level.html', context)
 
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+from django.views.decorators.http import require_POST
+
+
+@require_POST 
+def logout_view(request):
+    logout(request)
+    return redirect('login')  

@@ -12,6 +12,7 @@
                 <th>Subject</th>
                 <th>Average Grade</th>
                 <th>Category</th>
+                <th>yes</th>
             </tr>
         </thead>
         {% for subject, data in subject_data.items %}
@@ -31,6 +32,9 @@
                     N/A
                 {% endif %}
             </td>
+            <th>
+                <a href="#"><></a>
+            </th>
         </tr>
     {% endfor %}
 </tbody>

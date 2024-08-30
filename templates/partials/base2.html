@@ -13,25 +13,13 @@
     <link rel="stylesheet" href="{%static 'css\base.css' %}">
   </head>
   <body >
-      
-      <div class="main-base ">
-      
-
-        <div class="d-flex justify-content-center mb-5 "style="height: 100px;">
-          {% include 'partials/nav1.html'%}
-        </div> 
         
-        <div>
+       
             <div class="container-fluid position-fixed overflow-y-auto  "style="height:80vh;">
               {% block content %}
             {% endblock %}
             </div>
           
-        </div>
-         
-      </div>
-  
-    
 
     
    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

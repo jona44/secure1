@@ -5,8 +5,6 @@ from .import views
 
 urlpatterns = [
     path('', views.dashboard,name='dashbard'),
-    
-   
 
     path('dashboard/student/', views.dashboard, name='student_dashboard'),
     path('dashboard/staff/', views.dashboard, name='teacher_dashboard'),
@@ -16,6 +14,7 @@ urlpatterns = [
     path('dashboard/district_admin/', views.dashboard, name='district_admin_dashboard'),
     path('default_dashboard/', views.dashboard, name='default_dashboard'),
     path('login_redirect/', views.login_redirect, name='login_redirect'),
+    path('logout_redirect/', views.login_redirect, name='logout_redirect'),
 
 
 ]

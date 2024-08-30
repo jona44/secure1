@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import logout_view
 from django.contrib.auth import views as auth_views
 urlpatterns = [
 
@@ -9,7 +10,7 @@ urlpatterns = [
     path('staff_profile_view/',views.staff_profile_view,name='staff_profile_view'),
 
     path('login/', auth_views.LoginView.as_view(template_name='district/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='district/logout.html'), name='logout'),
+    path('logout/', views.logout_view, name='logout'),
 
     path('password_reset/',views.password_reset, name='password_reset'),
     path('password-reset/',auth_views.PasswordResetView.as_view(template_name='district/password_reset.html' ), name='password_reset'),
@@ -19,7 +20,6 @@ urlpatterns = [
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='district/password_reset_complete.html'),name='password_reset_complete'),
     
     path('activation-sent/',views.activation_sent, name='activation_sent'),
-   
 
     path('schools/', views.school_list, name='school_list'),
     path('school_detail/<int:school_id>/', views.school_detail, name='school_detail'),
@@ -29,7 +29,7 @@ urlpatterns = [
     
     path('create_schoolAdmin_profile/<int:user_id>/', views.create_schoolAdmin_profile, name='create_schoolAdmin_profile'),
     path('pre_teacherprofile/<int:user_id>/', views.pre_teacherprofile, name='pre_teacherprofile'),
-    path('pre_teacheprofile_details/<int:pk>/', views.pre_teacheprofile_details, name='pre_teacheprofile_details'),
+    path('pre_teacherprofile_details/<int:pk>/', views.pre_teacherprofile_details, name='pre_teacheprofile_details'),
     path('create_districtAdmin_profile/<int:user_id>/', views.create_districtAdmin_profile,name='create_districtAdmin_profile'),
     path('create_schoolHead_profile/<int:user_id>/', views.create_schoolHead_profile, name='create_schoolHead_profile'),
 
