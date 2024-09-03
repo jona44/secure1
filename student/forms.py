@@ -93,41 +93,41 @@ class EditStudentProfileForm(forms.ModelForm):
         widgets = {
             'gender': forms.Select(attrs={
                 'class': 'form-select',
-                'style': 'width: 150px; background-color: #474955; color:white;border-color:red;',
+                'style': ' background-color: #474955; color:white;border-color:orange;',
                 }),
             'grade_level': forms.Select(attrs={
                 'class': 'form-select',
-                'style': 'width: 150px; background-color: #474955; color:white; border-color:red;',
+                'style': ' background-color: #474955; color:white; border-color:orange;',
                 }),
             
             'date_of_birth': forms.DateInput(attrs={
                 'class': 'form-control', 'type': 'date',
-                 'style': 'width: 150px; background-color: #474955; color:white; border-color:red;',
+                 'style': 'width: 640px; background-color: #474955; color:white; border-color:orange;',
                 }),
 
             'classrooms': forms.Select(attrs={
                 'class': 'form-select',
-                 'style': 'width: 150px; background-color: #474955; color:white; border-color:red;',
+                 'style': 'width: 150px; background-color: #474955; color:white; border-color:orange;',
                 }),
 
             'address': forms.Textarea(attrs={
                 'class': 'form-control',
-                 'style': 'background-color: #474955; color:white; border-color:red;',
+                 'style': 'background-color: #474955; color:white; border-color:orange;',
                   'rows':  3
                 }),
 
             'guardian_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                'style': 'background-color: #474955; color:white; border-color:orange;',
                 }),
                 
             'guardian_number': forms.TextInput(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;focus-ring:red;',
+                'style': 'background-color: #474955; color:white; border-color:orange;focus-ring:orange;',
                 }),
             'guardian_email': forms.EmailInput(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                'style': 'background-color: #474955; color:white; border-color:orange;',
                 }),
         }
 

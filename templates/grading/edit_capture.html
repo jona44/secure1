@@ -1,9 +1,9 @@
-{% extends 'partials/base1.html' %}
+{% extends 'partials/teacher-base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
- <div class="row d-flex  gap-2 mt-5">
-    <div class="col-md-6 bg1 p-3 mt-5 offset-2 rounded">
+ <div class="row d-flex  mt-5">
+    <div class="col-md-6 bg1 p-3 mt-5 offset-3 rounded shado">
         <form method="post">
             {% csrf_token %}
             <!-- Display student full names for confirmation -->
@@ -17,7 +17,10 @@
                 <br><br>
             {% endfor %}
             {{form|crispy}}
-            <button type="submit" class="btn btn-primary">Submit Grades</button>
+            <div class="d-grid">
+                 <button type="submit" class="btn bg3 text-info">Edit Capture Details</button>
+            </div>
+           
         </form>
     </div>
  </div>

@@ -2,46 +2,46 @@
 {% load crispy_forms_tags %}
 {% load custom_tags %}
 {% block content %}
-    <div class="container-fluid  w-75 offset-md-3 mt-5 ">
-        <h1 class=" text-primary mb-4">Student Profile</h1>
+    <div class="container-fluid  w-75 offset-md-3 mt-3 ">
+        <h1 class="mb-1">Student Profile</h1>
         <!-- Display StudentProfile details -->
-            <div class="col-md-8 shado rounded p-3">
+            <div class="col-md-8 rounded shado p-3 bg1">
             <div class="d-flex justify-content-between">
                <div>
                   <h5 class="card-title text-success">Profile Details</h5>
                 </div>
                 <div>
                    <a href="{% url 'edit_student_profile' student_profile.pk %}">
-                      <button class="btn btn-primary">Edit student profile</button>
+                      <button class="btn bg3 text-info">Edit student profile</button>
                    </a>
                 </div>
             </div>
-                <p> <strong>Name:</strong> <span > {{ student_profile.student.get_full_name }}</span></p>
-                <p><strong>Gender:</strong> <span >{{ student_profile.gender }}</span></p>
-                <p><strong>Grade Level:</strong> <span >{{student_profile.grade_level}}</span></p>
-                <p><strong>Class:</strong> <span >{{ student_profile.assigned_class }}</span></p>   
+                <p> <strong>Name:</strong> <span class="text-secondary" > {{ student_profile.student.get_full_name }}</span></p>
+                <p><strong>Gender:</strong> <span class="text-secondary" >{{ student_profile.gender }}</span></p>
+                <p><strong>Grade Level:</strong> <span class="text-secondary" >{{student_profile.grade_level}}</span></p>
+                <p><strong>Class:</strong> <span class="text-secondary" >{{ student_profile.assigned_class }}</span></p>   
                 <p>
                    <strong>Subjects:</strong><span ></span>
                     {% for subject in student_profile.subjects.all %}
-                    <span class="badge badge-primary">{{subject}}</span> {% if not forloop.last %}, {% endif %}{% endfor %}
+                    <span class="badge bg3">{{subject}}</span> {% if not forloop.last %}, {% endif %}{% endfor %}
                 </p>
-                <p><strong>Date of Birth:</strong> <span >{{ student_profile.date_of_birth }}</span></p>
-                <p><strong>Address:</strong> <span ></span>{{ student_profile.address }}</p>
+                <p><strong>Date of Birth:</strong> <span class="text-secondary" >{{ student_profile.date_of_birth }}</span></p>
+                <p><strong>Address:</strong> <<span class="text-secondary" >{{ student_profile.address }}</span></p>
 
                 <!-- Display GuardianProfile details if available -->
             <div class="mt-4">
                 <h5 class="card-title text-danger">Guardian Details</h5><span ></span>
-                <p> <strong>Guardian Name:</strong><span > {{ student_profile.guardian_name }}</span></p>
-                <p> <strong>Contact Number:</strong> <span > {{ student_profileguardian_number }}</span></p>
-                <p> <strong>Email:</strong> <span > {{ student_profile.guardian_email }}<span></p>
-                <p> <strong>Guardian Address:</strong> <span > {{ student_profile.address }}<span></p>
+                <p> <strong>Guardian Name:</strong><span class="text-secondary" > {{ student_profile.guardian_name }}</span></p>
+                <p> <strong>Contact Number:</strong> <span class="text-secondary" > {{ student_profileguardian_number }}</span></p>
+                <p> <strong>Email:</strong> <span class="text-secondary" > {{ student_profile.guardian_email }}<span></p>
+                <p> <strong>Guardian Address:</strong> <span class="text-secondary" > {{ student_profile.address }}<span></p>
             </div>
             <div>
                 <a href="{% url 'student_registration' %}">
-                   <button class="btn btn-outline-warning">Register another Student</button>
+                   <button class="btn bg3 text-info">Register another Student</button>
                 </a>
                 <a href="{% get_dashboard_url user %}">
-                   <button class="btn btn-outline-warning">Dashboard</button>
+                   <button class="btn bg3 text-info">Dashboard</button>
                 </a>
              </div>
         </div>
