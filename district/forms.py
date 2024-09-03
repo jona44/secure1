@@ -124,12 +124,17 @@ class AcademicCalendarForm(forms.ModelForm):
             'term_3_end_date',
         ]
         widgets = {
-            'term_1_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;'}),
-            'term_1_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;'}),
-            'term_2_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;'}),
-            'term_2_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;'}),
-            'term_3_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;'}),
-            'term_3_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;'}),
+            'academic_year': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date',
+                
+                }),
+            'term_1_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px','class':'form-control',}),
+            'term_1_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
+            'term_2_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
+            'term_2_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
+            'term_3_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
+            'term_3_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
         }
         
         

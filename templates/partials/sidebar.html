@@ -1,7 +1,7 @@
 
 {% load custom_tags %}
-<div class="">
-<div class="d-flex flex-column  p-3 justify-content-left align-items-center sidebar fixed" style="width: 280px; height: 100vh;">
+
+<div class="d-flex flex-column  sidebar fixed mt-5" style="width:250px; height: 100vh;">
   
    {% if request.user.is_authenticated %}
                 {% if schoolprofile %}
@@ -16,102 +16,112 @@
             {% else %}
                 My School 
             {% endif %}
-            {{request.user}}
+            
   </a>
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
-   
     <li class="nav-item">
-      <a href="{% get_dashboard_url user %}" class=" text-primary nav-link btn btn-light">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
-          <path d="M0 0h24v24H0V0z" fill="none"/>
-          <path d="M19 5v2h-4V5h4M9 5v6H5V5h4m10 8v6h-4v-6h4M9 17v2H5v-2h4M21 3h-8v6h8V3zM11 3H3v10h8V3zm10 8h-8v10h8V11zm-10 4H3v6h8v-6z"/></svg>Dashboard
+      <a href="{% get_dashboard_url user %}"class="nav-link active" aria-current="page">
+        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
+        Dashboard
       </a>
     </li>
-
     {% if user.user_type == 'school_admin' %}
-
-    <li class="nav-item">
-      <a href="{% url 'all_classes' %}" class=" text-primary nav-link btn ">
-        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="">
-          <g><rect fill="none" height="24" width="24"/></g><g><g><path d="M11,14H5v5H3v-6.97l5-3.57l5,3.57v1.08c0.57-0.59,1.25-1.07,2-1.42V11L8,6l-7,5v10h6v-5h2v5h2.68 C11.25,20.09,11,19.08,11,18V14z"/><rect height="2" width="2" x="17" y="7"/><path d="M23,13.11V3H10v1.97l2,1.43V5h9v6.68C21.75,12.04,22.43,12.52,23,13.11z"/><g><path d="M23,18c0-2.76-2.24-5-5-5s-5,2.24-5,5s2.24,5,5,5S23,20.76,23,18z M17.5,21v-2.5H15v-1h2.5V15h1v2.5H21v1h-2.5V21H17.5z"/></g></g></g></svg> All Classes
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{% url 'class_name'  %}"  class=" text-primary nav-link btn btn-light">
+    <li>
+      <a href="{% url 'all_classes' %}" class="nav-link ">
         <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill=""><g>
-          <rect fill="none" height="24" width="24"/></g><g><g><path d="M1,11v10h6v-5h2v5h6V11L8,6L1,11z M13,19h-2v-5H5v5H3v-6.97l5-3.57l5,3.57V19z"/><rect height="2" width="2" x="17" y="7"/>
-          <rect height="2" width="2" x="17" y="11"/>
-          <rect height="2" width="2" x="17" y="15"/>
-          <polygon points="10,3 10,4.97 12,6.4 12,5 21,5 21,19 17,19 17,21 23,21 23,3"/></g></g></svg>
-         class_name
+          <rect fill="none" height="24" width="24"/></g><g><g>
+            <path d="M11,14H5v5H3v-6.97l5-3.57l5,3.57v1.08c0.57-0.59,1.25-1.07,2-1.42V11L8,6l-7,5v10h6v-5h2v5h2.68 C11.25,20.09,11,19.08,11,18V14z"/>
+            <rect height="2" width="2" x="17" y="7"/>
+            <path d="M23,13.11V3H10v1.97l2,1.43V5h9v6.68C21.75,12.04,22.43,12.52,23,13.11z"/><g>
+            <path d="M23,18c0-2.76-2.24-5-5-5s-5,2.24-5,5s2.24,5,5,5S23,20.76,23,18z M17.5,21v-2.5H15v-1h2.5V15h1v2.5H21v1h-2.5V21H17.5z"/></g></g></g>
+          </svg> All Classes
       </a>
     </li>
-
-    <li class="nav-item">
-      <a href="{% url 'student_registration' %}" class=" text-primary nav-link btn btn-light">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill=""><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><g><path d="M4,18v-0.65c0-0.34,0.16-0.66,0.41-0.81C6.1,15.53,8.03,15,10,15c0.03,0,0.05,0,0.08,0.01c0.1-0.7,0.3-1.37,0.59-1.98 C10.45,13.01,10.23,13,10,13c-2.42,0-4.68,0.67-6.61,1.82C2.51,15.34,2,16.32,2,17.35V20h9.26c-0.42-0.6-0.75-1.28-0.97-2H4z"/><path d="M10,12c2.21,0,4-1.79,4-4s-1.79-4-4-4C7.79,4,6,5.79,6,8S7.79,12,10,12z M10,6c1.1,0,2,0.9,2,2s-0.9,2-2,2 c-1.1,0-2-0.9-2-2S8.9,6,10,6z"/><path d="M20.75,16c0-0.22-0.03-0.42-0.06-0.63l1.14-1.01l-1-1.73l-1.45,0.49c-0.32-0.27-0.68-0.48-1.08-0.63L18,11h-2l-0.3,1.49 c-0.4,0.15-0.76,0.36-1.08,0.63l-1.45-0.49l-1,1.73l1.14,1.01c-0.03,0.21-0.06,0.41-0.06,0.63s0.03,0.42,0.06,0.63l-1.14,1.01 l1,1.73l1.45-0.49c0.32,0.27,0.68,0.48,1.08,0.63L16,21h2l0.3-1.49c0.4-0.15,0.76-0.36,1.08-0.63l1.45,0.49l1-1.73l-1.14-1.01 C20.72,16.42,20.75,16.22,20.75,16z M17,18c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S18.1,18,17,18z"/></g></g></svg> Student Registration
-      </a>
-    </li>
-    
-    <li class="nav-item">
-      <a href="{% url 'teacher_list'%}" class=" text-primary nav-link btn btn-light">
-        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill=""><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/></svg> Teacher list
-      </a>
-    </li>
-
-   {% endif %}
-   {% if user.user_type == 'district_admin' %}
-
-   <li class="nav-item">
-      <a href="{% url 'subject' %}"  class=" text-primary nav-link btn btn-light">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
-          <path d="M0 0h24v24H0V0z" fill="none"/>
-          <path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/>
-        </svg> subject
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{% url 'create_academic_calendar'%}" class=" text-primary nav-link btn btn-light">
+    <li>
+      <a href="{% url 'class_name'  %}"  class="nav-link ">
         <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="">
-          <g><rect fill="none" height="24" width="24"/></g><g><path d="M19,4h-1V2h-2v2H8V2H6v2H5C3.89,4,3.01,4.9,3.01,6L3,20c0,1.1,0.89,2,2,2h14c1.1,0,2-0.9,2-2V6C21,4.9,20.1,4,19,4z M19,20 H5V10h14V20z M19,8H5V6h14V8z M9,14H7v-2h2V14z M13,14h-2v-2h2V14z M17,14h-2v-2h2V14z M9,18H7v-2h2V18z M13,18h-2v-2h2V18z M17,18 h-2v-2h2V18z"/></g>
-        </svg> calendar
+          <g><rect fill="none" height="24" width="24"/></g><g><g>
+            <path d="M1,11v10h6v-5h2v5h6V11L8,6L1,11z M13,19h-2v-5H5v5H3v-6.97l5-3.57l5,3.57V19z"/>
+            <rect height="2" width="2" x="17" y="7"/>
+            <rect height="2" width="2" x="17" y="11"/>
+            <rect height="2" width="2" x="17" y="15"/>
+            <polygon points="10,3 10,4.97 12,6.4 12,5 21,5 21,19 17,19 17,21 23,21 23,3"/></g></g>
+          </svg> Class Name
       </a>
     </li>
-
-    <li class="nav-item">
-      <a href="{% url 'registration'%}" class=" text-primary nav-link btn btn-light">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
-          <path d="M0 0h24v24H0V0z" fill="none"/>
-          <path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 9c2.7 0 5.8 1.29 6 2v1H6v-.99c.2-.72 3.3-2.01 6-2.01m0-11C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
-        </svg> Registration
+    <li>
+      <a href="{% url 'student_registration' %}" class="nav-link">
+        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill=""><g>
+          <path d="M0,0h24v24H0V0z" fill="none"/></g><g><g>
+          <path d="M4,18v-0.65c0-0.34,0.16-0.66,0.41-0.81C6.1,15.53,8.03,15,10,15c0.03,0,0.05,0,0.08,0.01c0.1-0.7,0.3-1.37,0.59-1.98 C10.45,13.01,10.23,13,10,13c-2.42,0-4.68,0.67-6.61,1.82C2.51,15.34,2,16.32,2,17.35V20h9.26c-0.42-0.6-0.75-1.28-0.97-2H4z"/>
+          <path d="M10,12c2.21,0,4-1.79,4-4s-1.79-4-4-4C7.79,4,6,5.79,6,8S7.79,12,10,12z M10,6c1.1,0,2,0.9,2,2s-0.9,2-2,2 c-1.1,0-2-0.9-2-2S8.9,6,10,6z"/>
+          <path d="M20.75,16c0-0.22-0.03-0.42-0.06-0.63l1.14-1.01l-1-1.73l-1.45,0.49c-0.32-0.27-0.68-0.48-1.08-0.63L18,11h-2l-0.3,1.49 c-0.4,0.15-0.76,0.36-1.08,0.63l-1.45-0.49l-1,1.73l1.14,1.01c-0.03,0.21-0.06,0.41-0.06,0.63s0.03,0.42,0.06,0.63l-1.14,1.01 l1,1.73l1.45-0.49c0.32,0.27,0.68,0.48,1.08,0.63L16,21h2l0.3-1.49c0.4-0.15,0.76-0.36,1.08-0.63l1.45,0.49l1-1.73l-1.14-1.01 C20.72,16.42,20.75,16.22,20.75,16z M17,18c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S18.1,18,17,18z"/></g></g>
+        </svg> Student Registration
       </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{% url 'create_school' %}"  class=" text-primary nav-link btn btn-light">
+    <li>
+    <li>
+      <a href="{% url 'create_classroom' %}" class="nav-link">
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
           <path d="M0 0h24v24H0V0z" fill="none"/>
-          <path d="M12 3 1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
-        </svg> Create School
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a href="{% url 'school_list' %}"  class=" text-primary nav-link btn ">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
-          <path d="M0 0h24v24H0V0z" fill="none"/>
-          <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
-        </svg> School List
+          <path d="M6.5 10h-2v7h2v-7zm6 0h-2v7h2v-7zm8.5 9H2v2h19v-2zm-2.5-9h-2v7h2v-7zm-7-6.74L16.71 6H6.29l5.21-2.74m0-2.26L2 6v2h19V6l-9.5-5z"/>
+        </svg> Create Class 
       </a>
     </li>
     {% endif %}
+    {% if user.user_type == 'district_admin' %}
+      <li>
+        <a href="{% url 'subject' %}"  class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"/>
+          </svg> Subject
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'create_academic_calendar'%}"  class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill=""><g>
+            <rect fill="none" height="24" width="24"/></g><g>
+              <path d="M19,4h-1V2h-2v2H8V2H6v2H5C3.89,4,3.01,4.9,3.01,6L3,20c0,1.1,0.89,2,2,2h14c1.1,0,2-0.9,2-2V6C21,4.9,20.1,4,19,4z M19,20 H5V10h14V20z M19,8H5V6h14V8z M9,14H7v-2h2V14z M13,14h-2v-2h2V14z M17,14h-2v-2h2V14z M9,18H7v-2h2V18z M13,18h-2v-2h2V18z M17,18 h-2v-2h2V18z"/></g>
+            </svg>  Calendar
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'registration' %}"  class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 9c2.7 0 5.8 1.29 6 2v1H6v-.99c.2-.72 3.3-2.01 6-2.01m0-11C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
+          </svg> Registration
+        </a>
+      </li>
+     
+         <a href="{% url 'teacher_list'%}" class="nav-link">
+           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
+             <path d="M0 0h24v24H0V0z" fill="none"/>
+             <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+           </svg> Teacher list
+         </a>
+      </li>
+      <li>
+        <a href="{% url 'create_school' %}"  class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M12 3 1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+          </svg> Create School
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'school_list' %}"  class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="">
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+          </svg> School List
+        </a>
+      </li>
+      {% endif %}
+    </li>
+    </li>
   </ul>
   <hr>
- 
-  </div>
+  
 </div>

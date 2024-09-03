@@ -1,19 +1,20 @@
 
-.main-base{
+.section{
+    width: 100%;
     margin-left: 150px;
-    width: 90% ;
+}
+.section1{
+    width: 100%;
     
-    align-items: center;
-    justify-content: center;
 }
 .bg1{
-    background-color: rgba(78, 80, 80, 0.137);
+    background-color: rgba(57, 63, 63, 0.137);
 }
 .bg2{
     background-color: rgba(235, 162, 162, 0.267);
 }
 .bg3{
-    background-color: #ee07077e;
+    background-color: #9405057e;
 }
 .block{
     display: grid;
@@ -21,7 +22,6 @@
 }
 nav{
     display: inline-block;
-    
 }
 
 .shado {

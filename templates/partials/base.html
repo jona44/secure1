@@ -13,25 +13,26 @@
     <link rel="stylesheet" href="{%static 'css\base.css' %}">
   </head>
   <body >
-
+   
     <div>
       <div class="position-fixed">
         {% include 'partials/sidebar.html'%}
       </div>
       
-      <div class="main-base ">
+      <div class="section">
         <div class="d-flex justify-content-center mb-5 "style="height: 100px;">
           {% include 'partials/nav.html'%}
         </div> 
+        
         <div>
-          <div class="container-fluid position-fixed overflow-y-auto  "style="height:80vh;">
-            {% block content %}
-            {% endblock %}
-          </div>
+          <div class="container-fluid position-fixed overflow-y-auto" style="height:80vh;">
+              {% block content %}
+              {% endblock %}
+            </div>
         </div>
       </div>
-    </div>
-
+   </div>
+  
    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

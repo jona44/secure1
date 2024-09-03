@@ -1,0 +1,51 @@
+{% extends "partials/base2.html" %}
+{% load i18n %}
+{% block head_title %}
+    
+{% endblock head_title %}
+
+{% block content %}
+    <style>
+        .signout-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .signout-container h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .signout-container p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .signout-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .signout-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <div class="signout-container">
+       
+        <p>{% trans 'Are you sure you want to sign out?' %}</p>
+        {% url 'account_logout' as action_url %}
+        <form method="post" action="{{ action_url }}">
+            {% csrf_token %}
+            {{ redirect_field }}
+            <button type="submit">{% trans 'Sign Out' %}</button>
+        </form>
+    </div>
+{% endblock content %}
+

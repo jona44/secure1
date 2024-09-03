@@ -1,11 +1,11 @@
 
-<nav class=" position-fixed w-100 mb-5" style="height: 100px;margin-left:400px;">
+<nav class=" position-fixed  mb-5"  style="height: 100px; width: 85%;">
     <h1 class="display-2 text-primary "> Secure High School </h1>
     <br>
-    <div class="bg-dark p-1 d-flex justify-content-end " style="width: 85%;">
+    <div class="bg-dark p-1 d-flex justify-content-end " style="width: 100%;">
         <span class="text-warning">{{ request.user }}&nbsp;&nbsp; </span>
         <a href="{% url 'login' %}" class="text-white me-3"><span class="badge bg-info">Login</span> </a>
-        <a href="{% url 'logout' %}" class="text-white me-3"><span class="badge bg-info">Logout</span></a>
+        <a href="{% url 'account_logout' %}" class="text-white me-3"><span class="badge bg-info">Logout</span></a>
     </div>
 </nav>
  

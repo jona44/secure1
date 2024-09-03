@@ -1,0 +1,14 @@
+{% load custom_tags %}
+<nav class=" position-fixed" style="height: 100px; width:100%">
+    <div class=""><h1 class="display-2 text-primary "> Secure High School </h1></div>
+  
+    <br>
+    <div class="bg-dark p-1 d-flex justify-content-end" style="width: 100%;">
+        <span class="text-warning">{{ request.user }}&nbsp;&nbsp; </span>
+        <a href="{% url 'login' %}" class="text-white me-3"><span class="badge bg-info">Login</span> </a>
+        <a href="{% url 'account_logout' %}" class="text-white me-3"><span class="badge bg-info">Logout</span></a>
+        </li>
+    </div>
+    
+</nav>
+ 

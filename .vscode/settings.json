@@ -10,6 +10,7 @@
         "schoolsubjects",
         "studentprofile",
         "teacheprofile",
-        "teacherprofile"
+        "teacherprofile",
+        "uidb"
     ]
 }

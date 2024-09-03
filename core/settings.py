@@ -21,8 +21,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['ec2-13-247-84-105.af-south-1.compute.amazonaws.com','13.247.84.105','localhost','127.0.0.1']
 
 
-
-
 # Application definition
 INSTALLED_APPS = [
     'customadmin',
@@ -34,12 +32,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    
+    
     'student',
     'teacher',
     'grading',
     'district',
     'customsettings',
-
+    
+    'django.contrib.sites',  # Required by Allauth
+    'allauth',
+    'allauth.account',  # For account management
+    'allauth.socialaccount',
+    
     'crispy_forms',
     "crispy_bootstrap5",
     'storages'
@@ -51,10 +56,9 @@ AUTHENTICATION_BACKENDS = [
    
 ]
 
-# settings.py
 
 MIDDLEWARE = [
-    
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -64,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'district.middlewares.SetSchoolInSessionMiddleware',
+    
 ]
 import os
 
@@ -73,7 +78,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR,'templates'), os.path.join(BASE_DIR,'templates', 'accounts')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,7 +94,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
+SITE_ID = 1
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -173,10 +178,19 @@ TEMPLATE_DIRS = [(BASE_DIR, 'templates')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Authenticate by email
+ACCOUNT_EMAIL_REQUIRED = True  # Email is mandatory
+ACCOUNT_USERNAME_REQUIRED = False  # Don't require a separate username
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Require email confirmation 
+ACCOUNT_SESSION_REMEMBER = True  # Remember the user for future sessions
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True # Ask for password twice for security
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+
