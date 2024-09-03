@@ -1,16 +1,58 @@
 {% extends "partials/base.html" %}
 {% load crispy_forms_tags %}
 
+
+
 {% block content %}
 
-<div class="container mt-5">
+<div class="container offset-md-3 mt-5">
     <div class="col-8 bg1 p-3 offset rounded">
-         <h2 class="text-warning">Create Academic Calendar:({{academic_year}})</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Next</button>
-    </form>
+         <h2 class="text-warning">Create Academic Calendar:{{academic_year}}</h2>
+         <form method="post">
+            {% csrf_token %}
+            <div class="container p-3">
+                <div class="mb-3">
+                    <label for="academic_year" class="form-label">Academic Year</label>
+                    {{ form.academic_year }}
+                </div>
+                <div class="term1 mb-3">
+                    <label class="form-label">Term 1 Start and End Date</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            {{ form.term_1_start_date }}
+                        </div>
+                        <div class="col">
+                            {{ form.term_1_end_date }}
+                        </div>
+                    </div>
+                </div>
+                <div class="term2 mb-3">
+                    <label class="form-label">Term 2 Start and End Date</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            {{ form.term_2_start_date }}
+                        </div>
+                        <div class="col">
+                            {{ form.term_2_end_date }}
+                        </div>
+                    </div>
+                </div>
+                <div class="term3 mb-3">
+                    <label class="form-label">Term 3 Start and End Date</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            {{ form.term_3_start_date }}
+                        </div>
+                        
+                        <div class="col">
+                            {{ form.term_3_end_date }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Next</button>
+            </div>
+        </form>
+        
     </div>
 </div>
    

@@ -1,19 +1,47 @@
 
-.main-base{
-    margin-left: 150px;
-    width: 90% ;
+.pirata {
+    text-shadow: 3px 3px 5px rgba(24, 90, 141, 0.7); /* Adjusted values for a clear shadow effect */
+    font-family: 'Pirata One', system-ui, sans-serif; 
+    font-weight: 500;
+    font-style: normal;
     
-    align-items: center;
-    justify-content: center;
+
+
+  }
+  .footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+  
+.section{
+    width: 100%;
+    margin-left: 150px;
+}
+.section1{
+    width: 100%;
+    
+}
+.form-check-inline {
+    display: inline-block;
+    margin-right: 10px;
+}
+.scroll-container {
+    max-height: 80vh; /* Control the height */
+    overflow-y: auto; /* Ensure vertical scrolling */
 }
 .bg1{
-    background-color: rgba(78, 80, 80, 0.137);
+    background-color: rgba(57, 63, 63, 0.137);
 }
 .bg2{
     background-color: rgba(235, 162, 162, 0.267);
 }
 .bg3{
-    background-color: #ee07077e;
+    background-color: #011353;
 }
 .block{
     display: grid;
@@ -21,7 +49,6 @@
 }
 nav{
     display: inline-block;
-    
 }
 
 .shado {

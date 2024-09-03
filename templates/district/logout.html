@@ -6,6 +6,7 @@
       
         <form action="{% url 'logout' %}" method="post">
           {% csrf_token %}
+          <input type="hidden" name="csrfmiddlewaretoken" value="zV8w00ujTVmDdhFCoVcPOXTpbcDWOrPWi8ToFLKMBicRUWGzWKWjoQlv2FSmJVho">
           <button type="submit" class="btn btn-danger">Logout</button>
        </form>
  

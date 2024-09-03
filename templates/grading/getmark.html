@@ -1,12 +1,12 @@
-{% extends 'partials/base1.html' %}
+{% extends 'partials/teacher-base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
 
-  <div class="row offset-1 mt-5">
+  <div class="row offset-3 mt-5">
     
-    <div class="col-8 bg1 rounded p-3">
-        <h2 class="text-center text-primary "> Mark </h2>
+    <div class="col-8 bg1 shado rounded p-5">
+        <h2 class="text-center  "> Mark </h2>
         <h4 >{{captured_classroom.classroom}} Total learners-{{all_students_count}}</h4>
 
         <div class="progress my-3" style="height: 30px; ">
@@ -30,10 +30,10 @@
             {% csrf_token %}
             {{ form|crispy}}
             <input type="hidden" name="classroom_id" value="{{ classroom_id }}">
-            <button type="submit" class="btn btn-primary">Register &raquo;</button>
+            <button type="submit" class="btn bg3 text-white">Register &raquo;</button>
          </form>   <hr>
-          <div>
-            <a href="{% url 'success_page' captured_classroom.id %}  "><button class="btn btn-primary">view all</button></a>
+          <div class="d-grid"> 
+            <button class="btn bg3 tetx-white"><a href="{% url 'success_page' captured_classroom.id %}  ">view all</a></button>
           </div>
        
     </div>

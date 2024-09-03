@@ -1,12 +1,12 @@
-{% extends 'partials/base1.html' %}
+{% extends 'partials/teacher-base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
 
-  <div class="row offset-1 mt-5">
-    <div class="col-md-8 bg1 rounded h-100">
-      <div class="d-grid  gap-2 p-1 h-100 overflow-auto">
-          <div class="p-3 bg1 rounded ">
+  <div class="container bg1 offset-2 mt-5 shado">
+    <div class="col-md   rounded h-100 ">
+      <div class="d-grid  gap-2 p-1 h-100 overflow-auto ">
+          <div class="p-3 rounded ">
               <p> <strong> subject </strong> : <span class="text-secondary">{{ capture.subject }}</span></p>
               <p> <strong> Test Type </strong> : <span class="text-secondary">{{ capture.test_type }}</span></p>
               <p><strong> Topic</strong> :  <span class="text-secondary">{{ capture.topic }}</span></p>
@@ -17,9 +17,9 @@
               <a href="{% url 'capture' capture.subject.id %}"><button class="btn btn-outline-info ">Create a New Capture</button></a>
           </div>
       </div>
-      
   </div>
-    <div class="col-8 bg1 rounded p-5">
+
+    <div class="col-md  rounded p-5">
         <h2 class="text-center text-primary">Select Class </h2>
         <hr class="text-success">
        <!-- captured_classroom.html -->
@@ -27,7 +27,7 @@
         {% csrf_token %}
         {{ form|crispy }}
         <div class="d-grid">
-          <button type="submit" class="btn btn-secondary">Submit</button>
+          <button type="submit" class="btn bg3 text-info">Select Class</button>
         </div>
         
     </form>

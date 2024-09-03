@@ -5,11 +5,13 @@
         "capturedclassroom",
         "customsettings",
         "editmark",
+        "profileguardian",
         "schoolprofile",
         "schoolsubject",
         "schoolsubjects",
         "studentprofile",
         "teacheprofile",
-        "teacherprofile"
+        "teacherprofile",
+        "uidb"
     ]
 }

@@ -19,3 +19,7 @@ def get_dashboard_url(user):
         return reverse('school_head_dashboard')
     else:
         return reverse('default_dashboard')
+    
+@register.filter(name='add_class')
+def add_class(field, css_class):
+    return field.as_widget(attrs={"class": css_class})    
