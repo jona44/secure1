@@ -230,7 +230,9 @@ def create_classroom(request):
     year = AcademicCalendar.objects.get(is_current=True)
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     the_school = school_admin_profile.assigned_school_name
+    
     school =SchoolProfile.objects.get(school_name=the_school)
+    
     if request.method == 'POST':
         form = CreateClassRoomForm(request.POST, school=school)
         if form.is_valid():

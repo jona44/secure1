@@ -2,9 +2,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8 bg1 p-5 shado">
                 <h1>Subject List</h1>
                 <ul>
                     {% for school_subject in all_subjects %}
@@ -17,8 +17,8 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    <a href="{% url 'create_schoolsubjects_step2' %} " class="btn btn-light">Edit Subject List</a>
-                <a href="{% url 'class_name'%}" class="btn btn-light">next step </a>
+                    <a href="{% url 'create_schoolsubjects_step2' %} " class="btn bg3 text-white">Edit Subject List</a>
+                <a href="{% url 'class_name'%}" class="btn bg3 text-white">next step 4</a>
             </div>
         </div>
     </div>

@@ -1,14 +1,14 @@
 {% extends 'partials/base.html' %}
 
 {% block content %}
-
-<div class="row w-75 offset-1">
-<h2 class="text-primary">Select Classroom for &nbsp; {{student}} {{class_students }}</h2>
+ <div class="section mt-5">
+<div class="row w-75 ">
+<h2>Select Classroom for &nbsp; {{student}} {{class_students }}</h2>
   {% for data in class_data %}
-  <div class="col-md-4 mb-4 ">
+  <div class="col-md-3 mb-4 ">
     <div class=" shado bg1 p-2 rounded">
       <div class="body">
-        <h3 class=" text-center text-success">{{ data.classroom.name }}</h3>
+        <h6 class=" text-center">{{ data.classroom.name }}</h6>
         <div class="d-flex">
           <h5 class="text-primary">Class Teacher:&nbsp;&nbsp; </h5>
         {% if data.classroom.class_teacher %}
@@ -37,11 +37,12 @@
       </div>
       </div>
       <div class="card-footer">
-        <a href="{% url 'assign_classroom' pk=student.pk %}?classroom_id={{ data.classroom.id }}" class="btn btn-primary">Assign Classroom</a>
+        <a href="{% url 'assign_classroom' pk=student.pk %}?classroom_id={{ data.classroom.id }}" class="btn bg3 text-white">Assign Classroom</a>
     </div>
     </div>
   </div>
   {% endfor %}
+</div>
 </div>
 </div>
 {% endblock %}

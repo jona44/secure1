@@ -1,11 +1,17 @@
 {% extends "partials/base.html" %}
 
 {% block content %}
-  <h2> Teacher Profile: {{ teacher_profile.teacher }}</h2>
-  <ul>
+<div class="container mt-5">
+  <div class="col-md-8 shado p-5 bg1">
+    <h2> Teacher Profile: {{ teacher_profile.teacher }}</h2>
+    <ul>
+      
+      <li><strong>Contact Number:</strong> {{ teacher_profile.contact_number }}</li>
+      <li><strong>Assigned School:</strong> {{ teacher_profile.assigned_school }}</li>
     
-    <li><strong>Contact Number:</strong> {{ teacher_profile.contact_number }}</li>
-    <li><strong>Assigned School:</strong> {{ teacher_profile.assigned_school }}</li>
-   
-  </ul>
+    </ul>
+  </div>
+  
+</div>
+  
 {% endblock %}
