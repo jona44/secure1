@@ -66,11 +66,13 @@ class AcademicCalendar(models.Model):
 
     # Fields for each term
     term_1_start_date = models.DateField(blank=True, null=True)
-    term_1_end_date = models.DateField(blank=True, null=True)
+    term_1_end_date   = models.DateField(blank=True, null=True)
     term_2_start_date = models.DateField(blank=True, null=True)
-    term_2_end_date = models.DateField(blank=True, null=True)
+    term_2_end_date   = models.DateField(blank=True, null=True)
     term_3_start_date = models.DateField(blank=True, null=True)
-    term_3_end_date = models.DateField(blank=True, null=True)
+    term_3_end_date   = models.DateField(blank=True, null=True)
+    term_4_start_date = models.DateField(blank=True, null=True)
+    term_4_end_date   = models.DateField(blank=True, null=True)
 
     is_current = models.BooleanField(default=True)
 

@@ -4,12 +4,12 @@
 *.pyc
 __pycache__/
 local_settings.py
-db.sqlite3
+
 #media
 profile_pics
 db.sqlite3-journal
 snippets
-*.sqlite3
+
 staticfiles
 ### Linux ###
 *~
@@ -30,14 +30,14 @@ staticfiles
 *.DS_Store
 .AppleDouble
 .LSOverride
-*.sqlite3
+
 
 # Icon must end with two \r
 Icon
 
 # Thumbnails
 ._*
-db.sqlite3
+
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
@@ -260,7 +260,7 @@ celerybeat.pid
 # virtualenv
 .env
 .venv
-env/
+env
 venv/
 ENV/
 env.bak/

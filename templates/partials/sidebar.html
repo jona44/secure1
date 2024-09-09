@@ -2,22 +2,22 @@
 {% load custom_tags %}
 
 <div class="d-flex flex-column  sidebar fixed mt-5" style="width:250px; height: 100vh;">
-  
+  <div class="p-3">
    {% if request.user.is_authenticated %}
-                {% if schoolprofile %}
-                    {% if schoolprofile.school_logo %}
-                        <img src="{{ schoolprofile.school_logo.url }}" alt="{{ schoolprofile.school_name }}" class="img-fluid" style="max-height: 250px;">
-                    {% else %}
-                        {{ schoolprofile.school_name }}
-                    {% endif %}
-                {% else %}
-                    My School 
-                {% endif %}
-            {% else %}
-                My School 
-            {% endif %}
-            
-  </a>
+     {% if schoolprofile %}
+        {% if schoolprofile.school_logo %}
+          <img src="{{ schoolprofile.school_logo.url }}" alt="{{ schoolprofile.school_name }}" class="img-fluid" style="max-height: 250px;">
+              {% else %}
+            {{ schoolprofile.school_name }}
+        {% endif %}
+        {% else %}
+          My School 
+     {% endif %}
+      {% else %}
+        My School 
+  {% endif %}
+  </div>          
+
   <hr>
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">

@@ -1,0 +1,29 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+           <h1>Add Holidays to Academic Calendar</h1>
+           <form method="post">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            <div class="">
+                <table>
+                    {% for form in formset %}
+                        {{ form|crispy }}
+                    {% endfor %}
+                </table>
+
+               </div>
+              
+            <hr>
+            <div class="d-grid">
+            <button type="submit" class="btn bg3 text-white">Add Holidays to Academic Calendar</button>
+            </div>
+        </form>
+    </div>
+     
+</div>
+
+{% endblock %}

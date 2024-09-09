@@ -6,7 +6,7 @@
 {% block content %}
 
 <div class="container offset-md-3 mt-5">
-    <div class="col-8 bg1 p-3 offset rounded">
+    <div class="col-8 bg1 p-3 offset rounded shado">
          <h2 class="text-warning">Create Academic Calendar:{{academic_year}}</h2>
          <form method="post">
             {% csrf_token %}
@@ -49,7 +49,20 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Next</button>
+                <div class="term4 mb-3">
+                    <label class="form-label">Term 4 Start and End Date</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            {{ form.term_4_start_date }}
+                        </div>
+                        
+                        <div class="col">
+                            {{ form.term_4_end_date }}
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid"><button type="submit" class="btn bg3 text-info">Create Academic Calendar</button></div>
+                
             </div>
         </form>
         

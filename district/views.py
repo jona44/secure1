@@ -449,7 +449,7 @@ def create_holidays(request, academic_calendar_id):
     else:
         formset = HolidayFormFactory(queryset= Holiday.objects.none())
 
-    return render(request, 'customsettings/create_holidays.html', {'formset': formset,})
+    return render(request, 'district/create_holidays.html', {'formset': formset,})
 
 
 #-----------------------------------update_academic_calendar--------------------------------------------

@@ -122,11 +122,13 @@ class AcademicCalendarForm(forms.ModelForm):
             'term_2_end_date',
             'term_3_start_date',
             'term_3_end_date',
+            'term_4_start_date',
+            'term_4_end_date',
         ]
         widgets = {
             'academic_year': forms.DateInput(attrs={
                 'class': 'form-control',
-                'type': 'date',
+               
                 
                 }),
             'term_1_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px','class':'form-control',}),
@@ -135,6 +137,8 @@ class AcademicCalendarForm(forms.ModelForm):
             'term_2_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
             'term_3_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
             'term_3_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
+            'term_4_start_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
+            'term_4_end_date': forms.DateInput(attrs={'type': 'date','style':'width:300px;','class':'form-control',}),
         }
         
         
