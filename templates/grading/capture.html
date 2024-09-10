@@ -3,11 +3,12 @@
 
 {% block content %}
 
-<div class="container offset-2 mt-5 scroll-container shado p-3 bg1">
+<div class="container offset-2 mt-4 scroll-container shado p-2 bg1">
   <div >
       <h2 class="text-info bg-secondary rounded p-2">Select or Create Capture for <span class="text-light">{{ subject }}</span> </h2>
-      <h3 class="text-primary">Existing Captures</h3>
-      <ul>
+      <h6 class="text-primary">Existing Captures</h6>
+      <div class="scroll-container bg1 p-2 mb-2" style="height: 200px;">
+        <ul >
           {% for capture_dict in captures_with_status %}
           <li>
               <form method="post" action="{% url 'capture' subject.id %}">
@@ -27,6 +28,8 @@
           </li>
           {% endfor %}
       </ul>
+      </div>
+      
   </div>
   
   <button id="toggleForm" class="btn btn-secondary">Create New Capture</button>
