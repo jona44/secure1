@@ -3,27 +3,30 @@
 
 {% block content%}
 <div class="row m-4  ">
-    <div class="col-md-8 offset-md-1">
+    <div class="col-md-8 offset-md-1 bg1 p-2 shado">
       <h1 class=" text-center">Update Teacher Profile</h1>
         <form method="post">
             {% csrf_token %}
             <div class="form-group m-2">
-                <h5 class="text-primary">Contact Number:</h5>
+                <h5>Contact Number:</h5>
                 {{ form.contact_number }}
             </div>
-            <div class="form-group m-2">
-                <h5 class="text-primary">assigned_school:</h5>
+            <div class="d-flex">
+              <div class="form-group m-2">
+                <h5 >assigned_school:</h5>
                 {{ form.assigned_school }}
-            </div>
+              </div>
             <div class="form-group m-2">
-                <h5 class="text-primary">assigned_class:</h5>
+                <h5 >assigned_class:</h5>
                 {{ form.assigned_class }}
             </div>
+            </div>
+           
             <div class="row justify-content-center">
                 <div class="col-md">
-                  <div class="form-group  flex-wrap align-items-center gap-2 m-2">
-                    <h5 class="text-primary text-center">Classes Taught:</h5>
-                    <div class="col-md d-flex flex-wrap bg1 p-4  rounded">
+                  <div class="form-group  p-3 flex-wrap align-items-center gap-2 m-2 bg1 ">
+                    <h5 >Classes Taught:</h5>
+                    <div class="col-md d-flex flex-wrap ">
                         {% for checkbox in form.classes_taught %}
                         <div class="form-check p-3 ">
                             {{ checkbox }} Grade
@@ -34,12 +37,12 @@
                 </div>
               </div>
             <div class="form-group m-2 ">
-                <h5 class="text-primary">Base Subject:</h5>
+                <h5 >Base Subject:</h5>
                 {{ form.base_subject }}
             </div>
-            <div class="form-group m-2">
-                <h5 class="text-center text-primary">Subjects Taught:</h5><br>
-                <div class="col-md d-flex flex-wrap bg1 p-4 m-2 rounded">
+            <div class="form-group m-2 bg1 p-3">
+                <h5>Subjects Taught:</h5><br>
+                <div class="col-md d-flex flex-wrap   rounded">
                 {% for checkbox in form.subjects_taught %}
                 &nbsp;&nbsp; <div class="form-check">
                     &nbsp;&nbsp;{{ checkbox }}
@@ -48,7 +51,10 @@
                 {% endfor %}
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <div class="d-grid">
+                <button type="submit" class="btn bg3 text-white">Update</button>
+            </div>
+            
         </form>
    </div>
 </div>

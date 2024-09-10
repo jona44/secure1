@@ -9,7 +9,11 @@ class Capture(models.Model):
     CHOICES = [
         ('weekly', 'Weekly Exercise'),
         ('assignment','Assignment'),
-        ('year', 'End-of-Year Exam')
+        ( 'End of Term 1 Exam','End of Term 1 Exam'),
+        ( 'End of Term 2 Exam','End of Term 2 Exam'),
+        ( 'End of Term 3 Exam','End of Term 3 Exam'),
+        ( 'End of Term 4 Exam','End of Term 4 Exam'),
+        ( 'year', 'End-of-Year Exam'),
     ]
    
     subject      = models.ForeignKey(SchoolSubject, on_delete=models.CASCADE,)

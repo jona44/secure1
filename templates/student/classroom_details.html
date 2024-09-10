@@ -2,26 +2,26 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-5">
 <div class="row">
-  <div class="  rounded p-2">
-      <h2 class="text-center text-primary">Class Details &nbsp;&nbsp;<span class="text-warning">{{classroom.year}}</span></h2>
+  <div class=" bg1 rounded p-2 shado">
+      <h2 class="text-center ">Class Details &nbsp;&nbsp;<span >{{classroom.year}}</span></h2>
       
       {% if request.user == classroom.class_teacher %}
       <a href="{% url 'attendance' classroom.id  %}"class="btn bg3 mb-2">Attendance Register</a>
       <p class="bg-secondary ">&nbsp;&nbsp;my class</p>
       {% endif %}
       
-      <a href="{% url 'edit_classroom' classroom.pk %}" class="btn btn-warning">Update Classroom</a>
+      <a href="{% url 'edit_classroom' classroom.pk %}" class="btn bg3 text-warning">Update Classroom</a>
             
 
       <hr class="text-success">
-      <strong>Class Name:&nbsp;&nbsp;</strong> <span class="text-warning">{{ classroom.name }}</span>&nbsp;&nbsp;
-      <strong>Class Teacher:&nbsp;&nbsp;</strong> <span class="text-warning">{{ classroom.class_teacher }}</span>
+      <strong>Class Name:&nbsp;&nbsp;</strong> <span >{{ classroom.name }}</span>&nbsp;&nbsp;
+      <strong>Class Teacher:&nbsp;&nbsp;</strong> <span >{{ classroom.class_teacher }}</span>
     
         <div class="row  rounded p-3 d-flex gap-2">
         
-          <div class="col-md-6  rounded p-2 overflow-auto" style="height: 350px;">
+          <div class="col-md-6  rounded p-5 overflow-auto" style="height: 300px;">
             <table>
               <thead>
                 <tr>
