@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container w-75 offset-2 p-5">
+<div class="container w-75 offset-1 p-5">
    
     <h1 class="text-success">Teacher Dashboard</h1>
     <hr>
     <p><strong>Teacher</strong>: {{ request.user }}</p>
-    <p class="bg-secondary p-2">&nbsp;&nbsp;{{my_assigned_class}}</p>
+    <p class="bg-secondary p-2 text-info">&nbsp;&nbsp;{{my_assigned_class}}</p>
     <hr>
     <h2>My Classes</h2>
     
