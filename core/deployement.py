@@ -9,17 +9,14 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-g72dfo-0u@r#g3p4%k)yg448ixcy)mmkcxv=fku0a9vp#bau%-'
-SECRET_KEY = os.environ.get('SECRET_KEY')
-#DEBUG = os.environ.get('DEBUG') ==True
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['ec2-13-245-169-243.af-south-1.compute.amazonaws.com','13.245.169.243','localhost','127.0.0.1']
-=======
-ALLOWED_HOSTS = []
->>>>>>> 24e133a9c763fd567489a84da069079cfd6aa570
+SECRET_KEY = os.environ.get('SECRET_KEY')
+DEBUG = os.environ.get('DEBUG') ==True
+
+# SECURITY WARNING: don't run with debug turned on in production!
+
+
+ALLOWED_HOSTS = ['ec2-13-247-84-105.af-south-1.compute.amazonaws.com','13.247.84.105','localhost','127.0.0.1']
 
 
 # Application definition
@@ -53,14 +50,8 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'customadmin.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-<<<<<<< HEAD
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
-   
-=======
     'django.contrib.auth.backends.ModelBackend',  # Default backend
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
->>>>>>> 24e133a9c763fd567489a84da069079cfd6aa570
 ]
 
 
@@ -106,13 +97,18 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
-  }
-}
 
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': os.getenv('DB_NAME'),
+         'USER': os.getenv('DB_USER'),
+         'PASSWORD': os.getenv('DB_PASSWORD'),
+         'HOST': os.getenv('DB_HOST'),
+         'PORT': os.getenv('DB_PORT', '5432'),
+     }
+ }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -175,7 +171,7 @@ TEMPLATE_DIRS = [(BASE_DIR, 'templates')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT', 587)
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
