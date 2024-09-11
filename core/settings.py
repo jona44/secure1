@@ -8,18 +8,15 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-g72dfo-0u@r#g3p4%k)yg448ixcy)mmkcxv=fku0a9vp#bau%-'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'django-insecure-g72dfo-0u@r#g3p4%k)yg448ixcy)mmkcxv=fku0a9vp#bau%-'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 #DEBUG = os.environ.get('DEBUG') ==True
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
 ALLOWED_HOSTS = ['ec2-13-245-169-243.af-south-1.compute.amazonaws.com','13.245.169.243','localhost','127.0.0.1']
-=======
-ALLOWED_HOSTS = []
->>>>>>> 24e133a9c763fd567489a84da069079cfd6aa570
 
 
 # Application definition
@@ -53,14 +50,9 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'customadmin.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-<<<<<<< HEAD
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
    
-=======
-    'django.contrib.auth.backends.ModelBackend',  # Default backend
-    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
->>>>>>> 24e133a9c763fd567489a84da069079cfd6aa570
 ]
 
 
@@ -112,6 +104,7 @@ DATABASES = {
     'NAME': BASE_DIR / 'db.sqlite3',
   }
 }
+
 
 
 # Password validation
