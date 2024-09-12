@@ -5,6 +5,7 @@ from django.urls import reverse
 from customadmin.models import CustomUser
 from customsettings.models import AcademicCalendar
 from district.models import SchoolAdminProfile
+import student
 from .forms import *
 from .models import   *
 from django.db import transaction
@@ -158,7 +159,6 @@ def student_details(request, pk):
     student_profile = get_object_or_404(StudentProfile, pk=pk)
     if pk is not None:
         edit_student_profile_url = reverse('edit_student_profile', args=[student_profile.pk])
-       
     
     return render(request, 'student/student_details.html', {'student_profile': student_profile})
 
@@ -249,10 +249,17 @@ def create_classroom(request):
 #------------------------------classroom_details----------------------------------
 
 
+from django.shortcuts import get_object_or_404, render
+from .models import ClassRoom, SchoolProfile  # Ensure these models are correctly imported
+
 def classroom_details(request, pk):
+    # Get the classroom object by primary key (pk)
     classroom = get_object_or_404(ClassRoom, pk=pk)
-    subject = SchoolProfile.objects.all()
-    students = classroom.students.all()
+
+    # Safely query all SchoolProfile objects; if empty, it will pass an empty QuerySet
+    subjects = SchoolProfile.objects.all()  # Make sure there are no missing or required fields that could raise a 404
+    
+    students = classroom.students.all()  # Assuming classroom has a related name to Student model
 
     male_count = students.filter(gender='male').count()
     female_count = students.filter(gender='female').count()
@@ -261,17 +268,31 @@ def classroom_details(request, pk):
     female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
     male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
 
+    # Initialize selected_student to None
+    selected_student = None
+    selected_student_pk = None
+
+    # Capture the student_id from the request URL (if present)
+    if request.GET.get('student_id'):
+        selected_student_pk = request.GET['student_id']
+        selected_student = StudentProfile.objects.get(pk=selected_student_pk)
+
     context = {
         'classroom': classroom,
-        'subject': subject,
+        'subjects': subjects,
         'students': students,
         'male_count': male_count,
         'female_count': female_count,
         'total_count': total_count,
         'male_percentage': male_percentage,
         'female_percentage': female_percentage,
+        'selected_student': selected_student,  # Pass selected student profile to context
+        'selected_student_pk': selected_student_pk,  # Pass selected student profile to context
     }
     return render(request, 'student/classroom_details.html', context)
+
+
+#---------------------------------------------------------------------------------------------------
 
 
 @login_required

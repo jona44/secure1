@@ -3,71 +3,103 @@
 
 {% block content %}
 <div class="container mt-5">
-<div class="row">
-  <div class=" bg1 rounded py-2 px-5 shado">
-      <h2 class="text-center ">Class Details &nbsp;&nbsp;<span >{{classroom.year}}</span></h2>
+    <div class="row">
+        <div class="bg1 rounded py-2 px-5 shado">
+            <h2 class="text-center">Class Details &nbsp;&nbsp;<span>{{ classroom.year }}</span></h2>
 
-      <div class="d-flex">
-          {% if request.user == classroom.class_teacher %}
-       <a href="{% url 'attendance' classroom.id  %}"class="btn bg3 text-white ">Attendance Register</a>&nbsp;
-       
-       {% endif %}
-      
-      <a href="{% url 'edit_classroom' classroom.pk %}" class="btn bg3 text-warning">Update Classroom</a>
-
-      </div>
-            
-
-      <hr class="text-success">
-      <strong>Class Name:&nbsp;&nbsp;</strong> <span >{{ classroom.name }}</span>&nbsp;&nbsp;
-      <strong>Class Teacher:&nbsp;&nbsp;</strong> <span >{{ classroom.class_teacher }}</span>
-    
-        <div class="row  rounded p-3 d-flex gap-2">
-        
-          <div class="col-md-6  rounded p-5 overflow-auto" style="height: 280px;">
-            <table>
-              <thead>
-                <tr>
-                  <th>Student Name</th>
-                  <th>Report Link</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for student in classroom.students.all %}
-                <tr>
-                  <td>{{ student.student.get_full_name }}</td>
-                  <td><a href="{% url 'student_report' student_id=student.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-post" viewBox="0 0 16 16">
-                    <path d="M4 3.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/>
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
-                  </svg> report</a></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-          <p><strong>Total students:&nbsp;&nbsp;</strong> <span class="badge bg3">{{ classroom.total_students }}</span></p>
-      
-      <!-- Display gender distribution if needed -->
-      {% if classroom.gender_distribution %}
-      
-      <div class="row">
-        <div class="col-md-6">
-            Girls: {{ female_count }}
-            <div class="progress">
-                <div class="progress-bar bg2" role="progressbar" style="width: {{ female_percentage }}%;" aria-valuenow="{{ female_count }}" aria-valuemin="0" aria-valuemax="{{ total_count }}"></div>
+            <div class="d-flex">
+                {% if request.user == classroom.class_teacher %}
+                    <a href="{% url 'attendance' classroom.id %}" class="btn bg3 text-white">Attendance Register</a>&nbsp;
+                {% endif %}
+                <a href="{% url 'edit_classroom' classroom.pk %}" class="btn bg3 text-warning">Update Classroom</a>
             </div>
-            Boys: {{ male_count }}
-            <div class="progress">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ male_percentage }}%;" aria-valuenow="{{ male_count }}" aria-valuemin="0" aria-valuemax="{{ total_count }}"></div>
-            </div>  
+
+            <hr class="text-success">
+            <strong>Class Name:&nbsp;&nbsp;</strong> <span>{{ classroom.name }}</span>&nbsp;&nbsp;
+            <strong>Class Teacher:&nbsp;&nbsp;</strong> <span>{{ classroom.class_teacher }}</span>
+
+            <div class="rounded p-3 d-flex gap-2">
+                <div class="col-md-6 rounded p-5 overflow-auto" style="height: 280px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Report Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in classroom.students.all %}
+                                <tr>
+                                    <td>
+                                      <a href="#" class="student-name" data-student-id="{{ student.id }}">
+                                        {{ student}}
+                                       </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'student_report' student_id=student.id %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-post" viewBox="0 0 16 16">
+                                                <path d="M4 3.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/>
+                                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/>
+                                            </svg> report
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="text-center">Student Profile</h5>
+                    {% if selected_student %}
+                        <div class="student-profile bg-light p-3 rounded">
+                            <p><strong>Name:</strong> {{ selected_student.student }}</p>
+                            <p><strong>Date of Birth:</strong> {{ selected_student.date_of_birth }}</p>
+                            <p><strong>Gender:</strong> {{ selected_student.gender }}</p>
+                            <p><strong>Email:</strong> {{ selected_student.email }}</p>
+                            
+                            <a href="{% url 'student_details' selected_student_pk %}" class="btn bg1">more...</a>
+                        </div>
+                    {% else %}
+                        <p class="text-center">Click on a student name to view their profile.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <p><strong>Total students:&nbsp;&nbsp;</strong> <span class="badge bg3">{{ total_count }}</span></p>
+
+            {% if classroom.gender_distribution %}
+                <div class="row">
+                    <div class="col-md-6">
+                        Girls: {{ female_count }}
+                        <div class="progress">
+                            <div class="progress-bar bg2" role="progressbar" style="width: {{ female_percentage }}%;" aria-valuenow="{{ female_count }}" aria-valuemin="0" aria-valuemax="{{ total_count }}"></div>
+                        </div>
+                        Boys: {{ male_count }}
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ male_percentage }}%;" aria-valuenow="{{ male_count }}" aria-valuemin="0" aria-valuemax="{{ total_count }}"></div>
+                        </div>  
+                    </div>
+                </div>
+            {% endif %}
         </div>
-      </div>
-    
-      {% endif %}
-  </div>
+    </div>
 </div>
-</div>
-   
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const studentLinks = document.querySelectorAll('.student-name');
+
+        studentLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const studentId = this.getAttribute('data-student-id');
+
+                // Fetch student profile and update URL without reloading
+                window.location.href = `?student_id=${studentId}`;
+            });
+        });
+    });
+</script>
+
 {% endblock %}

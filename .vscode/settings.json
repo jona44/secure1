@@ -1,6 +1,5 @@
 {
     "editor.fontSize": 18,
-    "editor.fontFamily": "Consolas, 'Courier New', monospace",
     "cSpell.words": [
         "capturedclassroom",
         "customsettings",
@@ -13,5 +12,6 @@
         "teacheprofile",
         "teacherprofile",
         "uidb"
-    ]
+    ],
+    "editor.fontFamily": " monospace"
 }
