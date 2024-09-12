@@ -11,7 +11,7 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 # Check for a custom environment variable to determine the environment
-settings_module = 'core.deploy' if os.getenv('DJANGO_PRODUCTION') else 'core.settings'
+settings_module = 'core.deployment' if os.getenv('DJANGO_PRODUCTION') else 'core.settings'
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_wsgi_application()
