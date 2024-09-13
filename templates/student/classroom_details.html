@@ -50,19 +50,25 @@
                 </div>
 
                 <div class="col-md-6">
-                    <h5 class="text-center">Student Profile</h5>
+                     <h5 class="text-center">Student Profile</h5>
                     {% if selected_student %}
-                        <div class="student-profile bg-light p-3 rounded">
+                        <div class=" d-flex student-profile bg-light p-3 rounded">
+                            <div class="col">
                             <p><strong>Name:</strong> {{ selected_student.student }}</p>
                             <p><strong>Date of Birth:</strong> {{ selected_student.date_of_birth }}</p>
                             <p><strong>Gender:</strong> {{ selected_student.gender }}</p>
                             <p><strong>Email:</strong> {{ selected_student.email }}</p>
-                            
                             <a href="{% url 'student_details' selected_student_pk %}" class="btn bg1">more...</a>
+                            </div>
+                           <div class="col">
+                            <img src="{{ selected_student.student_photo.url }}"width="150" alt="student photo">
+                           </div>
                         </div>
                     {% else %}
                         <p class="text-center">Click on a student name to view their profile.</p>
                     {% endif %}
+                </div>
+                   
                 </div>
             </div>
 

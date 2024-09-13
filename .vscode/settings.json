@@ -13,5 +13,5 @@
         "teacherprofile",
         "uidb"
     ],
-    "editor.fontFamily": " monospace"
+    "editor.fontFamily": "Consolas, 'Courier New', monospace"
 }

@@ -33,6 +33,9 @@ def student_registration(request):
 #----------------------------------create_student_profile--------------------------------
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
 def create_student_profile(request, user_id):
@@ -42,8 +45,15 @@ def create_student_profile(request, user_id):
     school_registration = school_admin_profile.assigned_school_name
     school_name = get_object_or_404(SchoolProfile, school_name=school_registration)
     
+    try:
+        student_profile = StudentProfile.objects.get(student=student)
+        form = StudentProfileForm(instance=student_profile)
+    except StudentProfile.DoesNotExist:
+        student_profile = None
+        form = StudentProfileForm()
+
     if request.method == 'POST':
-        form = StudentProfileForm(request.POST)
+        form = StudentProfileForm(request.POST, request.FILES, instance=student_profile)
         if form.is_valid():
             try:
                 with transaction.atomic():
@@ -66,11 +76,10 @@ def create_student_profile(request, user_id):
                     return redirect('select_classroom', pk=student_profile.pk, grade_level_id=grade_level_id)
             except Exception as e:
                 form.add_error(None, str(e))
-    else:
-        form = StudentProfileForm()
+        else:
+            print(form.errors)  # Add this line to print form errors to the console
 
     return render(request, 'student/create_student_profile.html', {'form': form, 'student': student})
-
 
 #-------------------------------select_classroom------------------------------------------------------
 
@@ -308,6 +317,7 @@ def edit_classroom(request, pk):
         form =  EditClassRoomForm(instance=classroom)
     return render(request, 'student/edit_classroom.html', {'form': form, 'classroom': classroom})
 
+#-----------------------------edit student_profile---------------------------------
 
 
 @login_required
@@ -316,7 +326,7 @@ def edit_student_profile(request, pk):
     student_profile = get_object_or_404(StudentProfile, pk=pk)
 
     if request.method == 'POST':
-        form = EditStudentProfileForm(request.POST, instance=student_profile)
+        form = EditStudentProfileForm(request.POST, request.FILES, instance=student_profile)
         if form.is_valid():
             try:
                 with transaction.atomic():
@@ -330,6 +340,9 @@ def edit_student_profile(request, pk):
     else:
         form = EditStudentProfileForm(instance=student_profile)
     return render(request, 'student/edit_student_profile.html', {'form': form, 'student_profile': student_profile})
+
+
+#--------------------------------------------attendance----------------------------------------
 
 
 @login_required
@@ -373,6 +386,8 @@ def attendance(request, classroom_id):
         'today': today,
         'attendance_records': attendance_records
     })
+    
+#-------------------------------------------------attendance_record--------------------------------------------------------------    
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'teacher')

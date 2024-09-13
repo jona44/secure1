@@ -34,50 +34,36 @@ class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
         fields = [
-            'gender','grade_level', 'date_of_birth', 'address',
-            'guardian_name', 'guardian_number', 'guardian_email'
+            'gender', 'grade_level', 'date_of_birth', 'address',
+            'guardian_name', 'guardian_number', 'guardian_email', 'student_photo'
         ]
         widgets = {
             'gender': forms.Select(attrs={
                 'class': 'form-select',
-                
-                }),
-            
+            }),
             'grade_level': forms.Select(attrs={
                 'class': 'form-select',
-                
-                }),
+            }),
             'date_of_birth': forms.DateInput(attrs={
                 'class': 'form-control',
-                  'type': 'date',
-                 
-                }),
-            
-
-            'classrooms': forms.Select(attrs={
-                'class': 'form-select',
-                 
-                }),
-
+                'type': 'date',
+            }),
             'address': forms.Textarea(attrs={
                 'class': 'form-control',
-                
-                  'rows':  3
-                }),
-
+                'rows': 3,
+            }),
             'guardian_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                
-                }),
-                
+            }),
             'guardian_number': forms.TextInput(attrs={
                 'class': 'form-control',
-               
-                }),
-            'guardian_email': forms.EmailInput(attrs={                                                        
+            }),
+            'guardian_email': forms.EmailInput(attrs={
                 'class': 'form-control',
-                
-                }),
+            }),
+            'student_photo': forms.FileInput(attrs={
+                'class': 'form-control',
+            }),
         }
    
             
@@ -87,8 +73,8 @@ class EditStudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
         fields = [
-            'gender','grade_level', 'date_of_birth', 'address',
-            'guardian_name', 'guardian_number', 'guardian_email'
+            'gender', 'grade_level', 'date_of_birth', 'address',
+            'guardian_name', 'guardian_number', 'guardian_email', 'student_photo'
         ]
         widgets = {
             'gender': forms.Select(attrs={
@@ -129,8 +115,11 @@ class EditStudentProfileForm(forms.ModelForm):
                 'class': 'form-control',
                 'style': 'background-color: #474955; color:white; border-color:orange;',
                 }),
+            
+            'student_photo': forms.FileInput(attrs={
+                'class': 'form-control',
+            }),
         }
-
 
         
 
