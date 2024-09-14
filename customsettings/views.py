@@ -253,8 +253,18 @@ def setup_step7(request):
     return render(request, 'customsettings/setup_step7.html')
 
 
+from .forms import ExtraCurricularActivityForm
 
-
+def create_activity(request):
+    if request.method == 'POST':
+        form = ExtraCurricularActivityForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('activity_list')  # Redirect to a list view or any other view
+    else:
+        form = ExtraCurricularActivityForm()
+    
+    return render(request, 'customsettings/create_activity.html', {'form': form})
 
 
 

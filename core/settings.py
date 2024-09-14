@@ -179,7 +179,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Authenticate by email
 ACCOUNT_EMAIL_REQUIRED = True  # Email is mandatory
 ACCOUNT_USERNAME_REQUIRED = False  # Don't require a separate username
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Require email confirmation 
-ACCOUNT_SESSION_REMEMBER = True  # Remember the user for future sessions
+ACCOUNT_SESSION_REMEMBER = False  # Remember the user for future sessions
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True # Ask for password twice for security
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
