@@ -423,3 +423,65 @@ def students_list(request):
     school =SchoolProfile.objects.get(school_name=the_school)
     students = StudentProfile.objects.filter(school_name=school)
     return render(request, 'student/students_list.html',{'students':students})
+
+#----------------------------------create_activity---------------------------------------
+
+def create_activity(request):
+    if request.method == 'POST':
+        form = ExtraCurricularActivityForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('activity_list')  # Redirect to a list view or any other view
+    else:
+        form = ExtraCurricularActivityForm()
+    
+    return render(request, 'student/create_activity.html', {'form': form})
+
+
+#--------------------------------------------activity_list---------------------------------------------------------------
+
+
+def activity_list(request):
+    activities = ExtraCurricularActivity.objects.all()  # Fetch all activities from the database
+    return render(request, 'student/activity_list.html', {'activities': activities})
+
+#------------------------------------------------
+
+from django.contrib import messages
+
+from .forms import JoinActivityForm
+
+def join_activity(request, student_profile_id):
+    student_profile = get_object_or_404(StudentProfile, id=student_profile_id)
+
+    if request.method == 'POST':
+        form = JoinActivityForm(request.POST)
+        if form.is_valid():
+            # Get the student and activity from the form
+            activity = form.cleaned_data['activity_id']
+            
+            # Add the student to the activity participants
+            activity.participants.add(student_profile)
+            
+            # Update the student's profile with the activity
+            student_profile.extra_activity = activity
+            student_profile.save()
+
+            # Send success message and redirect
+            messages.success(request, f'{student_profile.student} has been successfully added to {activity}.')
+            return redirect('activity_members_list', activity_id=activity.id)  # Redirect to activity list or another page
+    else:
+        form = JoinActivityForm(initial={'student_profile_id': student_profile})
+
+    return render(request, 'student/join_activity.html', {'form': form})
+
+
+def activity_members_list(request, activity_id):
+    activity = get_object_or_404(ExtraCurricularActivity, id=activity_id)
+    participants = activity.participants.all()
+
+    return render(request, 'student/activity_members_list.html', {
+        'activity': activity,
+        'participants': participants
+    })
+

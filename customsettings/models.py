@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 import datetime
 from django.db import models
 from customadmin.models import CustomUser
-from district.models import AcademicCalendar, District_School_Registration, GradeLevel,Subjects
+from district.models import *
 from django.utils.translation import gettext_lazy as _
 
 
@@ -41,18 +41,4 @@ class SchoolSubject(models.Model):
     def __str__(self):
         return ', '.join(str(subject) for subject in self.subjects.all())
     
-class ExtraCurricularActivity(models.Model):
-    CATEGORY_CHOICES = [
-        ('SP', 'Sports'),
-        ('AR', 'Arts'),
-        ('AC', 'Academic'),
-        ('OT', 'Other'),
-    ]
-    activity_name  = models.CharField(max_length=50)    
-    description    = models.TextField()
-    instructor     = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
-    requirements   = models.TextField(blank=True)
-    category       = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
-    
-    def __str__(self):
-        return self.activity_name    
+  

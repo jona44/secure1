@@ -12,5 +12,5 @@ urlpatterns = [
     path('create_schoolsubjects_step2/',views.create_schoolsubjects_step2,name='create_schoolsubjects_step2'),
     path('subject_list/',views.subject_list,name='subject_list'),
     path('edit_schoolsubjects/<int:pk>/', views.edit_schoolsubjects, name='edit_schoolsubjects'),
-    path('create_activity/', views.create_activity, name='create_activity'),
+   
 ]

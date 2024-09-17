@@ -44,6 +44,10 @@
 .bg3{
     background-color: #011353;
 }
+.bg-G{
+    background-color: rgba(2, 5, 41, 0.884);
+    color:rgba(212, 207, 207, 0.836) ;
+}
 .block{
     display: grid;
     align-items: center;

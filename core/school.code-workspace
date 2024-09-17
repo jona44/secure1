@@ -6,7 +6,9 @@
 	],
 	"settings": {
 		"cSpell.words": [
-			"forloop"
-		]
+			"forloop",
+			"schooladmin"
+		],
+		"materialkv.pythonFile": "main.py"
 	}
 }

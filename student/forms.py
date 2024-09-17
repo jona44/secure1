@@ -189,3 +189,45 @@ class AttendanceForm(forms.ModelForm):
             })
             
         }
+       
+       
+class ExtraCurricularActivityForm(forms.ModelForm):
+    class Meta:
+        model = ExtraCurricularActivity
+        fields = ['activity_name', 'description', 'instructor', 'requirements', 'category']
+        widgets = {
+            'activity_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'style': 'background-color: #474955; color:white; border-color:red;',
+            }),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control',
+                'style': 'background-color: #474955; color:white; border-color:red;',
+                'rows': 3
+            }),
+            'instructor': forms.Select(attrs={
+                'class': 'form-control',
+                'style': 'background-color: #474955; color:white; border-color:red;',
+            }),
+            'requirements': forms.Textarea(attrs={
+                'class': 'form-control',
+                'style': 'background-color: #474955; color:white; border-color:red;',
+                'rows': 3
+            }),
+            'category': forms.Select(attrs={
+                'class': 'form-control',
+                'style': 'background-color: #474955; color:white; border-color:red;',
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Filter out students from the instructor field
+        self.fields['instructor'].queryset = CustomUser.objects.filter(user_type__in=['teacher', 'deputy_head', 'school_head',])
+
+
+        from .models import ExtracurricularActivity, StudentProfile
+
+class JoinActivityForm(forms.Form):
+   
+    activity_id = forms.ModelChoiceField(queryset=ExtraCurricularActivity.objects.all(), label="Activity")

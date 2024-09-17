@@ -8,4 +8,4 @@ admin.site.register(SchoolProfile)
 admin.site.register(SchoolSubject)
 admin.site.register(GradeLevel)
 admin.site.register(ClassName)
-admin.site.register(ExtraCurricularActivity)
+

@@ -21,7 +21,7 @@ class StudentProfile(models.Model):
     guardian_email  = models.EmailField(null=True, blank=True)
     date            = models.DateField(auto_now_add=True)
     academic_year   = models.ForeignKey(AcademicCalendar, on_delete=models.CASCADE, null=True, blank=True)
-    extra_activity  = models.ForeignKey(ExtraCurricularActivity, on_delete=models.CASCADE, null=True, blank=True)
+    extra_activity  = models.ForeignKey('ExtraCurricularActivity', on_delete=models.CASCADE, null=True, blank=True)
     student_photo   = models.ImageField(upload_to="students_photos", blank=True, null=True)
     is_suspended    = models.BooleanField(default=False)
     matriculated    = models.BooleanField(default=False)
@@ -94,5 +94,22 @@ class Attendance(models.Model):
 
     def is_absent(self):
         return self.status == 'Absent'
+    
+class ExtraCurricularActivity(models.Model):
+    CATEGORY_CHOICES = [
+        ('SP', 'Sports'),
+        ('AR', 'Arts'),
+        ('AC', 'Academic'),
+        ('OT', 'Other'),
+    ]
+    activity_name  = models.CharField(max_length=50)    
+    description    = models.TextField(blank=True, null=True)
+    instructor     = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
+    requirements   = models.TextField(blank=True, null=True)
+    category       = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
+    participants   = models.ManyToManyField(StudentProfile)
+    
+    def __str__(self):
+        return self.activity_name      
 
 
