@@ -4,6 +4,7 @@
 *.pyc
 __pycache__/
 local_settings.py
+db.sqlite3
 
 #media
 profile_pics
@@ -174,7 +175,7 @@ fabric.properties
 
 # C extensions
 *.so
-
+db.sqlite3
 # Distribution / packaging
 .Python
 env/
@@ -256,7 +257,7 @@ celerybeat.pid
 
 # dotenv
 .env
-
+db.sqlite3
 # virtualenv
 .env
 .venv
@@ -330,7 +331,7 @@ cython_debug/
 ### Python Patch ###
 # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
 poetry.toml
-
+db.sqlite3
 # ruff
 .ruff_cache/
 
@@ -353,3 +354,4 @@ __pycache__/
 # Ignore environment files (optional, if using virtualenv)
 .env/
 venv/
+db.sqlite3
