@@ -10,11 +10,15 @@
             <div class="col">
                
                   <h5 class="card-title text-success">Profile Details</h5>
-            
-                <p> <strong>Name:</strong> <span class="text-secondary" > {{ student_profile.student.get_full_name }}</span></p>
-                <p><strong>Gender:</strong> <span class="text-secondary" >{{ student_profile.gender }}</span></p>
-                <p><strong>Grade Level:</strong> <span class="text-secondary" >{{student_profile.grade_level}}</span></p>
-                <p><strong>Class:</strong> <span class="text-secondary" >{{ student_profile.assigned_class }}</span></p>   
+              <div class="d-flex ">
+                <div class="col  p-2"><strong>Name:</strong> <span class="text-secondary"> {{ student_profile.student.get_full_name }}</span></p></div><p>
+                <div class="col  p-2"><p><strong>Gender:</strong> <span class="text-secondary">{{ student_profile.gender }}</span></p></div> 
+              </div>
+              <div class="d-flex">    
+                <div class="col p-2"><p><strong>Grade Level:</strong> <span class="text-secondary" >{{student_profile.grade_level}}</span></p></div>
+                <div class="col p-2"><p><strong>Class:</strong> <span class="text-secondary" >{{ student_profile.assigned_class }}</span></p></div>
+                   
+             </div>
                 <p>
                    <strong>Subjects:</strong>
                     {% for subject in student_profile.subjects.all %}
@@ -31,7 +35,7 @@
             <div class="mt-4">
                 <h5 class="card-title text-danger">Guardian Details</h5>
                 <p> <strong>Guardian Name:</strong><span class="text-secondary" > {{ student_profile.guardian_name }}</span></p>
-                <p> <strong>Contact Number:</strong> <span class="text-secondary" > {{ student_profileguardian_number }}</span></p>
+                <p> <strong>Contact Number:</strong> <span class="text-secondary" > {{ student_profile.guardian_number }}</span></p>
                 <p> <strong>Email:</strong> <span class="text-secondary" > {{ student_profile.guardian_email }}<span></p>
                 <p> <strong>Guardian Address:</strong> <span class="text-secondary" > {{ student_profile.address }}<span></p>
             </div>
