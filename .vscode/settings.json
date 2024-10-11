@@ -1,17 +1,28 @@
 {
     "editor.fontSize": 18,
     "cSpell.words": [
+        "allclasses",
+        "allsubjects",
         "capturedclassroom",
         "customsettings",
         "editmark",
+        "endelement",
+        "endsetvar",
+        "munyaradzi",
         "profileguardian",
+        "schooladminprofile",
         "schoolprofile",
         "schoolsubject",
         "schoolsubjects",
+        "setvar",
+        "shado",
+        "signout",
         "studentprofile",
         "teacheprofile",
         "teacherprofile",
-        "uidb"
+        "uidb",
+        "webauthn"
     ],
-    "editor.fontFamily": "Consolas, 'Courier New', monospace"
+    "editor.fontFamily": "Consolas, 'Courier New', monospace",
+    "materialkv.pythonFile": "main.py"
 }

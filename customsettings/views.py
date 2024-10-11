@@ -28,7 +28,7 @@ def school_profile_create_step1(request):
 
     # Try to get an existing school profile for this school
     try:
-        school_profile = SchoolProfile.objects.get(school_name=registered_school)
+        school_profile = SchoolProfile.objects.get(school=registered_school)
     except SchoolProfile.DoesNotExist:
         school_profile = None
 
@@ -37,8 +37,8 @@ def school_profile_create_step1(request):
         if form.is_valid():
             schoolprofile = form.save(commit=False)
 
-            # Automatically set the school_name from the logged-in school admin's profile
-            schoolprofile.school_name = registered_school
+            # Automatically set the school from the logged-in school admin's profile
+            schoolprofile.school = registered_school
 
             schoolprofile.save()  # Save the SchoolProfile instance first
             # Assign many-to-many relationships
@@ -70,7 +70,7 @@ def schoolprofile_details(request, id):
     registered_school = school_admin_profile.assigned_school_name
     print(registered_school)
     # Get the school profile associated with the registered school and the provided ID
-    schoolprofile = get_object_or_404(SchoolProfile, school_name=registered_school, id=id)
+    schoolprofile = get_object_or_404(SchoolProfile, school=registered_school, id=id)
     print(schoolprofile)
     return render(request, 'customsettings/schoolprofile_details.html', {'schoolprofile': schoolprofile})
 
@@ -114,7 +114,7 @@ def create_schoolsubjects_step2(request):
             subjects = form.cleaned_data['school_subjects']
             
             try:
-                school_profile = SchoolProfile.objects.get(school_name=registered_school)
+                school_profile = SchoolProfile.objects.get(school=registered_school)
             except SchoolProfile.DoesNotExist:
                 return render(request, 'customsettings/error.html', {'message': 'School profile does not exist.'})
 
@@ -141,7 +141,7 @@ def subject_list(request):
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     # Get the registered school related to the logged-in school admin
     current_school = school_admin_profile.assigned_school_name
-    school  = SchoolProfile.objects.get(school_name=current_school)
+    school  = SchoolProfile.objects.get(school=current_school)
     all_subjects = SchoolSubject.objects.filter(schoolprofile_name=school)
     print("All Subjects:", all_subjects)  # Debugging line
     for school_subject in all_subjects:
@@ -180,8 +180,8 @@ def class_name(request):
     """
     # Retrieve the SchoolAdminProfile for the logged-in user
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    school = school_admin_profile.assigned_school_name  # This should be a SchoolProfile instance
-    registered_school = SchoolProfile.objects.filter(school_name=school).first()
+    school = school_admin_profile.school  # This should be a SchoolProfile instance
+    registered_school = SchoolProfile.objects.filter(school=school).first()
                                                # Ensure there's a current academic year defined
     try:
         academic_year = AcademicCalendar.objects.get(is_current=True)
@@ -232,7 +232,7 @@ def setup_step7(request):
         registered_school = school_admin_profile.assigned_school_name
         # Retrieve the existing SchoolName instance associated with the SchoolAdminProfile
         try:
-            school = SchoolProfile.objects.get(school_name=registered_school)
+            school = SchoolProfile.objects.get(school=registered_school)
         except SchoolProfile.DoesNotExist:
             # Handle the case where no SchoolName instance exists
             return render(request, 'customsettings/setup_step6.html', {
@@ -251,10 +251,3 @@ def setup_step7(request):
         })
 
     return render(request, 'customsettings/setup_step7.html')
-
-
-
-
-
-
-

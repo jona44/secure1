@@ -17,10 +17,17 @@ urlpatterns = [
     path('attendance/<int:classroom_id>/', views.attendance, name='attendance'),
     path('attendance_record/<int:classroom_id>/', views.attendance_record, name='attendance_record'),
     path('students_list/',views.students_list,name='students_list'),
+    
     path('create_activity/', views.create_activity, name='create_activity'),
     path('activity_list/', views.activity_list, name='activity_list'),
     path('join-activity/<int:student_profile_id>/', views.join_activity, name='join_activity'),
     path('activity/<int:activity_id>/members/', views.activity_members_list, name='activity_members_list'),
+    
+    
+    path('transfer-student/<int:pk>/', views.transfer_student, name='transfer_student'),
+    path('suspense-pool/', views.suspense_pool, name='suspense_pool'),
+    path('accept-student/<int:student_profile_id>/', views.accept_student, name='accept_student'),
+
     
 
 ]

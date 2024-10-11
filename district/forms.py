@@ -10,7 +10,7 @@ from .models import *
 class SchoolRegistrationForm(forms.ModelForm):
     class Meta:
         model  = District_School_Registration
-        fields = [ 'school_name', 'address', 'phone_number', 'email']
+        fields = [ 'school', 'address', 'phone_number', 'email']
 
         widgets = {
                 'school': forms.TextInput(attrs={
@@ -61,14 +61,14 @@ class UserRegistrationForm(UserCreationForm):
                 'class': 'form-control',
                 
                 }),
-            # 'password1': forms.PasswordInput(attrs={
-            #     'class': 'form-control',  
-            #     }),
+            'password1': forms.PasswordInput(attrs={
+                'class': 'form-control',  
+                }),
        
-            # 'password2': forms.PasswordInput(attrs={
-            #     'class': 'form-control',
+            'password2': forms.PasswordInput(attrs={
+                'class': 'form-control',
                
-            #     }),
+                }),
          }
         
 
@@ -76,14 +76,14 @@ class UserRegistrationForm(UserCreationForm):
 class SchoolAdminProfileForm(forms.ModelForm):
     class Meta:
         model = SchoolAdminProfile
-        fields = [ 'contact_number','assigned_school_name','admin']
+        fields = [ 'contact_number','school','admin']
         
         
         
 class SchoolHeadProfileForm(forms.ModelForm):
     class Meta:
         model = SchoolHeadProfile
-        fields = ['phone_number', 'email', 'assigned_school_name'] 
+        fields = ['phone_number', 'email', 'school'] 
                 
 
 
@@ -162,4 +162,4 @@ class HolidayForm(forms.ModelForm):
 class PreTeacherProfileForm(forms.ModelForm):
     class Meta:
         model = TeacherProfile
-        fields= ['assigned_school','contact_number']
+        fields= ['school','contact_number']

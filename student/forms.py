@@ -121,11 +121,10 @@ class EditStudentProfileForm(forms.ModelForm):
             }),
         }
 
-        
 
 class CreateClassRoomForm(forms.ModelForm):
     class Meta:
-        model = ClassRoom  
+        model  = ClassRoom  
         fields = ['name','grd_level','class_teacher']
 
     def __init__(self, *args, **kwargs):
@@ -133,9 +132,10 @@ class CreateClassRoomForm(forms.ModelForm):
         super(CreateClassRoomForm, self).__init__(*args, **kwargs)
         if school:
             self.fields['name'].queryset = ClassName.objects.filter(schoolprofile=school)
-        self.fields['class_teacher'].queryset = CustomUser.objects.filter(groups__name='teacher')
-
-
+            self.fields['class_teacher'].queryset = CustomUser.objects.filter(groups__name='teacher', teacherprofile__school=school.id)
+                 
+            
+            
 class EditClassRoomForm(forms.ModelForm):
     class Meta:
         model = ClassRoom
@@ -198,25 +198,25 @@ class ExtraCurricularActivityForm(forms.ModelForm):
         widgets = {
             'activity_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                 'style': 'border-color:green;',
             }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                 'style': 'border-color:green;',
                 'rows': 3
             }),
             'instructor': forms.Select(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                 'style': 'border-color:green;',
             }),
             'requirements': forms.Textarea(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                 'style': 'border-color:green;',
                 'rows': 3
             }),
             'category': forms.Select(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                'style': 'border-color:green;',
             }),
         }
 
@@ -224,9 +224,7 @@ class ExtraCurricularActivityForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Filter out students from the instructor field
         self.fields['instructor'].queryset = CustomUser.objects.filter(user_type__in=['teacher', 'deputy_head', 'school_head',])
-
-
-        from .models import ExtracurricularActivity, StudentProfile
+      
 
 class JoinActivityForm(forms.Form):
    

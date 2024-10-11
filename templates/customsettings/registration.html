@@ -1,0 +1,72 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="section mt-5 w-75" style="height: 50vh;">
+        <div class="col-8 offset-md-2  p-3  bg1 rounded shado" >
+          <h1 class="text-primary">Registration</h1> 
+            <form method="POST">
+              {% csrf_token %}
+              <!-- {{form|crispy}} -->
+              <div >
+              <div class="row m-3 ">
+                <div class="col">
+                    <label for="id_email" class="form-label requiredField">
+                    Email<span class="asteriskField">*</span> </label>
+                {{form.email}}
+                </div>
+              </div>
+              <div class="row m-3 ">
+                <div class="col">
+                  <label for="id_email" class="form-label requiredField">
+                    First Name<span class="asteriskField">*</span> </label>
+                  {{form.first_name}}
+                </div>
+                
+                <div class="col">
+                  <label for="id_last_name" class="form-label requiredField">
+                    Last Name<span class="asteriskField">*</span> </label>
+                  {{form.last_name}}
+                </div>
+              </div>
+            </div> 
+            
+            <div >
+              <div class="row m-3">
+                <div class="col">
+                  <label for="id_user_type" class="form-label requiredField">
+                    User Type<span class="asteriskField">*</span> </label>
+                  {{form.user_type}} 
+                    </div>
+                    <div class="col">
+                      <label for="id_user_type" class="form-label requiredField">
+                        Position<span class="asteriskField">*</span> </label>
+                      {{form.position}}
+                    </div>
+                  </div>
+            </div>               
+                  <div class=" p-3 ">
+                <div class="row m-3">
+                    <div class="col ">
+                      <label for="id_user_type" class="form-label requiredField">
+                        Password<span class="asteriskField">*</span> </label>
+                      
+                      {{form.password1}}
+                    </div>
+                  </div>
+                <div class="row m-3 ">
+                    <div class="col ">
+                      <label for="id_user_type" class="form-label requiredField">
+                        Password Confirm<span class="asteriskField">*</span> </label>
+                      {{form.password2}}
+                    </div>
+                </div>
+                </div><hr class="text-primary">
+                  <button type="submit" class=" btn bg3 text-white">Create User  </button>
+            </form>
+        </div>
+      </div>
+
+
+{% endblock %}

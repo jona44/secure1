@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class SchoolProfile(models.Model):    
-    school_name  = models.OneToOneField(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True)
+    school       = models.OneToOneField(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True)
     school_logo  = models.ImageField(upload_to='school_logos/', blank=True, null=True)
     facebook     = models.URLField(blank=True)
     twitter      = models.URLField(blank=True)
@@ -16,7 +16,7 @@ class SchoolProfile(models.Model):
     is_setup_complete = models.BooleanField(default=False)
 
     def __str__(self):
-       return f'{self.school_name}'
+       return f'{self.school}'
 
     
     
@@ -35,8 +35,8 @@ class ClassName(models.Model):
     
 
 class SchoolSubject(models.Model):
-    subjects             = models.ManyToManyField(Subjects)
-    schoolprofile_name   = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE,blank=True, null=True) 
+    subjects   = models.ManyToManyField(Subjects)
+    school     = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE,blank=True, null=True) 
 
     def __str__(self):
         return ', '.join(str(subject) for subject in self.subjects.all())

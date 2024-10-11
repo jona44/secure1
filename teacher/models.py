@@ -7,7 +7,7 @@ from student.models import ClassRoom
 from district.models import District_School_Registration
 
 class TeacherProfile(models.Model):
-    assigned_school     = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True, related_name='teacher_profiles')
+    school          = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True, related_name='teacher_profiles')
     teacher         = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     base_subject    = models.ForeignKey(SchoolSubject, on_delete=models.CASCADE, null=True, blank=True,related_name='base_subject_teacher_profiles')
     assigned_class  = models.ForeignKey(ClassRoom, on_delete=models.SET_NULL, null=True, blank=True, related_name='base_class')

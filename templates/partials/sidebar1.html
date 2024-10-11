@@ -7,9 +7,9 @@
    {% if request.user.is_authenticated %}
                 {% if schoolprofile %}
                     {% if schoolprofile.school_logo %}
-                        <img src="{{ schoolprofile.school_logo.url }}" alt="{{ schoolprofile.school_name }}" class="img-fluid" style="max-height: 250px;">
+                        <img src="{{ schoolprofile.school_logo.url }}" alt="{{ schoolprofile.school }}" class="img-fluid" style="max-height: 250px;">
                     {% else %}
-                        {{ schoolprofile.school_name }}
+                        {{ schoolprofile.school }}
                     {% endif %}
                 {% else %}
                     My School 

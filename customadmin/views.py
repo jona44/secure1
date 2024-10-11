@@ -63,7 +63,7 @@ def dashboard(request):
     if request.user.groups.filter(name='teacher').exists():
         try:
             teacher_profile = TeacherProfile.objects.get(teacher=request.user)
-            school = teacher_profile.assigned_school
+            school = teacher_profile.school
             my_assigned_class = teacher_profile.assigned_class
             
             # Get Classes and Students for Teacher
@@ -111,11 +111,11 @@ def dashboard(request):
                 return render(request, 'customadmin/dashboard/school_admin_dashboard.html', context)
 
             # Get the school registration associated with the SchoolAdminProfile
-            school_registration = profile.assigned_school_name
+            school_registration = profile.school
             print(f"School Registration: {school_registration}")
            
             # Get the SchoolProfile instance associated with the school_registration
-            school = SchoolProfile.objects.filter(school_name=school_registration).first()
+            school = SchoolProfile.objects.filter(school=school_registration).first()
             print(f"SchoolProfile: {school}")
             
             if not school:
@@ -128,8 +128,8 @@ def dashboard(request):
 
             # Additional data for School Admin dashboard
             allsubjects = SchoolSubject.objects.all()
-            students_count = StudentProfile.objects.filter(assigned_school=school).count()
-            all_teachers = TeacherProfile.objects.filter(assigned_school=school).count()
+            students_count = StudentProfile.objects.filter(school=school).count()
+            all_teachers = TeacherProfile.objects.filter(school=school).count()
 
             print(f"All Subjects: {allsubjects}")
             print(f"Students Count: {students_count}")
@@ -197,10 +197,3 @@ def login_redirect(request):
    
 def  registration_complete(request):
     return render(request,'customadmin/registration_complete.html')
-
-
-  
-     
-
-
-
