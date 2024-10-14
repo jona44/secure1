@@ -1,16 +1,12 @@
-from datetime import timedelta
-from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from customadmin.models import CustomUser
 from customsettings.models import AcademicCalendar
 from district.models import SchoolAdminProfile
-from teacher.models import TeacherProfile
 from .forms import *
 from .models import   *
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.contrib.sessions.models import Session
 from datetime import datetime
 from django.contrib.auth.decorators import login_required, user_passes_test
 from core.utils import get_user_school
@@ -515,7 +511,9 @@ def accept_student(request, student_profile_id):
 
     if request.method == 'POST':
         # Assign the student to the current admin's school (this depends on your admin system)
-        school = request.user.schoolprofile  # Assuming the logged-in user is associated with a school
+        school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+        the_school = school_admin_profile.school
+        school = District_School_Registration.objects.get(school=the_school) # Assuming the logged-in user is associated with a school
         
         # Transfer the student to the new school
         student_profile.school = school

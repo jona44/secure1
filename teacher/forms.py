@@ -1,7 +1,10 @@
+from urllib import request
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.shortcuts import get_object_or_404
 from customadmin.models import CustomUser
 from customsettings.models import ClassName, SchoolProfile
+from district.models import SchoolAdminProfile
 from student.models import ClassRoom
 from .models import TeacherProfile
 
@@ -72,12 +75,13 @@ class TeacherProfileForm(forms.ModelForm):
             }),
         }
         def __init__(self, *args, **kwargs):
-            school = kwargs.pop('school', None)
+            school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+            school_registration = school_admin_profile.school
+            school = SchoolProfile.objects.get(school=school_registration)
             super(TeacherProfileForm, self).__init__(*args, **kwargs)
             if school:
-                self.fields['assigned_class'].queryset = ClassName.objects.filter(schoolprofile=school)
+                self.fields['assigned_class'].queryset = ClassRoom.objects.filter(schoolprofile=school)
                   
-                
                 
 
 class UpdateStaffProfileForm(forms.ModelForm):

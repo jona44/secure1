@@ -100,7 +100,7 @@ def create_teacher_profile(request, user_id):
     # Get the school assigned to the current school admin
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     school_registration = school_admin_profile.school
-    school = get_object_or_404(SchoolProfile, school=school_registration)
+    school = SchoolProfile.objects.get(school=school_registration)
 
     if request.method == 'POST':
         form = TeacherProfileForm(request.POST, school=school )
@@ -124,7 +124,7 @@ def create_teacher_profile(request, user_id):
 
             return redirect('view_teacher_profile', pk=teacher_profile.pk)
     else:
-        form = TeacherProfileForm()
+        form = TeacherProfileForm( )
         print(school)
     return render(request, 'teacher/create_teacher_profile.html', {'form': form, 'user_id': user_id})
 

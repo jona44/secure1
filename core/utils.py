@@ -12,10 +12,10 @@ def get_user_school(user):
         return StudentProfile.objects.get(student=user).school  # Use `student=user` and `school`
     
     elif user.groups.filter(name='teacher').exists():
-        return TeacherProfile.objects.get(user=user).assigned_school
+        return TeacherProfile.objects.get(user=user).school
     
     elif user.groups.filter(name='school_admin').exists():
-        return SchoolAdminProfile.objects.get(admin=user).assigned_school_name  # Adjust to match the field in SchoolAdminProfile
+        return SchoolAdminProfile.objects.get(admin=user).school  # Adjust to match the field in SchoolAdminProfile
     
     elif user.groups.filter(name='school_head').exists() or user.groups.filter(name='school_head').exists():
         return SchoolHeadProfile.objects.get(admin=user).school  # Adjust for school_head/deputy_head

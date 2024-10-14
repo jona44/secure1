@@ -162,11 +162,7 @@ class EditClassRoomForm(forms.ModelForm):
         classroom = kwargs.get('instance')
         
         # Get all teachers assigned to a classroom, excluding the current classroom's teacher
-        assigned_teachers = CustomUser.objects.filter(
-            assigned_class__isnull=False
-        ).exclude(
-            assigned_class=classroom
-        )
+        assigned_teachers = CustomUser.objects.filter(assigned_class__isnull=False).exclude(assigned_class=classroom)
         
         # Exclude these teachers from the queryset
         self.fields['class_teacher'].queryset = CustomUser.objects.filter(

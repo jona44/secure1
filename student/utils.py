@@ -1,4 +1,4 @@
-from .models import  ClassRoom, StudentProfile
+from .models import  ClassRoom
 
 def assign_class(student_profile):
     grade_classes = ClassRoom.objects.all()
