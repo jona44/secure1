@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from customsettings.models import SchoolProfile, SchoolSubject
 from district.models import SchoolAdminProfile
 from teacher.models import TeacherProfile
-from student.models import StudentProfile
+from student.models import ClassRoom, StudentProfile
 
 from .forms import *
 
@@ -127,19 +127,30 @@ def dashboard(request):
                 return redirect('school_profile_create_step1')
 
             # Additional data for School Admin dashboard
-            allsubjects = SchoolSubject.objects.all()
+            allsubjects = SchoolSubject.objects.filter(school=school)
+            subject_count = allsubjects.count()
             students_count = StudentProfile.objects.filter(school=school).count()
+            male_count = StudentProfile.objects.filter(school=school,gender='male').count()
+            female_count = StudentProfile.objects.filter(school=school,gender='female').count()
             all_teachers = TeacherProfile.objects.filter(school=school).count()
+            classes = ClassRoom.objects.filter(school=school).count()
+          
 
             print(f"All Subjects: {allsubjects}")
             print(f"Students Count: {students_count}")
             print(f"All Teachers: {all_teachers}")
+            print(f"male_count: {male_count}")
+            print(f"female_count: {female_count}")
             
             # Prepare context for rendering
             context = {
                 'all_teachers': all_teachers,
                 'students_count': students_count,
                 'allsubjects': allsubjects,
+                'male_count':male_count,
+                'female_count':female_count,
+                'classes':classes,
+                'subject_count':subject_count
             }
             return render(request, 'customadmin/dashboard/school_admin_dashboard.html', context)
         except Exception as e:

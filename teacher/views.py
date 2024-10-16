@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from customsettings.models import AcademicCalendar, SchoolProfile
-from district.models import District_School_Registration, SchoolAdminProfile
-from student.models import ClassRoom
+from district.models import SchoolAdminProfile
 from .forms import *
 from .models import TeacherProfile
 from customadmin.models import CustomUser 
@@ -9,10 +8,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
 import logging
 from django.conf import settings
-from django.forms import modelformset_factory
-from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.test import TransactionTestCase
 from .models import*
 from django.contrib import messages
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -25,7 +21,6 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 User = get_user_model()
 logger = logging.getLogger(__name__)
-from .models import GradeLevel
 
 
 
@@ -103,7 +98,7 @@ def create_teacher_profile(request, user_id):
     school = SchoolProfile.objects.get(school=school_registration)
 
     if request.method == 'POST':
-        form = TeacherProfileForm(request.POST, school=school )
+        form = TeacherProfileForm(request.POST )
         if form.is_valid():
             with transaction.atomic():
                 teacher_profile = form.save(commit=False)
@@ -164,14 +159,14 @@ def update_teacher_profile(request,pk):
 def teacher_list(request):
     try:
         school_admin = SchoolAdminProfile.objects.get(school_admin=request.user)
-        assigned_school = school_admin.school
-        all_teachers = TeacherProfile.objects.filter(school=assigned_school)
+        school = school_admin.school
+        all_teachers = TeacherProfile.objects.filter(school=school.id)
     except SchoolAdminProfile.DoesNotExist:
         all_teachers = None  # Or handle the case where the user is not a school admin
 
     context = {
         'all_teachers':all_teachers,
-        'school_admin': school_admin if all_teachers else None,  # Pass the school admin if teachers exist
+        # 'school_admin': school_admin if all_teachers else None,  # Pass the school admin if teachers exist
     }
-    
+    print(school)
     return render(request, 'teacher/teacher_list.html', {'all_teachers': all_teachers})

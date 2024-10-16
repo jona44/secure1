@@ -1,15 +1,12 @@
-import datetime
 from pyexpat.errors import messages
-from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.contrib import messages
-from district.forms import SubjectForm
+from student.models import ClassRoom
 from .forms import *
 from .models import *
-from district.models import AcademicCalendar, District_School_Registration, GradeLevel, SchoolAdminProfile,Subjects
+from district.models import AcademicCalendar, SchoolAdminProfile
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .decorators import filter_by_school # type: ignore
+from .decorators import filter_by_school 
 
 
 
@@ -24,7 +21,7 @@ def school_profile_create_step1(request):
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
 
     # Get the registered school related to the logged-in school admin
-    registered_school = school_admin_profile.assigned_school_name
+    registered_school = school_admin_profile.school
 
     # Try to get an existing school profile for this school
     try:
@@ -67,7 +64,7 @@ def schoolprofile_details(request, id):
     # Get the SchoolAdminProfile associated with the logged-in user
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     # Get the registered school related to the logged-in school admin
-    registered_school = school_admin_profile.assigned_school_name
+    registered_school = school_admin_profile.school
     print(registered_school)
     # Get the school profile associated with the registered school and the provided ID
     schoolprofile = get_object_or_404(SchoolProfile, school=registered_school, id=id)
@@ -106,7 +103,7 @@ def create_schoolsubjects_step2(request):
     # Get the school admin profile for the logged-in user
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     # Get the registered school related to the logged-in school admin
-    registered_school = school_admin_profile.assigned_school_name
+    registered_school = school_admin_profile.school
 
     if request.method == 'POST':
         form = SchoolSubjectForm(request.POST)
@@ -119,11 +116,11 @@ def create_schoolsubjects_step2(request):
                 return render(request, 'customsettings/error.html', {'message': 'School profile does not exist.'})
 
             # Delete existing SchoolSubject instances for this school profile
-            SchoolSubject.objects.filter(schoolprofile_name=school_profile).delete()
+            SchoolSubject.objects.filter(school=school_profile).delete()
 
             # Create new SchoolSubject instances for each subject
             for subject in subjects:
-                school_subject = SchoolSubject.objects.create(schoolprofile_name=school_profile)
+                school_subject = SchoolSubject.objects.create(school=school_profile)
                 school_subject.subjects.set([subject])
                 school_subject.save()
 
@@ -140,9 +137,9 @@ def subject_list(request):
     # Get the school admin profile for the logged-in user
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     # Get the registered school related to the logged-in school admin
-    current_school = school_admin_profile.assigned_school_name
+    current_school = school_admin_profile.school
     school  = SchoolProfile.objects.get(school=current_school)
-    all_subjects = SchoolSubject.objects.filter(schoolprofile_name=school)
+    all_subjects = SchoolSubject.objects.filter(school=school)
     print("All Subjects:", all_subjects)  # Debugging line
     for school_subject in all_subjects:
         print("School Subject:", school_subject)
@@ -229,7 +226,7 @@ def setup_step7(request):
     try:
         # Get the SchoolAdminProfile associated with the current user
         school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-        registered_school = school_admin_profile.assigned_school_name
+        registered_school = school_admin_profile.school
         # Retrieve the existing SchoolName instance associated with the SchoolAdminProfile
         try:
             school = SchoolProfile.objects.get(school=registered_school)
@@ -251,3 +248,45 @@ def setup_step7(request):
         })
 
     return render(request, 'customsettings/setup_step7.html')
+
+#-----------------------------all_classes------------------------------------------------------
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
+def all_classes(request):
+    # Get the school assigned to the current school admin
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    assigned_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=assigned_school)
+    # Filter classrooms by the students' school
+    classes = ClassRoom.objects.filter(school=school).distinct().select_related('name__grd_level')
+    myclasses = classes.count()
+
+    grade_level_data = {}
+    for classroom in classes:
+        class_students = classroom.students.all()
+        total_students = class_students.count()
+        male_count = class_students.filter(gender='male').count()
+        female_count = class_students.filter(gender='female').count()
+        grade_level = classroom.name.grd_level
+        if grade_level not in grade_level_data:
+            grade_level_data[grade_level] = []
+        
+        # Calculate percentage of female and male students
+        total_count = male_count + female_count
+        female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
+        male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
+        
+        # Include classroom PK in the context data
+        grade_level_data[grade_level].append({
+            'classroom_pk': classroom.pk,  
+            'classroom': classroom,
+            'total_students': total_students,
+            'male_count': male_count,
+            'female_count': female_count,
+            'female_percentage': female_percentage,
+            'male_percentage': male_percentage,
+        })
+        print(assigned_school)
+    return render(request, 'customsettings/all_classes.html', {'grade_level_data': grade_level_data,'myclasses':myclasses})

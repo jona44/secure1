@@ -75,27 +75,23 @@ class TeacherProfileForm(forms.ModelForm):
             }),
         }
         def __init__(self, *args, **kwargs):
-            school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-            school_registration = school_admin_profile.school
-            school = SchoolProfile.objects.get(school=school_registration)
-            super(TeacherProfileForm, self).__init__(*args, **kwargs)
-            if school:
-                self.fields['assigned_class'].queryset = ClassRoom.objects.filter(schoolprofile=school)
+            def __init__(self, *args, **kwargs):
+                school = kwargs.pop('school', None)
+                super(TeacherProfileForm, self).__init__(*args, **kwargs)
+                if school:  
+                    self.fields['assigned_class'].queryset = ClassRoom.objects.filter(school=school)
                   
                 
 
 class UpdateStaffProfileForm(forms.ModelForm):
     class Meta:
         model = TeacherProfile
-        fields = ['contact_number','school','assigned_class','classes_taught', 'base_subject', 'subjects_taught']
+        fields = ['contact_number','assigned_class','classes_taught', 'base_subject', 'subjects_taught']
         widgets = {
             'contact_number': forms.TextInput(attrs={
                 'class': 'form-control',
                }),
 
-            'school': forms.Select(attrs={
-                'class': 'form-control', 'style': 'width:150px',
-                  'style': 'width:350px;',}),
             
             'assigned_class': forms.Select(attrs={
                 'class': 'form-control', 'style': 'width:150px',

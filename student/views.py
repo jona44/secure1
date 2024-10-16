@@ -44,8 +44,9 @@ logger = logging.getLogger(__name__)
 def create_student_profile(request, user_id):
     student = get_object_or_404(CustomUser, pk=user_id)
     
-    school = get_user_school(request.user)
-    
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
     try:
         student_profile = StudentProfile.objects.get(student=student)
         form = StudentProfileForm(instance=student_profile)
@@ -70,8 +71,8 @@ def create_student_profile(request, user_id):
                     student_profile.save()
 
                     # Assign all subjects from the school to the student
-                    subjects = SchoolSubject.objects.filter(schoolprofile_name=school)
-                    student_profile.subjects.set(subjects)  # Use set() for cleaner assignment
+                    subjects = SchoolSubject.objects.filter(school=school)
+                    student_profile.subjects.set(subjects)  
                     student_profile.save()
 
                     return redirect('select_classroom', pk=student_profile.pk, grade_level_id=grade_level_id)
@@ -190,46 +191,6 @@ def classrooms(request):
     return render(request,'student/classrooms.html}',{'classrooms':classrooms,'class_data': class_data})
 
 
-#-----------------------------all_classes------------------------------------------------------
-
-
-@login_required
-@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
-def all_classes(request):
-    # Get the school assigned to the current school admin
-    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    assigned_school = school_admin_profile.school
-
-    # Filter classrooms by the students' school
-    classes = ClassRoom.objects.filter(students__school=assigned_school).distinct().select_related('name__grd_level')
-
-    grade_level_data = {}
-    for classroom in classes:
-        class_students = classroom.students.all()
-        total_students = class_students.count()
-        male_count = class_students.filter(gender='male').count()
-        female_count = class_students.filter(gender='female').count()
-        grade_level = classroom.name.grd_level
-        if grade_level not in grade_level_data:
-            grade_level_data[grade_level] = []
-        
-        # Calculate percentage of female and male students
-        total_count = male_count + female_count
-        female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
-        male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
-        
-        # Include classroom PK in the context data
-        grade_level_data[grade_level].append({
-            'classroom_pk': classroom.pk,  
-            'classroom': classroom,
-            'total_students': total_students,
-            'male_count': male_count,
-            'female_count': female_count,
-            'female_percentage': female_percentage,
-            'male_percentage': male_percentage,
-        })
-       
-    return render(request, 'student/all_classes.html', {'grade_level_data': grade_level_data})
 
 
 #-----------------------------------create_classroom---------------------------------------
@@ -417,10 +378,10 @@ def attendance_record(request, classroom_id):
 
 def students_list(request):  
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    the_school = school_admin_profile.assigned_school_name
+    the_school = school_admin_profile.school
     school =SchoolProfile.objects.get(school=the_school)
     students = StudentProfile.objects.filter(school=school)
-    return render(request, 'student/students_list.html',{'students':students})
+    return render(request, 'student/students_list.html',{'students':students,'school':school})
 
 #----------------------------------create_activity---------------------------------------
 

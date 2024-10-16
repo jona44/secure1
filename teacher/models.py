@@ -1,13 +1,11 @@
 from django.db import models
-from django.forms import ValidationError
 from django.urls import reverse
 from customadmin.models import  CustomUser
 from customsettings.models import *
 from student.models import ClassRoom
-from district.models import District_School_Registration
 
 class TeacherProfile(models.Model):
-    school          = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True, related_name='teacher_profiles')
+    school          = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, blank=True, null=True, related_name='teacher_profiles')
     teacher         = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     base_subject    = models.ForeignKey(SchoolSubject, on_delete=models.CASCADE, null=True, blank=True,related_name='base_subject_teacher_profiles')
     assigned_class  = models.ForeignKey(ClassRoom, on_delete=models.SET_NULL, null=True, blank=True, related_name='base_class')
@@ -16,7 +14,10 @@ class TeacherProfile(models.Model):
     contact_number  = models.CharField(max_length=20)
     date            = models.DateField(auto_now_add=True, null=True, blank=True)
     academic_year   = models.ForeignKey(AcademicCalendar, on_delete=models.CASCADE, null=True, blank=True)
-
+    on_medical_leave    = models.BooleanField(default=False, null=True, blank=True)
+    on_vocational_leave = models.BooleanField(default=False, null=True, blank=True)
+    position            = models.CharField(max_length=10, null=True, blank=True, choices=[('Permanent', 'Permanent'), ('Substitute', 'Substitute')])
+    
     def __str__(self):
         return f'{self.teacher.first_name} {self.teacher.last_name}'
     

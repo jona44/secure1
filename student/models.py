@@ -10,7 +10,7 @@ from customsettings.models import *
 
 
 class StudentProfile(models.Model):
-    school          = models.ForeignKey(District_School_Registration, on_delete=models.SET_NULL, blank=True, null=True)  # Make it nullable
+    school          = models.ForeignKey(SchoolProfile, on_delete=models.SET_NULL, blank=True, null=True)  # Make it nullable
     student         = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     gender          = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
     subjects        = models.ManyToManyField(SchoolSubject)  # Correctly relates to Subject

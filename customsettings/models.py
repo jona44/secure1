@@ -41,4 +41,5 @@ class SchoolSubject(models.Model):
     def __str__(self):
         return ', '.join(str(subject) for subject in self.subjects.all())
     
+ 
   

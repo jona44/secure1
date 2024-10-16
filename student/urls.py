@@ -11,7 +11,7 @@ urlpatterns = [
     path('create_classroom/',views.create_classroom,name='create_classroom'),
     path('classroom_details/<int:pk>/',views.classroom_details,name='classroom_details'),
     path('edit_classroom/<int:pk>',views.edit_classroom,name='edit_classroom'),
-    path('all_classes/', views.all_classes,name='all_classes'),
+   
     path('assign_classroom/<int:pk>/',views.assign_classroom, name='assign_classroom'),
     path('select-classroom/<int:pk>/<int:grade_level_id>/', views.select_classroom, name='select_classroom'),
     path('attendance/<int:classroom_id>/', views.attendance, name='attendance'),
