@@ -8,7 +8,7 @@
     <ul class=" list-group col-md-8 offset-md-2">
       {% for school in schools %}
         <li class="list-group-item">
-          <a href="{% url 'school_detail' school.id %}" class="text-decoration-none text-dark">{{ school.school_name }}</a>
+          <a href="{% url 'school_detail' school.id %}" class="text-decoration-none text-dark">{{ school.school }}</a>
         </li>
       {% empty %}
         <li class="list-group-item">No schools have been registered yet.</li>

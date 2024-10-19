@@ -36,7 +36,7 @@
     overflow-y: auto; /* Ensure vertical scrolling */
 }
 .bg1{
-    background-color: rgba(143, 143, 141, 0.336);
+    background-color: rgba(231, 231, 235, 0.952);
 }
 .bg2{
     background-color: rgba(201, 146, 226, 0.89);
@@ -45,17 +45,59 @@
     background-color: #011353;
 }
 .bg-G{
-    background-color: rgba(2, 5, 41, 0.884);
-    color:rgba(212, 207, 207, 0.836) ;
+    background-color: #011353;;
+    color:rgba(196, 120, 7, 0.836) ;
 }
 .block{
     display: grid;
     align-items: center;
 }
-nav{
+.nav{
     display: inline-block;
 }
 
 .shado {
-    box-shadow: 10px 10px 5px rgba(89, 89, 90, 0.507); /* red shadow */
+    box-shadow: 10px 10px 5px rgba(89, 89, 90, 0.507); 
 }
+.accounts-base{
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* ----------------------------------------------------------------------------------------- */
+
+.signout-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+.signout-container h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+.signout-container p {
+    color: #666;
+    margin-bottom: 30px;
+}
+.signout-container button {
+    background-color: #135539;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.signout-container button:hover {
+    background-color: #0056b3;
+}
+
+/* -----------------------------------------------------------------------------------------

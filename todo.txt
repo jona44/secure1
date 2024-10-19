@@ -1,9 +1,9 @@
-1--DONE.when all classes are captured return the capture all classes are done.
-2--DONE.fix the report error issue.
-3.if a classroom is created it should be remove from selection.
-4.links to the dashboard on all pages.
-5--DONE.remove side bar for the teacher group to have normal top navbar.
-6--DONE.fix the the not rendering of static files.
+1--DONE. when all classes are captured return the capture all classes are done.
+2--DONE. fix the report error issue.
+3--DONE. if a classroom is created it should be remove from selection.
+4--DONE. links to the dashboard on all pages.
+5--DONE. remove side bar for the teacher group to have normal top navbar.
+6--DONE. fix the the not rendering of static files.
 7. CSS.
 8 style the calendar.
 

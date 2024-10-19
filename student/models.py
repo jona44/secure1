@@ -1,4 +1,3 @@
-from audioop import avg
 from datetime import date, timezone
 import datetime
 from itertools import count
@@ -7,8 +6,10 @@ from django.urls import reverse
 from customadmin.models import  CustomUser
 from django.db.models import Count
 from customsettings.models import *
+
+
 class StudentProfile(models.Model):
-    school_name     = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE, blank=True, null=True)
+    school          = models.ForeignKey(SchoolProfile, on_delete=models.SET_NULL, blank=True, null=True)  # Make it nullable
     student         = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     gender          = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
     subjects        = models.ManyToManyField(SchoolSubject)  # Correctly relates to Subject
@@ -55,9 +56,10 @@ class StudentProfile(models.Model):
 
 
 class ClassRoom(models.Model):
-    name      = models.ForeignKey(ClassName, on_delete=models.CASCADE)
-    grd_level = models.ForeignKey(GradeLevel, on_delete=models.CASCADE, null=True, blank=True)
-    students  = models.ManyToManyField(StudentProfile, blank=True) 
+    school      = models.ForeignKey(SchoolProfile,on_delete=models.CASCADE, null=True, blank=True)
+    name        = models.ForeignKey(ClassName, on_delete=models.CASCADE)
+    grd_level   = models.ForeignKey(GradeLevel, on_delete=models.CASCADE, null=True, blank=True)
+    students    = models.ManyToManyField(StudentProfile, blank=True) 
     class_teacher = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_class')
     max_capacity  = models.PositiveIntegerField(default=45)
     date          = models.DateField(auto_now_add=True)
@@ -70,13 +72,13 @@ class ClassRoom(models.Model):
         ordering = ['name']
     
     def total_students(self):
-            return self.students.count()
+        return self.students.count()
 
     def gender_distribution(self):
         return self.students.values('gender').annotate(total_students=Count('gender'))
     
     def get_absolute_url(self):
-            return reverse('classroom-detail', kwargs={'pk': self.pk})
+        return reverse('classroom-detail', kwargs={'pk': self.pk})
 
 
 class Attendance(models.Model):
@@ -113,3 +115,14 @@ class ExtraCurricularActivity(models.Model):
         return self.activity_name      
 
 
+class AcademicRecord(models.Model):
+    district = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE,related_name='districts',blank=True, null=True)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
+    school  = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE)
+    subject = models.ForeignKey(SchoolSubject, on_delete=models.CASCADE)
+    grade   = models.DecimalField(max_digits=5, decimal_places=2)  # Assuming the grade is a numeric value
+    term    = models.CharField(max_length=20)  # Example: 'Term 1', 'Term 2', etc.
+    year    = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.student} - {self.subject} - {self.grade}'

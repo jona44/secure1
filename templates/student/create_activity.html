@@ -2,14 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container mt-5 offset-3 ">
+    <div class="container mt-5 offset-2 ">
         <div class="col-md-8 bg1 p-5 shado">
           <h1>Create a New Extra-Curricular Activity</h1>
             <form method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <div class="d-grid">
-                    <button type="submit" class="btn bg3 text-white">Submit</button>
+                    <button type="submit" class="btn bg2 text-info">Submit</button>
                 </div>
                
             </form>

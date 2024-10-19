@@ -1,19 +1,22 @@
-from datetime import timedelta
-from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from customadmin.models import CustomUser
 from customsettings.models import AcademicCalendar
 from district.models import SchoolAdminProfile
-import student
 from .forms import *
 from .models import   *
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.contrib.sessions.models import Session
 from datetime import datetime
 from django.contrib.auth.decorators import login_required, user_passes_test
+from core.utils import get_user_school
 
+
+def get_assigned_school(user):
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=user)
+    the_school = school_admin_profile.school
+    school = get_object_or_404(SchoolProfile, school=the_school)
+    return school
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
@@ -42,9 +45,8 @@ def create_student_profile(request, user_id):
     student = get_object_or_404(CustomUser, pk=user_id)
     
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    school_registration = school_admin_profile.assigned_school_name
-    school_name = get_object_or_404(SchoolProfile, school_name=school_registration)
-    
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
     try:
         student_profile = StudentProfile.objects.get(student=student)
         form = StudentProfileForm(instance=student_profile)
@@ -59,7 +61,7 @@ def create_student_profile(request, user_id):
                 with transaction.atomic():
                     student_profile = form.save(commit=False)
                     student_profile.student = student
-                    student_profile.school_name = school_name
+                    student_profile.school = school
 
                     grade_level_id = form.cleaned_data['grade_level'].id
 
@@ -69,8 +71,8 @@ def create_student_profile(request, user_id):
                     student_profile.save()
 
                     # Assign all subjects from the school to the student
-                    subjects = SchoolSubject.objects.filter(schoolprofile_name=school_name)
-                    student_profile.subjects.set(subjects)  # Use set() for cleaner assignment
+                    subjects = SchoolSubject.objects.filter(school=school)
+                    student_profile.subjects.set(subjects)  
                     student_profile.save()
 
                     return redirect('select_classroom', pk=student_profile.pk, grade_level_id=grade_level_id)
@@ -88,11 +90,7 @@ def create_student_profile(request, user_id):
 def select_classroom(request, pk, grade_level_id):  # Add grade_level_id parameter
     student = get_object_or_404(StudentProfile, pk=pk)
     
-     # Get the school profile of the logged-in school_admin
-    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    school = school_admin_profile.assigned_school_name
-    # Filter classes based on the school associated with the school_admin
-    # Retrieve grade level from URL parameter
+    school = get_assigned_school(request.user)
     try:
         grade_level = get_object_or_404(GradeLevel, pk=grade_level_id)
     except GradeLevel.DoesNotExist:
@@ -162,6 +160,7 @@ def assign_classroom(request, pk):
         # If no classroom ID is provided, redirect to the select_classroom page
         return HttpResponseRedirect(reverse('select_classroom', args=[pk]))
     
+#--------------------------------student_details-------------------------------------------    
     
 def student_details(request, pk):
     # Retrieve the student profile
@@ -171,7 +170,7 @@ def student_details(request, pk):
     
     return render(request, 'student/student_details.html', {'student_profile': student_profile})
 
-
+#------------------------------------classrooms--------------------------------------------
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
@@ -192,42 +191,6 @@ def classrooms(request):
     return render(request,'student/classrooms.html}',{'classrooms':classrooms,'class_data': class_data})
 
 
-#-----------------------------all_classes------------------------------------------------------
-
-
-@login_required
-@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
-def all_classes(request):
-   
-    classes = ClassRoom.objects.all().select_related('name__grd_level')
-    grade_level_data = {}
-    for classroom in classes:
-        class_students = classroom.students.all()
-        total_students = class_students.count()
-        male_count = class_students.filter(gender='male').count()
-        female_count = class_students.filter(gender='female').count()
-        grade_level = classroom.name.grd_level
-        if grade_level not in grade_level_data:
-            grade_level_data[grade_level] = []
-        
-        # Calculate percentage of female and male students
-        total_count = male_count + female_count
-        female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
-        male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
-        
-        # Include classroom PK in the context data
-        grade_level_data[grade_level].append({
-            'classroom_pk': classroom.pk,  
-            'classroom': classroom,
-            'total_students': total_students,
-            'male_count': male_count,
-            'female_count': female_count,
-            'female_percentage': female_percentage,
-            'male_percentage': male_percentage,
-        })
-       
-    return render(request, 'student/all_classes.html', {'grade_level_data': grade_level_data })
-
 
 
 #-----------------------------------create_classroom---------------------------------------
@@ -238,28 +201,24 @@ def all_classes(request):
 def create_classroom(request):
     year = AcademicCalendar.objects.get(is_current=True)
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    the_school = school_admin_profile.assigned_school_name
-    
-    school =SchoolProfile.objects.get(school_name=the_school)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
     
     if request.method == 'POST':
         form = CreateClassRoomForm(request.POST, school=school)
         if form.is_valid():
             classroom = form.save(commit=False)
+            classroom.school=school
             classroom.year = year
             classroom.save()  # Corrected: Call save() method to save the classroom object
             return redirect(reverse('classroom_details', args=[classroom.pk]))
     else:
         form = CreateClassRoomForm(school=school)
-    
+        print(school)  
     return render(request, 'student/create_classroom.html', {'form': form})
-
 
 #------------------------------classroom_details----------------------------------
 
-
-from django.shortcuts import get_object_or_404, render
-from .models import ClassRoom, SchoolProfile  # Ensure these models are correctly imported
 
 def classroom_details(request, pk):
     # Get the classroom object by primary key (pk)
@@ -419,10 +378,10 @@ def attendance_record(request, classroom_id):
 
 def students_list(request):  
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    the_school = school_admin_profile.assigned_school_name
-    school =SchoolProfile.objects.get(school_name=the_school)
-    students = StudentProfile.objects.filter(school_name=school)
-    return render(request, 'student/students_list.html',{'students':students})
+    the_school = school_admin_profile.school
+    school =SchoolProfile.objects.get(school=the_school)
+    students = StudentProfile.objects.filter(school=school)
+    return render(request, 'student/students_list.html',{'students':students,'school':school})
 
 #----------------------------------create_activity---------------------------------------
 
@@ -484,4 +443,47 @@ def activity_members_list(request, activity_id):
         'activity': activity,
         'participants': participants
     })
+    
+#-----------------------------transfer-student----------------------------------
 
+def transfer_student(request, pk):
+    student_profile = get_object_or_404(StudentProfile, id=pk)
+    
+    # Set the student's school to null (suspended)
+    student_profile.school = None
+    student_profile.save()
+
+    messages.success(request, f'{student_profile.student} has been placed in suspense for transfer.')
+    return redirect('student_details', pk)
+
+#------------------------------suspense_pool----------------------------------------------
+
+def suspense_pool(request):
+    students_in_suspense = StudentProfile.objects.filter(school__isnull=True)
+    return render(request, 'student/suspense_pool.html', {'students': students_in_suspense})
+
+#------------------------------accept_student----------------------------------------
+
+def accept_student(request, student_profile_id):
+    student_profile = get_object_or_404(StudentProfile, id=student_profile_id)
+    
+    # Fetch academic records related to the student and their previous school
+    academic_records = AcademicRecord.objects.filter(student=student_profile, school__isnull=False).order_by('-year', '-term')
+
+    if request.method == 'POST':
+        # Assign the student to the current admin's school (this depends on your admin system)
+        school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+        the_school = school_admin_profile.school
+        school = District_School_Registration.objects.get(school=the_school) # Assuming the logged-in user is associated with a school
+        
+        # Transfer the student to the new school
+        student_profile.school = school
+        student_profile.save()
+
+        messages.success(request, f'{student_profile.student} has been successfully transferred to {school}.')
+        return redirect('suspense_pool')
+
+    return render(request, 'student/accept_student.html', {
+        'student_profile': student_profile,
+        'academic_records': academic_records
+    })

@@ -4,21 +4,22 @@ from customadmin.models import CustomUser
 
 
 class District_School_Registration(models.Model):
-    school_name   = models.CharField(max_length=255,blank=True, null=True)
+    district      = models.CharField(max_length=255,blank=True, null=True)
+    school        = models.CharField(max_length=255,blank=True, null=True)
     address       = models.TextField(blank=True, null=True)
     phone_number  = models.CharField(max_length=20,blank=True, null=True)
     email         = models.EmailField(blank=True, null=True)
    
     def __str__(self):
-        return f'{self.school_name}' 
+        return f'{self.school}' 
 
 
 class SchoolAdminProfile(models.Model):
     school_admin      = models.OneToOneField(CustomUser, on_delete=models.CASCADE,blank=True, null=True)
     contact_number    = models.CharField(max_length=255,blank=True, null=True)
     email             = models.EmailField(blank=True, null=True)
-    assigned_school_name = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE,blank=True, null=True)
-    admin          = models.CharField(max_length=10,choices=[('admin1','admin1'),('admin2','admin2'),('admin3','admin3')],null=True,blank=True)
+    school            = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE,blank=True, null=True)
+    admin             = models.CharField(max_length=10,choices=[('admin1','admin1'),('admin2','admin2'),('admin3','admin3')],null=True,blank=True)
     
     def __str__(self):
         return f'{self.school_admin}' 
@@ -42,12 +43,10 @@ class SchoolHeadProfile(models.Model):
     school_head      = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='SchoolHead_profile')
     phone_number     =  models.CharField(max_length=255,blank=True, null=True)
     email            = models.EmailField(blank=True, null=True)
-    assigned_school_name = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE,blank=True, null=True)
-   
+    school           = models.ForeignKey(District_School_Registration, on_delete=models.CASCADE,blank=True, null=True)
     
     def __str__(self):
         return f'{self.school_head}' 
-    
         
         
 class Subjects(models.Model):
@@ -89,7 +88,6 @@ class Holiday(models.Model):
 
     def __str__(self):
         return self.name       
-    
     
     
 class GradeLevel(models.Model):

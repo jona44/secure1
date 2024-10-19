@@ -28,8 +28,7 @@ urlpatterns = [
     path('registration/', views.registration,name='registration'),
     
     path('create_schoolAdmin_profile/<int:user_id>/', views.create_schoolAdmin_profile, name='create_schoolAdmin_profile'),
-    path('pre_teacherprofile/<int:user_id>/', views.pre_teacherprofile, name='pre_teacherprofile'),
-    path('pre_teacherprofile_details/<int:pk>/', views.pre_teacherprofile_details, name='pre_teacheprofile_details'),
+    
     path('create_districtAdmin_profile/<int:user_id>/', views.create_districtAdmin_profile,name='create_districtAdmin_profile'),
     path('create_schoolHead_profile/<int:user_id>/', views.create_schoolHead_profile, name='create_schoolHead_profile'),
 

@@ -5,11 +5,13 @@
     <br>
     <div class="bg3 p-1 d-flex justify-content-end" style="width: 100%;">
         <span class="text-warning">{{ request.user }}&nbsp;&nbsp; </span>
+        {% if request.user  %}
+         <a href="{% url 'account_logout' %}" class="text-white me-3"><span class="badge bg-warning">Logout</span></a>
+         {% else %}
         <a href="{% url 'login' %}" class="text-white me-3"><span class="badge bg-info">Login</span> </a>
-        <a href="{% url 'account_logout' %}" class="text-white me-3"><span class="badge bg-info">Logout</span></a>
-        
+        {% endif %}
     </div>
-    <div class="bg1">1</div>
+    <div class="nav bg1"></div>
     
 </nav>
      

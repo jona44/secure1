@@ -5,11 +5,11 @@ from student.models import StudentProfile
 def get_user_school_profile(user):
     try:
         if user.user_type == 'student':
-            return StudentProfile.objects.get(student=user).school_name
+            return StudentProfile.objects.get(student=user).school
         elif user.user_type == 'teacher':
-            return TeacherProfile.objects.get(teacher=user).assigned_school
+            return TeacherProfile.objects.get(teacher=user).school
         elif user.user_type == 'school_admin':
-            return SchoolAdminProfile.objects.get(school_admin=user).assigned_school_name
+            return SchoolAdminProfile.objects.get(school_admin=user).school
         elif user.user_type == 'school_head':
             return SchoolHeadProfile.objects.get(user=user).school
         

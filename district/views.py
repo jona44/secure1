@@ -185,49 +185,6 @@ def create_schoolHead_profile(request, user_id):
     return render(request, 'district/create_schoolHead_profile.html', context)
 
 
-#----------------------------------pre teacherprofile---------------------------
-
-@login_required
-@user_passes_test(lambda u: u.is_superuser or u.user_type == 'district_admin')
-def pre_teacherprofile(request, user_id):
-    teacher = get_object_or_404(CustomUser, pk=user_id)
-    try:
-       teacher_profile = TeacherProfile.objects.get(teacher=teacher)
-       updating = True
-    except TeacherProfile.DoesNotExist:
-       teacher_profile = None
-       updating = False
-
-    if request.method == 'POST':
-        form = PreTeacherProfileForm(request.POST)
-        if form.is_valid():
-            
-            teacher_profile = form.save(commit=False)
-            teacher_profile.teacher = teacher
-
-            if not updating:
-                academic_year = AcademicCalendar.objects.get(is_current=True)
-                teacher_profile.academic_year = academic_year
-
-                teacher_profile.save()
-
-            teacher_profile.save()
-        return redirect('pre_teacheprofile_details', pk=teacher_profile.pk)
-    else:
-        form = PreTeacherProfileForm()
-
-    return render(request, 'district/pre_teacherprofile.html', {'form': form})
-
-
-#-----------------------------pre_teacheprofile_details---------------------------
-
-
-def pre_teacherprofile_details(request, pk):
-    teacher_profile = get_object_or_404(TeacherProfile, pk=pk)
-    print("teacher Profile PK:", pk)  # Debugging statement
-    return render(request, 'district/pre_teacherprofile_details.html', {'teacher_profile': teacher_profile})
-
-
 #----------------------------------- school_list---------------------------------
 
 
