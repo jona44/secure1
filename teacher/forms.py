@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.shortcuts import get_object_or_404
 from customadmin.models import CustomUser
-from customsettings.models import ClassName, SchoolProfile
+from customsettings.models import ClassName, SchoolProfile, SchoolSubject
 from district.models import SchoolAdminProfile
 from student.models import ClassRoom
 from .models import TeacherProfile
@@ -74,12 +74,17 @@ class TeacherProfileForm(forms.ModelForm):
                 'class': 'form-check-input',
             }),
         }
-        def __init__(self, *args, **kwargs):
-            def __init__(self, *args, **kwargs):
-                school = kwargs.pop('school', None)
-                super(TeacherProfileForm, self).__init__(*args, **kwargs)
-                if school:  
-                    self.fields['assigned_class'].queryset = ClassRoom.objects.filter(school=school)
+    def __init__(self, *args, **kwargs):
+        # Extract the custom 'school' argument before passing the remaining kwargs to the parent class
+            school = kwargs.pop('school', None)  # Handle 'school' argument here
+            super(TeacherProfileForm, self).__init__(*args, **kwargs)  # Call the parent class' init method
+            
+            if school:
+                # Filter assigned_class based on the school
+                self.fields['assigned_class'].queryset = ClassRoom.objects.filter(school=school)    
+                self.fields['classes_taught'].queryset = ClassRoom.objects.filter(school=school)    
+                self.fields['base_subject'].queryset   = SchoolSubject.objects.filter(school=school)    
+                self.fields['subjects_taught'].queryset = SchoolSubject.objects.filter(school=school)    
                   
                 
 

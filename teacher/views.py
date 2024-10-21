@@ -98,7 +98,7 @@ def create_teacher_profile(request, user_id):
     school = SchoolProfile.objects.get(school=school_registration)
 
     if request.method == 'POST':
-        form = TeacherProfileForm(request.POST )
+        form = TeacherProfileForm(request.POST, school=school)  # Pass the school to the form
         if form.is_valid():
             with transaction.atomic():
                 teacher_profile = form.save(commit=False)
@@ -119,8 +119,9 @@ def create_teacher_profile(request, user_id):
 
             return redirect('view_teacher_profile', pk=teacher_profile.pk)
     else:
-        form = TeacherProfileForm( )
+        form = TeacherProfileForm(school=school)  # Pass the school to the form in GET request
         print(school)
+    
     return render(request, 'teacher/create_teacher_profile.html', {'form': form, 'user_id': user_id})
 
 
