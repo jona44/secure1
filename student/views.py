@@ -205,7 +205,7 @@ def create_classroom(request):
     school = SchoolProfile.objects.get(school=the_school)
     
     if request.method == 'POST':
-        form = CreateClassRoomForm(request.POST, school=school)
+        form = CreateClassRoomForm(request.POST, school=school ,year=year)
         if form.is_valid():
             classroom = form.save(commit=False)
             classroom.school=school
@@ -213,7 +213,7 @@ def create_classroom(request):
             classroom.save()  # Corrected: Call save() method to save the classroom object
             return redirect(reverse('classroom_details', args=[classroom.pk]))
     else:
-        form = CreateClassRoomForm(school=school)
+        form = CreateClassRoomForm(school=school, year=year)
         print(school)  
     return render(request, 'student/create_classroom.html', {'form': form})
 

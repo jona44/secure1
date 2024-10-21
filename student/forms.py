@@ -125,13 +125,19 @@ class EditStudentProfileForm(forms.ModelForm):
 class CreateClassRoomForm(forms.ModelForm):
     class Meta:
         model  = ClassRoom  
-        fields = ['name','grd_level','class_teacher']
+        fields = ['name', 'grd_level', 'class_teacher']
 
     def __init__(self, *args, **kwargs):
         school = kwargs.pop('school', None)
+        year = kwargs.pop('year', None)  # Add year to filter classrooms based on the academic year
         super(CreateClassRoomForm, self).__init__(*args, **kwargs)
-        if school:
-            self.fields['name'].queryset = ClassName.objects.filter(schoolprofile=school)
+        
+        if school and year:
+            # Exclude classrooms that already exist for the given school and year
+            existing_classrooms = ClassRoom.objects.filter(school=school, year=year).values_list('name', flat=True)
+            self.fields['name'].queryset = ClassName.objects.filter(schoolprofile=school).exclude(id__in=existing_classrooms)
+            
+            # Filter teachers assigned to the given school
             self.fields['class_teacher'].queryset = CustomUser.objects.filter(groups__name='teacher', teacherprofile__school=school.id)
                  
             
