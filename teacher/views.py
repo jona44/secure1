@@ -155,20 +155,3 @@ def update_teacher_profile(request,pk):
 #---------------------------------teacher_list--------------------------------------
 
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
-def teacher_list(request):
-  
-    school_admin = SchoolAdminProfile.objects.get(school_admin=request.user)
-    school = school_admin.school
-    the_school= SchoolProfile.objects.get(school=school)
-    all_teachers = TeacherProfile.objects.filter(school=the_school)
-       
-       
-
-    context = {
-            'all_teachers':all_teachers,
-            # 'school_admin': school_admin if all_teachers else None,  # Pass the school admin if teachers exist
-        }
-    print(all_teachers)
-    return render(request, 'teacher/teacher_list.html', {'all_teachers': all_teachers})

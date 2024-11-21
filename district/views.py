@@ -465,3 +465,37 @@ from django.views.decorators.http import require_POST
 def logout_view(request):
     logout(request)
     return redirect('login')  
+
+
+from teacher.models import TeacherProfile
+
+def teacher_list_view(request):
+    # Retrieve all teacher profiles
+    teachers = TeacherProfile.objects.select_related('teacher', 'school', 'base_subject', 'assigned_class').all()
+
+    # Get distinct schools and subjects
+    distinct_schools = TeacherProfile.objects.values_list('school', 'school').distinct()
+    distinct_subjects = TeacherProfile.objects.values_list('base_subject', 'base_subject').distinct()
+
+    # Apply filters based on query parameters
+    base_subject = request.GET.get('base_subject')
+    school = request.GET.get('school')
+    position = request.GET.get('position')
+    assigned_class = request.GET.get('assigned_class')
+
+    if base_subject:
+        teachers = teachers.filter(base_subject__id=base_subject)
+    if school:
+        teachers = teachers.filter(school__id=school)
+    if position:
+        teachers = teachers.filter(position=position)
+    if assigned_class:
+        teachers = teachers.filter(assigned_class__id=assigned_class)
+
+    # Render the results to the template
+    context = {
+        'teachers': teachers,
+        'distinct_schools': distinct_schools,
+        'distinct_subjects': distinct_subjects,
+    }
+    return render(request, 'district/all_teachers.html', context)

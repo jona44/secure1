@@ -41,5 +41,7 @@ urlpatterns = [
     path('academic_calendar/<int:pk>/update/', views.update_academic_calendar, name='update_academic_calendar'),
     path('academic_calendar/<int:academic_calendar_id>/', views.academic_calendar_details, name='academic_calendar_details'),
     path('grade_level/', views.grade_level, name='grade_level'),
+    
+    path('teachers/', views.teacher_list_view, name='all_teachers'),
 
 ]

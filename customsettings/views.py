@@ -2,6 +2,7 @@ from pyexpat.errors import messages
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from student.models import ClassRoom
+from teacher.models import TeacherProfile
 from .forms import *
 from .models import *
 from district.models import AcademicCalendar, SchoolAdminProfile
@@ -290,3 +291,36 @@ def all_classes(request):
         })
         print(assigned_school)
     return render(request, 'customsettings/all_classes.html', {'grade_level_data': grade_level_data,'myclasses':myclasses})
+
+
+from django.db.models import Q
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
+def teacher_list(request):
+    # Get the school associated with the logged-in school admin
+    school_admin = SchoolAdminProfile.objects.get(school_admin=request.user)
+    the_school = school_admin.school
+     
+    school= SchoolProfile.objects.get(school=the_school)
+    # Base queryset
+    all_teachers = TeacherProfile.objects.filter(school=school)
+
+    # Apply filters based on query parameters
+    base_subject = request.GET.get('base_subject')
+     # Assuming gender is an attribute of the teacher's CustomUser model
+    on_medical_leave = request.GET.get('on_medical_leave')
+    on_vocational_leave = request.GET.get('on_vocational_leave')
+
+    if base_subject:
+        all_teachers = all_teachers.filter(base_subject__id=base_subject)
+    if on_medical_leave:
+        all_teachers = all_teachers.filter(on_medical_leave=(on_medical_leave == 'true'))
+    if on_vocational_leave:
+        all_teachers = all_teachers.filter(on_vocational_leave=(on_vocational_leave == 'true'))
+
+    context = {
+        'all_teachers': all_teachers,
+        'base_subject': SchoolSubject.objects.all(),
+    }
+    return render(request, 'customsettings/teacher_list.html', context)

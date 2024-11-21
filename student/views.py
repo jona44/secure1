@@ -35,10 +35,6 @@ def student_registration(request):
 
 #----------------------------------create_student_profile--------------------------------
 
-
-import logging
-logger = logging.getLogger(__name__)
-
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
 def create_student_profile(request, user_id):
@@ -217,6 +213,7 @@ def create_classroom(request):
         print(school)  
     return render(request, 'student/create_classroom.html', {'form': form})
 
+
 #------------------------------classroom_details----------------------------------
 
 
@@ -376,12 +373,47 @@ def attendance_record(request, classroom_id):
 #----------------------------all students-------------------------------------------
 
 
-def students_list(request):  
+from django.db.models import Q
+
+def students_list(request):
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     the_school = school_admin_profile.school
-    school =SchoolProfile.objects.get(school=the_school)
+    school = SchoolProfile.objects.get(school=the_school)
+    
+    # Retrieve filter options from GET request
+    assigned_class = request.GET.get('assigned_class')
+    gender = request.GET.get('gender')
+    grade_level = request.GET.get('grade_level')
+    is_suspended = request.GET.get('is_suspended')
+
+    # Base queryset
     students = StudentProfile.objects.filter(school=school)
-    return render(request, 'student/students_list.html',{'students':students,'school':school})
+
+    # Apply filters if present
+    if assigned_class:
+        students = students.filter(assigned_class_id=assigned_class)
+    if gender:
+        students = students.filter(gender=gender)
+    if grade_level:
+        students = students.filter(grade_level_id=grade_level)
+    if is_suspended is not None:
+        students = students.filter(is_suspended=(is_suspended == 'true'))
+
+    # Retrieve data for filter options
+    classes = ClassRoom.objects.filter(school=school)
+    grade_levels = GradeLevel.objects.all()
+
+    return render(
+        request, 
+        'student/students_list.html', 
+        {
+            'students': students,
+            'school': school,
+            'classes': classes,
+            'grade_levels': grade_levels,
+        }
+    )
+
 
 #----------------------------------create_activity---------------------------------------
 

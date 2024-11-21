@@ -6,6 +6,8 @@
 6--DONE. fix the the not rendering of static files.
 7. CSS.
 8 style the calendar.
+9--DONE. to fixe The teacherList url for the school admin and for the district admin.
+10--DONE. create a link in the student list to link the their profile
 
 
 

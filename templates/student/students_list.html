@@ -3,28 +3,88 @@
 
 {% block content %}
 <div class="mt-5 scroll-container">
-   <div class="row offset-md-2">
-    <div class="col-8 rounded p-5 shado p-3 bg1">
-        <h2 class="text-center">Students </h2>
-        <hr class="text-primary">{{school}}
-        
-         <table class="table">
-            <tr>
-                <th>student name</th>
-                <th>Gender</th>
-                <th>Class</th>
-            </tr>
-            {% for student in students%}
-            <tr>
-              <td>{{student.student}}</td>
-              <td>{{student.gender}}</td>
-              <td>{{student.assigned_class}}</td>
-            </tr>
-            {% endfor%}
-         </table>
-        
-    </div>
+  <div class="row offset-md-2">
+      <div class="col-8 rounded p-5 shadow p-3 bg1">
+          <h2 class="text-center">Students</h2>
+          <hr class="text-primary">{{ school }}
+          
+          <!-- Filters Form -->
+          <form method="get" class="mb-3">
+              <div class="row g-3">
+                  <!-- Assigned Class -->
+                  <div class="col-md-4">
+                      <label for="assigned_class" class="form-label">Class</label>
+                      <select name="assigned_class" id="assigned_class" class="form-select">
+                          <option value="">All</option>
+                          {% for class in classes %}
+                              <option value="{{ class.id }}" {% if request.GET.assigned_class == class.id|stringformat:"s" %}selected{% endif %}>{{ class.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+
+                  <!-- Gender -->
+                  <div class="col-md-4">
+                      <label for="gender" class="form-label">Gender</label>
+                      <select name="gender" id="gender" class="form-select">
+                          <option value="">All</option>
+                          <option value="male" {% if request.GET.gender == "male" %}selected{% endif %}>Male</option>
+                          <option value="female" {% if request.GET.gender == "female" %}selected{% endif %}>Female</option>
+                      </select>
+                  </div>
+
+                  <!-- Grade Level -->
+                  <div class="col-md-4">
+                      <label for="grade_level" class="form-label">Grade Level</label>
+                      <select name="grade_level" id="grade_level" class="form-select">
+                          <option value="">All</option>
+                          {% for grade in grade_levels %}
+                              <option value="{{ grade.id }}" {% if request.GET.grade_level == grade.id|stringformat:"s" %}selected{% endif %}>{{ grade.name }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+
+                  <!-- Suspended -->
+                  <div class="col-md-4 mt-3">
+                      <label for="is_suspended" class="form-label">Suspended</label>
+                      <select name="is_suspended" id="is_suspended" class="form-select">
+                          <option value="">All</option>
+                          <option value="true" {% if request.GET.is_suspended == "true" %}selected{% endif %}>Yes</option>
+                          <option value="false" {% if request.GET.is_suspended == "false" %}selected{% endif %}>No</option>
+                      </select>
+                  </div>
+              </div>
+              
+              <button type="submit" class="btn btn-primary mt-3">Filter</button>
+              <a href="{% url 'students_list' %}" class="btn btn-secondary mt-3">Clear Filters</a>
+          </form>
+
+          <!-- Students Table -->
+          <table class="table mt-4">
+              <thead>
+                  <tr>
+                      <th>Student Name</th>
+                      <th>Gender</th>
+                      <th>Class</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for student in students %}
+                      <tr>
+                          <td>{{ student.student }}</td>
+                          <td>{{ student.gender }}</td>
+                          <td>{{ student.assigned_class.name }}</td>
+                          <td><a href="{% url 'student_details' student.pk %}" class="btn btn-sm btn-info">View</a></td>
+                      </tr>
+                  {% empty %}
+                      <tr>
+                          <td colspan="4" class="text-center">No students found.</td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
   </div>
 </div>
- 
+
 {% endblock %}
