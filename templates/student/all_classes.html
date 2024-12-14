@@ -2,50 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<style>
- 
-    
-    .tab {
-        overflow: hidden;
-       
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
-    }
-    
-    .tab button {
-        background-color: #446E9B;
-        border: none;
-       
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        font-size: 18px;
-    }
-    
-    .tab button.active {
-        background-color: #071555f1;
-        color: white;
-    }
-    
-    .tabcontent {
-        display: none;
-    }
-    
-    .class-details {
-       
-        margin-bottom: 20px;
-        margin-left: 20px; /* Add left margin */
-    }
-    .scroll-container {
-        max-height: 80vh; /* Control the height */
-        overflow-y: auto; /* Ensure vertical scrolling */
-    }
-</style>
+
 <div class="col-lg-8 offset-md-1 scroll-container">
     <div class="division mt-5">
-        <h2 class="text-center text-primary">All Classes</h2>
+        <h2 > Classes</h2>
         <hr class="text-success">
 
         <div class="tab rounded">
@@ -57,19 +17,19 @@
         {% for grade_level, class_data in grade_level_data.items %}
         <div id="grade{{ grade_level }}" class="tabcontent {% if forloop.first %}active{% endif %}">
             {% for data in class_data %}
-            <div class="class-details shado bg1 m-2 p-4 rounded">
+            <div class="class-details shado  m-2 p-4 rounded">
                 <h3 class="text-success text-center"><strong>{{ data.classroom.name }}</strong></h3>
                 <div class="d-flex">
                     <h5 class="text-primary">Class Teacher:&nbsp;&nbsp;</h5>
                     {{ data.classroom.class_teacher.first_name|default:"No teacher assigned" }} {{ data.classroom.class_teacher.last_name|default:"" }}
                 </div>
                 <div class="d-flex">
-                    <h5 class="text-primary">Total Students:&nbsp;&nbsp;</h5>
+                    <h5>Total Students:&nbsp;&nbsp;</h5>
                     {{ data.total_students }}
                 </div>
 
                 <div class="d-flex">
-                    <h5 class="text-primary">Gender Count:</h5>
+                    <h5>Gender Count:</h5>
                 </div>
                 <div class="row">
                     <div class="col-md-6">

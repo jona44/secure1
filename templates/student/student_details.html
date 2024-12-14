@@ -2,61 +2,81 @@
 {% load crispy_forms_tags %}
 {% load custom_tags %}
 {% block content %}
-    <div class="container-fluid  w-75 offset-md-2 mt-3 scroll-container">
-        <h1 class="mb-1">Student Profile</h1>
-        <!-- Display StudentProfile details -->
-          <div class="row">
-           
-            <div class="col">
-               
-                  <h5 class="card-title text-success">Profile Details</h5>
-              <div class="d-flex ">
-                <div class="col  p-2"><strong>Name:</strong> <span class="text-secondary"> {{ student_profile.student.get_full_name }}</span></p></div><p>
-                <div class="col  p-2"><p><strong>Gender:</strong> <span class="text-secondary">{{ student_profile.gender }}</span></p></div> 
-              </div>
-              <div class="d-flex">    
-                <div class="col p-2"><p><strong>Grade Level:</strong> <span class="text-secondary" >{{student_profile.grade_level}}</span></p></div>
-                <div class="col p-2"><p><strong>Class:</strong> <span class="text-secondary" >{{ student_profile.assigned_class }}</span></p></div>
-                   
-             </div>
-                <p>
-                   <strong>Subjects:</strong>
-                    {% for subject in student_profile.subjects.all %}
-                    <span class="badge bg3">{{subject}}</span> {% if not forloop.last %}, {% endif %}{% endfor %}
-                </p>
-                <p><strong>Date of Birth:</strong> <span class="text-secondary" >{{ student_profile.date_of_birth }}</span></p>
-                <p><strong>Address:</strong> <span class="text-secondary" >{{ student_profile.address }}</span></p>
+<div class="container-fluid w-75 mt-3">
+    <h1 class="mb-3">Student Profile</h1>
+
+    <!-- Student Profile Details -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h5 class="text-success">Profile Details</h5>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> <span class="text-secondary">{{ student_profile.student.get_full_name }}</span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Gender:</strong> <span class="text-secondary">{{ student_profile.gender }}</span></p>
+                </div>
             </div>
-            <div class="col">
-                <img src="{{ student_profile.student_photo.url }}"width="150" alt="student photo">
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <p><strong>Grade Level:</strong> <span class="text-secondary">{{ student_profile.grade_level }}</span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Class:</strong> <span class="text-secondary">{{ student_profile.assigned_class }}</span></p>
+                </div>
             </div>
-         </div>
-                <!-- Display GuardianProfile details if available -->
-            <div class="mt-4">
-                <h5 class="card-title text-danger">Guardian Details</h5>
-                <p> <strong>Guardian Name:</strong><span class="text-secondary" > {{ student_profile.guardian_name }}</span></p>
-                <p> <strong>Contact Number:</strong> <span class="text-secondary" > {{ student_profile.guardian_number }}</span></p>
-                <p> <strong>Email:</strong> <span class="text-secondary" > {{ student_profile.guardian_email }}<span></p>
-                <p> <strong>Guardian Address:</strong> <span class="text-secondary" > {{ student_profile.address }}<span></p>
+            <p><strong>Subjects:</strong> 
+                {% for subject in student_profile.subjects.all %}
+                <span class="badge bg-primary">{{ subject }}</span>
+                {% endfor %}
+            </p>
+            <p><strong>Date of Birth:</strong> <span class="text-secondary">{{ student_profile.date_of_birth }}</span></p>
+            <p><strong>Address:</strong> <span class="text-secondary">{{ student_profile.address }}</span></p>
+            <p><a href="{% url 'student_attendance' student_profile.id %}">attendence</a></p>
+        </div>
+        <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <img src="{{ student_profile.student_photo.url }}" class="img-fluid rounded" alt="Student photo" style="max-width: 150px;">
+        </div>
+    </div>
+
+    <!-- Guardian Profile Details -->
+    <div class="row mb-2">
+        <div class="col">
+            <h5 class="text-danger">Guardian Details</h5>
+            <p><strong>Guardian Name:</strong> <span class="text-secondary">{{ student_profile.guardian_name }}</span></p>
+            <p><strong>Contact Number:</strong> <span class="text-secondary">{{ student_profile.guardian_number }}</span></p>
+            <p><strong>Email:</strong> <span class="text-secondary">{{ student_profile.guardian_email }}</span></p>
+            <p><strong>Guardian Address:</strong> <span class="text-secondary">{{ student_profile.address }}</span></p>
+        </div>
+    </div>
+
+  <!-- Action Buttons and Navigation -->
+    {% if student_school %}
+    
+    <div class="row">
+        <div class="col">
+            <div class="d-flex gap-3 flex-wrap">
+                <a href="{% url 'student_registration' %}" class="btn btn-outline-info">Register Another Student</a>
+                <a href="{% get_dashboard_url user %}" class="btn btn-outline-info">Dashboard</a>
+                <a href="{% url 'edit_student_profile' student_profile.pk %}" class="btn btn-outline-warning">Edit Student Profile</a>
+                <a href="{% url 'transfer_student' student_profile.pk %}" class="btn btn-outline-danger">Transfer Student</a>
+                <a href="{% url 'join_activity' student_profile.id %}" class="btn btn-outline-primary">Join Activity</a>
             </div>
-            <div>
-                <a href="{% url 'student_registration' %}">
-                   <button class="btn bg3 text-info">Register another Student</button>
-                </a>
-                <a href="{% get_dashboard_url user %}">
-                   <button class="btn bg3 text-info">Dashboard</button>
-                </a>
-                <a href="{% url 'edit_student_profile' student_profile.pk %}">
-                    <button class="btn bg3 text-warning">Edit student profile</button>
-                 </a>
-                 <a href="{% url 'transfer_student' student_profile.pk %}">
-                    <button class="btn bg3 text-danger">Transfer this Student</button>
-                 </a>
-                 <h2>Join an Extracurricular Activity</h2>
-                 <a href="{% url 'join_activity' student_profile.id %}">Join Activity</a>
+            <hr>
+            <div class="navigation">
+                {% if previous_student %}
+                <a href="{% url 'student_details' previous_student.pk %}" class="btn btn-dark">Previous: {{ previous_student.student.get_full_name }}</a>
+                {% endif %}
+            
+                {% if next_student %}
+                <a href="{% url 'student_details' next_student.pk %}" class="btn btn-dark">Next: {{ next_student.student.get_full_name }}</a>
+                {% endif %}
             </div>
         </div>
-        
     </div>
+    {% endif %}
+</div>
+  
+
     
 {% endblock %}

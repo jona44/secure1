@@ -5,56 +5,34 @@
     
 </style>
 {% block content %}
-<div class="row ">
-    <div class="col-md-8 offset-md-2">
-        <h1 class="">Take Attendance  for <span> class {{classroom }}</span></h1>
-        <div class="table-responsive" style="height:200px;" id="tableContainer">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Student</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for record in attendance_records %}
-                    <tr>
-                        <td>{{ record.date }}</td>
-                        <td>{{ record.student }}</td>
-                        <td>
-                            {% if record.status == 'Present' %} 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path  d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
-                              </svg>
-                            {% elif record.status == 'Absent' %}
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                              </svg>
-                            {% else %}
-                                <!-- Handle other status values or leave empty for no icon -->
-                            {% endif %}
-                       </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table> 
-        </div>           
-        <form method="post">
-            {% csrf_token %}
-           {{ form|crispy}}
-          
-           <div class="d-grid">
-            <button type="submit" class="btn bg3 text-info">Submit</button>
-           </div>
-        </form>
+<div class="container mt-5">
+    <h2>Attendance for {{ classroom.name }} on {{ today }}</h2>
 
-        <script>
-            var tableContainer = document.getElementById("tableContainer");
-            tableContainer.scrollTop = tableContainer.scrollHeight;
-        </script> 
-      
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+                <tr>
+                    <td>{{ record.student.student.get_full_name }}</td>
+                    <td>{{ record.status }}</td>
+                    <td>
+                        {% if record.status == 'Present' %}
+                            <form method="post" action="{% url 'attendance' classroom.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="student" value="{{ record.student.id }}">
+                                <input type="submit" value="Mark Absent" class="btn btn-danger btn-sm">
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
-

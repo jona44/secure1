@@ -21,4 +21,33 @@ def assign_class(student_profile):
         return available_classes[0][0]  # Return the class with the best gender balance
     else:
         return None  # No available classes
+    
+
+from datetime import datetime
+from .models import Attendance, StudentProfile, AcademicCalendar, ClassRoom
+
+def mark_default_attendance(classroom, date=None):
+    """
+    Marks all students in the given classroom as 'Present' for the specified date.
+    Students marked 'Absent' manually are excluded from this process.
+    """
+    if date is None:
+        date = datetime.now().date()
+    
+    academic_year = AcademicCalendar.objects.get(is_current=True)
+    students = classroom.students.all()
+
+    for student in students:
+        # Check if attendance already exists for the student
+        attendance_exists = Attendance.objects.filter(student=student, classroom=classroom, date=date).exists()
+        if not attendance_exists:
+            # Create a "Present" record for students with no prior attendance record for the day
+            Attendance.objects.create(
+                student=student,
+                classroom=classroom,
+                date=date,
+                status='Present',
+                academic_year=academic_year,
+            )
+    
 

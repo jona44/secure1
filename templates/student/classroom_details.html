@@ -9,9 +9,9 @@
 
             <div class="d-flex">
                 {% if request.user == classroom.class_teacher %}
-                    <a href="{% url 'attendance' classroom.id %}" class="btn bg3 text-white">Attendance Register</a>&nbsp;
+                    <a href="{% url 'attendance' classroom.id %}" class="btn btn-dark  ">Attendance Register</a>&nbsp;
                 {% endif %}
-                <a href="{% url 'edit_classroom' classroom.pk %}" class="btn bg3 text-warning">Update Classroom</a>
+                <a href="{% url 'edit_classroom' classroom.pk %}" class="btn btn-warning">Update Classroom</a>
             </div>
 
             <hr class="text-success">
@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for student in classroom.students.all %}
+                            {% for student in students.all %}
                                 <tr>
                                     <td>
                                       <a href="#" class="student-name" data-student-id="{{ student.id }}">
@@ -71,7 +71,7 @@
                    
                 </div>
             </div>
-
+         <hr>
             <p><strong>Total students:&nbsp;&nbsp;</strong> <span class="badge bg3">{{ total_count }}</span></p>
 
             {% if classroom.gender_distribution %}
@@ -79,7 +79,7 @@
                     <div class="col-md-6">
                         Girls: {{ female_count }}
                         <div class="progress">
-                            <div class="progress-bar bg2" role="progressbar" style="width: {{ female_percentage }}%;" aria-valuenow="{{ female_count }}" aria-valuemin="0" aria-valuemax="{{ total_count }}"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ female_percentage }}%;" aria-valuenow="{{ female_count }}" aria-valuemin="0" aria-valuemax="{{ total_count }}"></div>
                         </div>
                         Boys: {{ male_count }}
                         <div class="progress">

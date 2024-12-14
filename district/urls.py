@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import calendar_views
 from .views import logout_view
 from django.contrib.auth import views as auth_views
 urlpatterns = [
@@ -24,6 +25,7 @@ urlpatterns = [
     path('schools/', views.school_list, name='school_list'),
     path('school_detail/<int:school_id>/', views.school_detail, name='school_detail'),
     path('create_school/', views.create_school, name='create_school'),
+    path('create_district/', views.create_district, name='create_district'),
     path('subject/',views.create_subject,name='subject'),
     path('registration/', views.registration,name='registration'),
     
@@ -37,8 +39,16 @@ urlpatterns = [
     path('schoolHead_profile_detail/<int:profile_id>/', views.schoolHead_profile_detail,name='schoolHead_profile_detail'),
     path('create_academic_calendar/', views.create_academic_calendar, name='create_academic_calendar'),
     
-    path('create_holidays/<int:academic_calendar_id>/', views.create_holidays, name='create_holidays'),
-    path('academic_calendar/<int:pk>/update/', views.update_academic_calendar, name='update_academic_calendar'),
+    path('create_holidays/', calendar_views.create_holidays, name='create_holidays'),
+    path('holiday_list/', calendar_views.holiday_list, name='holiday_list'),
+    path('holidays/<int:pk>/edit/', calendar_views.holiday_update, name='holiday_update'),
+    path('holidays/<int:pk>/delete/', calendar_views.holiday_delete, name='holiday_delete'),
+    path('academic-calendars/', calendar_views.academic_calendar_list, name='academic_calendar_list'),
+    path('create_academic_calendar', calendar_views.create_academic_calendar, name='create_academic_calendar'),
+    path('academic-calendars/<int:pk>/edit/', calendar_views.academic_calendar_update, name='academic_calendar_update'),
+    path('academic-calendars/<int:pk>/delete/', calendar_views.academic_calendar_delete, name='academic_calendar_delete'),
+    
+    # path('academic_calendar/<int:pk>/update/', views.update_academic_calendar, name='update_academic_calendar'),
     path('academic_calendar/<int:academic_calendar_id>/', views.academic_calendar_details, name='academic_calendar_details'),
     path('grade_level/', views.grade_level, name='grade_level'),
     

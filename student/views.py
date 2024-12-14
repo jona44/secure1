@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.contrib.auth.decorators import login_required, user_passes_test
 from core.utils import get_user_school
+from .utils import mark_default_attendance
 
 
 def get_assigned_school(user):
@@ -158,13 +159,40 @@ def assign_classroom(request, pk):
     
 #--------------------------------student_details-------------------------------------------    
     
+from django.db.models import F
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
+@login_required
 def student_details(request, pk):
     # Retrieve the student profile
     student_profile = get_object_or_404(StudentProfile, pk=pk)
-    if pk is not None:
-        edit_student_profile_url = reverse('edit_student_profile', args=[student_profile.pk])
+    student_school=student_profile.school
+    current_school =student_profile.school
+    _class  =student_profile.assigned_class
+   
     
-    return render(request, 'student/student_details.html', {'student_profile': student_profile})
+    # Check if the logged-in user is the school admin for the student's school
+    user_is_student_school_admin = False
+    
+    if student_school:
+        school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+        the_school = school_admin_profile.school
+        
+        student_school = the_school
+
+    # Retrieve the next and previous students
+    next_student = StudentProfile.objects.filter(pk__gt=pk,school=current_school,assigned_class=_class).first()
+    previous_student = StudentProfile.objects.filter(pk__lt=pk,school=current_school,assigned_class=_class).order_by('-pk').first()
+
+    return render(request, 'student/student_details.html', {
+        'student_profile': student_profile,
+        'next_student': next_student,
+        'previous_student': previous_student,
+        'user_is_student_school_admin': user_is_student_school_admin,
+        'student_school':student_school
+    })
+
 
 #------------------------------------classrooms--------------------------------------------
 
@@ -220,11 +248,15 @@ def create_classroom(request):
 def classroom_details(request, pk):
     # Get the classroom object by primary key (pk)
     classroom = get_object_or_404(ClassRoom, pk=pk)
+    
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
 
     # Safely query all SchoolProfile objects; if empty, it will pass an empty QuerySet
     subjects = SchoolProfile.objects.all()  # Make sure there are no missing or required fields that could raise a 404
     
-    students = classroom.students.all()  # Assuming classroom has a related name to Student model
+    students = classroom.students.filter(school=school)  # Assuming classroom has a related name to Student model
 
     male_count = students.filter(gender='male').count()
     female_count = students.filter(gender='female').count()
@@ -307,42 +339,36 @@ def attendance(request, classroom_id):
     # Get today's date
     today = datetime.now().date()
 
-    # Get the classroom and its students
+    # Get the classroom
     classroom = get_object_or_404(ClassRoom, pk=classroom_id)
-    students = classroom.students.all()
-    attendance_records = Attendance.objects.filter(date=today, classroom=classroom)
 
-    # Get the current academic year
-    academic_year = AcademicCalendar.objects.get(is_current = True)
-   
+    # Mark default attendance for the day
+    mark_default_attendance(classroom, today)
+
+    # Fetch today's attendance records for the classroom
+    attendance_records = Attendance.objects.filter(classroom=classroom, date=today)
+
     if request.method == 'POST':
         form = AttendanceForm(request.POST)
         if form.is_valid():
-            # Assign the classroom and academic year to the form before saving
-            form.instance.classroom = classroom
-            form.instance.academic_year = academic_year
-            form.save()
-            # Redirect to the same page to fetch the next student
+            # Update attendance record with the form data
+            attendance = Attendance.objects.get(
+                student=form.cleaned_data['student'], 
+                date=today, 
+                classroom=classroom
+            )
+            attendance.status = 'Absent'
+            attendance.save()
             return redirect('attendance', classroom_id=classroom_id)
     else:
-        # Check if there are students remaining to mark attendance
-        remaining_students = students.exclude(id__in=Attendance.objects.filter(date=today, classroom=classroom).values_list('student', flat=True))
+        form = AttendanceForm(initial={'date': today})
 
-        if remaining_students.exists():
-            # Fetch the first student from the remaining list
-            student = remaining_students.first()
-            form = AttendanceForm(initial={'student': student, 'date': today})
-        else:
-            # If all students have been marked, redirect to the success page
-            return redirect('attendance_record', classroom_id=classroom_id)
-            
     return render(request, 'student/attendance.html', {
         'form': form,
         'classroom': classroom,
         'today': today,
-        'attendance_records': attendance_records
-    })
-    
+        'attendance_records': attendance_records,
+    })    
 #-------------------------------------------------attendance_record--------------------------------------------------------------    
 
 @login_required
@@ -369,6 +395,20 @@ def attendance_record(request, classroom_id):
     return render(request, 'student/attendance_record.html',
                 {'unique_dates': unique_dates, 'attendance_records': attendance_records})
     
+    
+#----------------------------- student_attendance-----------------------------------------------
+  
+
+def student_attendance(request, student_id):
+    student = StudentProfile.objects.get(id=student_id)
+    attendance_records = Attendance.objects.filter(student=student).order_by('date')
+    
+    context = {
+        'student': student,
+        'attendance_records': attendance_records,
+    }
+    return render(request, 'student/student_attendance.html', context)
+
 
 #----------------------------all students-------------------------------------------
 
@@ -478,9 +518,23 @@ def activity_members_list(request, activity_id):
     
 #-----------------------------transfer-student----------------------------------
 
+from django.utils.timezone import now
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
 def transfer_student(request, pk):
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
     student_profile = get_object_or_404(StudentProfile, id=pk)
-    
+
+    # Record the current school in the history if it exists
+    if student_profile.school:
+        StudentSchoolHistory.objects.create(
+            student=student_profile,
+            school=student_profile.school
+        )
+
     # Set the student's school to null (suspended)
     student_profile.school = None
     student_profile.save()
@@ -488,15 +542,80 @@ def transfer_student(request, pk):
     messages.success(request, f'{student_profile.student} has been placed in suspense for transfer.')
     return redirect('student_details', pk)
 
+#-------------------------------
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
+def undo_transfer(request, pk):
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
+    
+    student_profile = get_object_or_404(StudentProfile, id=pk)
+
+    # Check if the student has any school history
+    latest_history = StudentSchoolHistory.objects.filter(student=student_profile).order_by('-transfer_date').first()
+
+    if latest_history:
+        # Restore the most recent school
+        student_profile.school = latest_history.school
+        student_profile.save()
+
+        # Optionally, delete the latest history entry if no longer needed
+        latest_history.delete()
+
+        messages.success(
+            request,
+            f"{student_profile.student.get_full_name} has been restored to {student_profile.school.school.school}."
+        )
+    else:
+        messages.error(request, f"No school history found for {student_profile.student.get_full_name}. Undo failed.")
+
+    return redirect('student_details', pk)
+
+
 #------------------------------suspense_pool----------------------------------------------
 
-def suspense_pool(request):
-    students_in_suspense = StudentProfile.objects.filter(school__isnull=True)
-    return render(request, 'student/suspense_pool.html', {'students': students_in_suspense})
 
+from django.db.models import OuterRef, Subquery
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
+def suspense_pool(request):
+    # Get the school admin's school
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
+
+    # Subqueries to fetch the most recent school and district
+    recent_school_subquery = StudentSchoolHistory.objects.filter(
+        student=OuterRef('pk')
+    ).order_by('-transfer_date').values('school__school__school')[:1]
+
+    recent_district_subquery = StudentSchoolHistory.objects.filter(
+        student=OuterRef('pk')
+    ).order_by('-transfer_date').values('school__school__district__district')[:1]
+
+    # Annotate students in suspense with recent school and district
+    students_in_suspense = StudentProfile.objects.filter(school__isnull=True).annotate(
+        recent_school=Subquery(recent_school_subquery),
+        recent_district=Subquery(recent_district_subquery)
+    )
+
+    # Render the suspense pool template
+    return render(request, 'student/suspense_pool.html', {
+        'students': students_in_suspense,
+        'school': school,
+    })
 #------------------------------accept_student----------------------------------------
 
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
 def accept_student(request, student_profile_id):
+    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    the_school = school_admin_profile.school
+    school = SchoolProfile.objects.get(school=the_school)
     student_profile = get_object_or_404(StudentProfile, id=student_profile_id)
     
     # Fetch academic records related to the student and their previous school

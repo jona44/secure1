@@ -1,0 +1,19 @@
+{% extends "partials/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row  mt-5">
+    <div class="col-md-6 offset-md-2 bg1 p-3 rounded">
+        <h3 class="text-primary">New District</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-block"> 
+              <button type="submit" class="btn btn-dark">Save New District</button>
+            </div>
+           
+        </form>
+    </div>
+</div>
+  
+{% endblock %}

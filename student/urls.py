@@ -16,6 +16,7 @@ urlpatterns = [
     path('select-classroom/<int:pk>/<int:grade_level_id>/', views.select_classroom, name='select_classroom'),
     path('attendance/<int:classroom_id>/', views.attendance, name='attendance'),
     path('attendance_record/<int:classroom_id>/', views.attendance_record, name='attendance_record'),
+    path('student_attendance/<int:student_id>/', views.student_attendance, name='student_attendance'),
     path('students_list/',views.students_list,name='students_list'),
     
     path('create_activity/', views.create_activity, name='create_activity'),
@@ -23,8 +24,8 @@ urlpatterns = [
     path('join-activity/<int:student_profile_id>/', views.join_activity, name='join_activity'),
     path('activity/<int:activity_id>/members/', views.activity_members_list, name='activity_members_list'),
     
-    
     path('transfer-student/<int:pk>/', views.transfer_student, name='transfer_student'),
+    path('student/undo-transfer/<int:pk>/', views.undo_transfer, name='undo_transfer'),
     path('suspense-pool/', views.suspense_pool, name='suspense_pool'),
     path('accept-student/<int:student_profile_id>/', views.accept_student, name='accept_student'),
 

@@ -1,0 +1,25 @@
+{% extends 'partials/base.html' %}
+
+{% block content %}
+<div class="section w-75 mt-5">
+    <h2>Attendance Records for {{ student.student.get_full_name }}</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Academic Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.status }}</td>
+                    <td>{{ record.academic_year.name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -3,8 +3,16 @@ from django.db import models
 from customadmin.models import CustomUser
 
 
+class District(models.Model):
+    district = models.CharField(max_length=255,blank=True, null=True)
+    
+    def __str__(self):
+        return f'{self.district}' 
+
+
 class District_School_Registration(models.Model):
-    district      = models.CharField(max_length=255,blank=True, null=True)
+   
+    district      = models.ForeignKey(District,on_delete=models.CASCADE,blank=True, null=True)
     school        = models.CharField(max_length=255,blank=True, null=True)
     address       = models.TextField(blank=True, null=True)
     phone_number  = models.CharField(max_length=20,blank=True, null=True)
@@ -56,7 +64,17 @@ class Subjects(models.Model):
         return f'{self.subjects}'  
 
     class Meta:
-        verbose_name_plural = 'Subjects'  
+        verbose_name_plural = 'Subjects' 
+        
+        
+class Holiday(models.Model):
+
+    date = models.DateField()
+    name = models.CharField(max_length=200)
+    note = models.TextField()
+   
+    def __str__(self):
+        return self.name         
         
         
 class AcademicCalendar(models.Model):
@@ -72,22 +90,14 @@ class AcademicCalendar(models.Model):
     term_3_end_date   = models.DateField(blank=True, null=True)
     term_4_start_date = models.DateField(blank=True, null=True)
     term_4_end_date   = models.DateField(blank=True, null=True)
-
-    is_current = models.BooleanField(default=True)
+    holidays          = models.ManyToManyField(Holiday, related_name="academic_calendars")
+    is_current        = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.academic_year}'    
     
     
-class Holiday(models.Model):
-
-    date = models.DateField()
-    name = models.CharField(max_length=200)
-    note = models.TextField()
-    academic_calendar = models.ForeignKey('AcademicCalendar', on_delete=models.CASCADE, related_name='holidays')
-
-    def __str__(self):
-        return self.name       
+       
     
     
 class GradeLevel(models.Model):

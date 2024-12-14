@@ -1,0 +1,37 @@
+.tab {
+    overflow: hidden;
+   
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.tab button {
+    background-color: #446E9B;
+    border: none;
+   
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 18px;
+}
+
+.tab button.active {
+    background-color: #071555f1;
+    color: white;
+}
+
+.tabcontent {
+    display: none;
+}
+
+.class-details {
+   
+    margin-bottom: 20px;
+    margin-left: 20px; /* Add left margin */
+}
+.scroll-container {
+    max-height: 80vh; /* Control the height */
+    overflow-y: auto; /* Ensure vertical scrolling */
+}

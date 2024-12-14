@@ -45,7 +45,7 @@
 </style>
 <div class="col-lg-8 offset-md-1 scroll-container">
     <div class="division mt-5">
-        <h2 class="text-center text-primary">All Classes</h2>
+        <h2 class="text-center ">All Classes</h2>
         <hr class="text-success">
 
         <div class="tab rounded">
@@ -57,34 +57,38 @@
         {% for grade_level, class_data in grade_level_data.items %}
         <div id="grade{{ grade_level }}" class="tabcontent {% if forloop.first %}active{% endif %}">
             {% for data in class_data %}
-            <div class="class-details shado bg1 m-2 p-4 rounded">
-                <h3 class="text-success text-center"><strong>{{ data.classroom.name }}</strong></h3>
+            <div class="class-details  bg1 m-2 p-4 rounded">
+                <h6 class=" text-center"><strong>{{ data.classroom.name }}</strong></h6>
                 <div class="d-flex">
-                    <h5 class="text-primary">Class Teacher:&nbsp;&nbsp;</h5>
+                    <strong>Class Teacher:&nbsp;&nbsp;</strong>
                     {{ data.classroom.class_teacher.first_name|default:"No teacher assigned" }} {{ data.classroom.class_teacher.last_name|default:"" }}
                 </div>
                 <div class="d-flex">
-                    <h5 class="text-primary">Total Students:&nbsp;&nbsp;</h5>
+                    <strong>Total Students:&nbsp;&nbsp;</strong>
                     {{ data.total_students }}
                 </div>
 
                 <div class="d-flex">
-                    <h5 class="text-primary">Gender Count:</h5>
+                    <strong>Gender Count:</strong>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
+                <div class="d-flex">
+                    <div class="col-md-4">
                         Girls: {{ data.female_count }}
                         <div class="progress">
                             <div class="progress-bar bg-success" role="progressbar" style="width: {{ data.female_percentage }}%;" aria-valuenow="{{ data.female_count }}" aria-valuemin="0" aria-valuemax="{{ data.total_students }}"></div>
                         </div>
+                       
+                    </div>
+                    <div class="col-md-4">
                         Boys: {{ data.male_count }}
                         <div class="progress">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: {{ data.male_percentage }}%;" aria-valuenow="{{ data.male_count }}" aria-valuemin="0" aria-valuemax="{{ data.total_students }}"></div>
                         </div>
+                       
                     </div>
                 </div>
                 <hr class="text-success">
-                <a href="{% url 'classroom_details' pk=data.classroom_pk %}">Class Details</a>
+                <a href="{% url 'classroom_details' pk=data.classroom_pk %}" class="btn btn-dark">Class Details</a>
             </div>
             {% endfor %}
         </div>

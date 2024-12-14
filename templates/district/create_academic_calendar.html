@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<div class="container offset-md-3 mt-5">
+<div class=" offset-md-1 mt-5">
     <div class="col-8 bg1 p-3 offset rounded shado">
          <h2 class="text-warning">Create Academic Calendar:{{academic_year}}</h2>
          <form method="post">
@@ -16,52 +16,56 @@
                     {{ form.academic_year }}
                 </div>
                 <div class="term1 mb-3">
-                    <label class="form-label">Term 1 Start and End Date</label>
                     <div class="row g-2">
                         <div class="col">
+                            <label class="form-label">Term 1 Start Date</label>
                             {{ form.term_1_start_date }}
                         </div>
                         <div class="col">
+                            <label class="form-label">Term 1 End Date</label>
                             {{ form.term_1_end_date }}
                         </div>
                     </div>
                 </div>
                 <div class="term2 mb-3">
-                    <label class="form-label">Term 2 Start and End Date</label>
                     <div class="row g-2">
                         <div class="col">
+                            <label class="form-label">Term 2 Start Date</label>
                             {{ form.term_2_start_date }}
                         </div>
                         <div class="col">
+                            <label class="form-label">Term 2 End Date</label>
                             {{ form.term_2_end_date }}
                         </div>
                     </div>
                 </div>
                 <div class="term3 mb-3">
-                    <label class="form-label">Term 3 Start and End Date</label>
                     <div class="row g-2">
                         <div class="col">
+                            <label class="form-label">Term 3 Start Date</label>
                             {{ form.term_3_start_date }}
                         </div>
                         
                         <div class="col">
+                            <label class="form-label">Term 3 End Date</label>
                             {{ form.term_3_end_date }}
                         </div>
                     </div>
                 </div>
                 <div class="term4 mb-3">
-                    <label class="form-label">Term 4 Start and End Date</label>
+                   
                     <div class="row g-2">
                         <div class="col">
+                            <label class="form-label text-dark">Term 4 Start Date</label>
                             {{ form.term_4_start_date }}
                         </div>
-                        
                         <div class="col">
+                            <label class="form-label text-dark">Term 4  End Date</label>
                             {{ form.term_4_end_date }}
                         </div>
                     </div>
                 </div>
-                <div class="d-grid"><button type="submit" class="btn bg3 text-info">Create Academic Calendar</button></div>
+                <div class="d-grid"><button type="submit" class="btn btn-dark">Create Academic Calendar</button></div>
                 
             </div>
         </form>

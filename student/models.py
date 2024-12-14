@@ -89,7 +89,8 @@ class Attendance(models.Model):
     academic_year   = models.ForeignKey(AcademicCalendar, on_delete=models.CASCADE, null=True, blank=True)
 
     def has_attendance(self, day):
-        return self.attendance_set.filter(date=day).exists()
+        return Attendance.objects.filter(student=self.student, date=day).exists()
+
     
     def is_present(self):
         return self.status == 'Present'
@@ -126,3 +127,14 @@ class AcademicRecord(models.Model):
 
     def __str__(self):
         return f'{self.student} - {self.subject} - {self.grade}'
+
+
+
+class StudentSchoolHistory(models.Model):
+    student       = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='school_history')
+    school        = models.ForeignKey(SchoolProfile, on_delete=models.CASCADE)
+    transfer_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.student.get_full_name} - {self.school.school}"
+

@@ -9,9 +9,6 @@ from django.utils.translation import gettext_lazy as _
 class SchoolProfile(models.Model):    
     school       = models.OneToOneField(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True)
     school_logo  = models.ImageField(upload_to='school_logos/', blank=True, null=True)
-    facebook     = models.URLField(blank=True)
-    twitter      = models.URLField(blank=True)
-    instagram    = models.URLField(blank=True)
     school_subjects   = models.ManyToManyField('SchoolSubject')
     is_setup_complete = models.BooleanField(default=False)
 

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from customadmin.models import CustomUser
 from teacher.models import TeacherProfile
-from . models import AcademicCalendar, District_School_Registration, DistrictAdminProfile, Holiday, SchoolAdminProfile, SchoolHeadProfile, Subjects
+from . models import AcademicCalendar, District,District_School_Registration, DistrictAdminProfile, Holiday, SchoolAdminProfile, SchoolHeadProfile, Subjects
 
 
 
@@ -10,7 +10,7 @@ from . models import AcademicCalendar, District_School_Registration, DistrictAdm
 class SchoolRegistrationForm(forms.ModelForm):
     class Meta:
         model  = District_School_Registration
-        fields = [ 'school', 'address', 'phone_number', 'email']
+        fields = [ 'school', 'address', 'phone_number', 'email','district']
 
         widgets = {
                 'school': forms.TextInput(attrs={
@@ -163,3 +163,10 @@ class PreTeacherProfileForm(forms.ModelForm):
     class Meta:
         model = TeacherProfile
         fields= ['school','contact_number']
+        
+        
+class DistrictForm(forms.ModelForm):
+    class Meta:
+        model = District
+        fields = ['district']
+        

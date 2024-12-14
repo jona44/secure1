@@ -152,16 +152,16 @@ class EditClassRoomForm(forms.ModelForm):
         widgets = {
             'name': forms.Select(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                
                 }),
                 
             'grd_level': forms.Select(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red; focus-ring:red;',
+               
                 }),
             'class_teacher': forms.Select(attrs={
                 'class': 'form-control',
-                'style': 'background-color: #474955; color:white; border-color:red;',
+                
                 }),
         }
 
@@ -203,25 +203,21 @@ class ExtraCurricularActivityForm(forms.ModelForm):
         widgets = {
             'activity_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                 'style': 'border-color:green;',
+                 
             }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
-                 'style': 'border-color:green;',
                 'rows': 3
             }),
             'instructor': forms.Select(attrs={
                 'class': 'form-control',
-                 'style': 'border-color:green;',
             }),
             'requirements': forms.Textarea(attrs={
                 'class': 'form-control',
-                 'style': 'border-color:green;',
                 'rows': 3
             }),
             'category': forms.Select(attrs={
                 'class': 'form-control',
-                'style': 'border-color:green;',
             }),
         }
 

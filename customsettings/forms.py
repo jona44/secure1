@@ -6,7 +6,7 @@ class SchoolProfileForm(forms.ModelForm):
 
     class Meta:
         model = SchoolProfile
-        fields = ['school_logo', 'facebook', 'twitter', 'instagram']
+        fields = ['school_logo']
 
     def save(self, commit=True):
         instance = super(SchoolProfileForm, self).save(commit=False)

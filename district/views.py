@@ -352,61 +352,24 @@ def schoolHead_profile_detail(request, profile_id):
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'district_admin')
 def create_academic_calendar(request):
     if request.method == 'POST':
-        # Check if 'create_all_terms' is in the request data
-        create_all_terms = request.POST.get('create_all_terms')
-
-        # Create the first term calendar
         form = AcademicCalendarForm(request.POST)
         if form.is_valid():
-            academic_calendar = form.save(commit=False)
-           
-            academic_calendar.term = '1'
-            academic_calendar.save()
-
-            # Create the remaining terms if 'create_all_terms' is checked
-            if create_all_terms:
-                for term_number in ['2', '3']:
-                    new_calendar = AcademicCalendar(
-                       
-                        academic_year=academic_calendar.academic_year,
-                        term=term_number,
-                        start_date=academic_calendar.start_date,
-                        end_date=academic_calendar.end_date,
-                        is_current=False,
-                    )
-                    new_calendar.save()
-
-            return redirect('create_holidays', academic_calendar.id) 
+            # Save the AcademicCalendar instance
+            academic_calendar = form.save()
+            
+            # Redirect to the holiday creation view for this calendar
+            return redirect('create_holidays', academic_calendar.id)
     else:
         form = AcademicCalendarForm()
 
     return render(request, 'district/create_academic_calendar.html', {
         'form': form
-    })
+    })    
     
-    
-  #--------------------------------------create_holidays------------------------------------------------
+ 
 
 
-@login_required
-@user_passes_test(lambda u: u.is_superuser or u.user_type == 'district_admin')
-def create_holidays(request, academic_calendar_id):
-    # Retrieve the academic calendar instance
-    academic_calendar = get_object_or_404(AcademicCalendar, pk=academic_calendar_id)
-    
-    HolidayFormFactory = modelformset_factory(Holiday, form=HolidayForm, extra=3)
-    if request.method == 'POST':
-        formset = HolidayFormFactory(request.POST)
-        if formset.is_valid():
-            instances = formset.save(commit=False)
-            for instance in instances:
-                instance.academic_calendar = academic_calendar  # Set the academic calendar
-                instance.save()
-            return redirect('district_admin_dashboard')
-    else:
-        formset = HolidayFormFactory(queryset= Holiday.objects.none())
 
-    return render(request, 'district/create_holidays.html', {'formset': formset,})
 
 
 #-----------------------------------update_academic_calendar--------------------------------------------
@@ -499,3 +462,17 @@ def teacher_list_view(request):
         'distinct_subjects': distinct_subjects,
     }
     return render(request, 'district/all_teachers.html', context)
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type == 'district_admin')
+def create_district(request):
+    if request.method == 'POST':
+        form = DistrictForm(request.POST)
+        if form.is_valid():
+            district=form.save(commit=False)
+            district.save()
+            return redirect('school_list')   # Redirect to a list of schools or relevant page
+    else:
+        form = DistrictForm()
+    return render(request, 'district/create_district.html',  {'form': form})

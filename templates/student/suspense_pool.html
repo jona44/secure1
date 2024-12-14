@@ -3,7 +3,7 @@
 {% block content %}
 <div class="section mt-5 scroll-container w-75">
      <h2>Students in Suspense</h2>
-    <table class="table">
+     <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
@@ -17,18 +17,23 @@
         <tbody>
             {% for student in students %}
             <tr>
-                <td>{{ student.student.get_full_name }}</td>
+                <td><a href="{% url 'student_details' student.pk %}" >{{ student.student.get_full_name }}</a></td>
                 <td>{{ student.gender }}</td>
                 <td>{{ student.grade_level }}</td>
-                <td>{{ student.school }}</td>
-                <td>{{ student}}</td>
+                <td>{{ student.recent_school|default:"No record" }}</td> <!-- Use recent_school -->
+                <td>{{ student.recent_district|default:"No record" }}</td> <!-- Use recent_district -->
                 <td>
                     <a href="{% url 'accept_student' student.id %}" class="btn btn-success">Accept into School</a>
-                </td>
-            </tr>
+                    {% if student.recent_school == school.school.school %}
+                        <a href="{% url 'undo_transfer' student.id %}" class="btn btn-warning">Undo Transfer</a>
+                    {% endif %}
+                </td>            </tr>
             {% endfor %}
         </tbody>
     </table>
+        </table>
+        <p>Admin School: {{ school.school.school }}</p>
+
 </div>
    
 {% endblock %}
