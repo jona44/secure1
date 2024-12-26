@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from district.models import SchoolHeadProfile
 from student.models import  StudentProfile
 from teacher.models import TeacherProfile
-from customsettings.models import  SchoolAdminProfile
+from customsettings.models import  SchoolAdminProfile, SchoolProfile
 
 
 def get_user_school(user):
@@ -12,10 +12,10 @@ def get_user_school(user):
         return StudentProfile.objects.get(student=user).school  # Use `student=user` and `school`
     
     elif user.groups.filter(name='teacher').exists():
-        return TeacherProfile.objects.get(user=user).school
+        return TeacherProfile.objects.get(teacher=user).school
     
     elif user.groups.filter(name='school_admin').exists():
-        return SchoolAdminProfile.objects.get(admin=user).school  # Adjust to match the field in SchoolAdminProfile
+        return SchoolProfile.objects.get(school_admin=user).school  # Adjust to match the field in SchoolProfile
     
     elif user.groups.filter(name='school_head').exists() or user.groups.filter(name='school_head').exists():
         return SchoolHeadProfile.objects.get(admin=user).school  # Adjust for school_head/deputy_head

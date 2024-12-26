@@ -6,7 +6,7 @@
 {% block content %}
 
   <div class="row justify-content-center mt-5">
-    <div class="col-8 bg1 rounded p-5  shado" >
+    <div class="col-8 border  p-5  shado" >
         <h2 class="text-center "> Edit Mark  <p>{{ getmark.captured_classroom.classroom }}</h2>   <hr class="text-success">
         <p><strong>Student </strong>: <span class="text-secondary">{{ student }}</span></p>
         <p> <strong>Subject</strong>: <span class="text-secondary">{{ getmark.captured_classroom.capture.subject }}</span></p>
@@ -16,7 +16,9 @@
         <form method="post">
             {% csrf_token %}
                 {{ form|crispy}}
-            <button type="submit" class="btn btn-primary">Register &raquo;</button>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-dark">Edit Mark &raquo;</button>
+                </div>
        </form>
     </div>
   </div>

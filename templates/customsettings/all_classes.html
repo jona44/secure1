@@ -57,7 +57,7 @@
         {% for grade_level, class_data in grade_level_data.items %}
         <div id="grade{{ grade_level }}" class="tabcontent {% if forloop.first %}active{% endif %}">
             {% for data in class_data %}
-            <div class="class-details  bg1 m-2 p-4 rounded">
+            <div class="class-details  border m-2 p-2 rounded">
                 <h6 class=" text-center"><strong>{{ data.classroom.name }}</strong></h6>
                 <div class="d-flex">
                     <strong>Class Teacher:&nbsp;&nbsp;</strong>
@@ -78,7 +78,7 @@
                             <div class="progress-bar bg-success" role="progressbar" style="width: {{ data.female_percentage }}%;" aria-valuenow="{{ data.female_count }}" aria-valuemin="0" aria-valuemax="{{ data.total_students }}"></div>
                         </div>
                        
-                    </div>
+                    </div>&nbsp;&nbsp;
                     <div class="col-md-4">
                         Boys: {{ data.male_count }}
                         <div class="progress">
@@ -87,7 +87,7 @@
                        
                     </div>
                 </div>
-                <hr class="text-success">
+                <hr >
                 <a href="{% url 'classroom_details' pk=data.classroom_pk %}" class="btn btn-dark">Class Details</a>
             </div>
             {% endfor %}

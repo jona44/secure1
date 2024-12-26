@@ -1,16 +1,12 @@
 import logging
 from django.conf import settings
-from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from django.test import TransactionTestCase
 from customadmin.models import CustomUser
 from .models import*
 from .forms import   *
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
@@ -22,6 +18,9 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 logger = logging.getLogger(__name__)
 from .models import GradeLevel
+from django.contrib.auth import logout
+from django.views.decorators.http import require_POST
+from teacher.models import TeacherProfile
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'district_admin')
@@ -366,11 +365,6 @@ def create_academic_calendar(request):
         'form': form
     })    
     
- 
-
-
-
-
 
 #-----------------------------------update_academic_calendar--------------------------------------------
 
@@ -419,9 +413,7 @@ def grade_level(request):
     
     return render(request, 'district/grade_level.html', context)
 
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from django.views.decorators.http import require_POST
+
 
 
 @require_POST 
@@ -430,7 +422,7 @@ def logout_view(request):
     return redirect('login')  
 
 
-from teacher.models import TeacherProfile
+
 
 def teacher_list_view(request):
     # Retrieve all teacher profiles
@@ -462,6 +454,9 @@ def teacher_list_view(request):
         'distinct_subjects': distinct_subjects,
     }
     return render(request, 'district/all_teachers.html', context)
+
+
+#-----------------------------------create_district-------------------------
 
 
 @login_required

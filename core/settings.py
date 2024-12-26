@@ -30,8 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    
-    
     'student',
     'teacher',
     'grading',

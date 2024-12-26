@@ -3,9 +3,9 @@
 
 
 {% block content %}
-<div class="section mt-5 w-75" style="height: 50vh;">
-        <div class="col-8 offset-md-2  p-3  bg1 rounded shado" >
-          <h1 class="text-primary">Registration</h1> 
+<div class="section mt-5 " style="height: 50vh;">
+        <div class="col-8 offset-md  p-3   rounded shado" >
+          <h1 >Registration</h1> 
             <form method="POST">
               {% csrf_token %}
               <!-- {{form|crispy}} -->
@@ -63,7 +63,10 @@
                     </div>
                 </div>
                 </div><hr class="text-primary">
-                  <button type="submit" class=" btn btn-dark">Create User  </button>
+                <div class="d-grid">
+                   <button type="submit" class=" btn btn-dark">Create User  </button>
+                </div>
+                 
             </form>
         </div>
       </div>

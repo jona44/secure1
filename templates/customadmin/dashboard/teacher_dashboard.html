@@ -7,7 +7,7 @@
     <h1 class="text-success">Teacher Dashboard</h1>
     <hr>
     <p><strong>Teacher</strong>: {{ request.user }}</p>
-    <p class="bg-secondary p-2 text-info">&nbsp;&nbsp;{{my_assigned_class}}</p>
+    <p class="bg-secondary p-2 text-dark">&nbsp;&nbsp;{{my_assigned_class}}</p>
     <hr>
     <h2>My Classes</h2>
     
@@ -15,12 +15,15 @@
         {% if my_classes_students %}
             {% for class_info in my_classes_students %}
             
-            <div class="col-md bg1 rounded shado p-2">
-                <h6 class="text-primary">Class: {{ class_info.class_.name }}</h6>
+            <div class="col-md border shado rounded  p-2">
+                <h6>Class: {{ class_info.class_.name }}</h6>
 
-                <p class="bg1 p-1 rounded">Total Students: {{ class_info.students_count }}</p>
-                <p>Girls: <span class="badge rounded-pill bggirls">{{ class_info.female_students.count }}</span></p>
-                <p>Boys: <span class="badge rounded-pill bg-info">{{ class_info.male_students.count }}</span></p>
+                <p class=" p-1 rounded">Total Students: {{ class_info.students_count }}</p>
+                <div class="d-flex ">
+                   <p>Girls: <span class="badge rounded-pill bggirls">{{ class_info.female_students.count }}</span></p>&nbsp;
+                   <p>Boys: <span class="badge rounded-pill bg-info">{{ class_info.male_students.count }}</span></p> 
+                </div>
+                
                 <a href="{% url 'classroom_details' pk=class_info.class_.id %}" class="btn btn-light">Class Details</a>
             </div>
             {% endfor %}
@@ -30,7 +33,7 @@
         {% endif %}
     </div>
     <hr>
-    <div class="col-md shado p-3 bg1 mt-3 rounded">
+    <div class="col-md  border shado p-3  mt-3 rounded">
         {% if my_subjects %}
         <ol>
             {% for subject in my_subjects %}

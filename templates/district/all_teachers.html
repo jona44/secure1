@@ -37,29 +37,30 @@
     </form>
 
     <!-- Teacher Table -->
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Teacher Name</th>
-                <th>Base Subject</th>
-                <th>School Assigned</th>
-                <th>Assigned Class</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for teacher in teachers %}
-            <tr>
-                <td>{{ teacher.teacher.get_full_name }}</td>
-                <td>{{ teacher.base_subject }}</td>
-                <td>{{ teacher.school }}</td>
-                <td>{{ teacher.assigned_class  }}</td>
-                <td><a href="{% url 'view_teacher_profile' pk=teacher.pk %}">view</a></td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table  table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Teacher Name</th>
+                    <th>Base Subject</th>
+                    <th>School Assigned</th>
+                    <th>Assigned Class</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.teacher.get_full_name }}</td>
+                    <td>{{ teacher.base_subject }}</td>
+                    <td>{{ teacher.school }}</td>
+                    <td>{{ teacher.assigned_class  }}</td>
+                    <td><a href="{% url 'view_teacher_profile' pk=teacher.pk %}">view</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
   
 {% endblock %}

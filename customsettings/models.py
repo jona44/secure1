@@ -6,7 +6,8 @@ from district.models import District_School_Registration,GradeLevel,AcademicCale
 from django.utils.translation import gettext_lazy as _
 
 
-class SchoolProfile(models.Model):    
+class SchoolProfile(models.Model): 
+    school_admin =models.ForeignKey(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True,related_name='schooladmin')   
     school       = models.OneToOneField(District_School_Registration, on_delete=models.CASCADE, blank=True, null=True)
     school_logo  = models.ImageField(upload_to='school_logos/', blank=True, null=True)
     school_subjects   = models.ManyToManyField('SchoolSubject')

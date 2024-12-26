@@ -5,14 +5,14 @@
 {% block content %}
  
     
-       <div class="col-md-6 offset-2 rounded p-5  bg1 shado mt-5 ">
+       <div class="col-md-6 offset-2 rounded p-5 border  shado mt-5 ">
           <h2 class="text-primary text-center">Student Registration </h2>
             <hr class="text-primary">
             <form method="post">
                 {% csrf_token %}
                   {{ form|crispy}}
                   <hr class="text-primary">
-                  <div class="d-grid"><button type="submit" class="btn bg3 text-info">Register &raquo;</button></div>
+                  <div class="d-grid"><button type="submit" class="btn btn-dark">Register &raquo;</button></div>
             </form>
        </div>
   

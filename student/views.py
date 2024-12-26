@@ -176,9 +176,10 @@ def student_details(request, pk):
     user_is_student_school_admin = False
     
     if student_school:
-        school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-        the_school = school_admin_profile.school
-        
+        the_school = get_user_school(request.user) 
+        the_school = the_school
+    else:
+          
         student_school = the_school
 
     # Retrieve the next and previous students
@@ -224,6 +225,7 @@ def classrooms(request):
 @user_passes_test(lambda u: u.is_superuser or u.user_type == 'school_admin')
 def create_classroom(request):
     year = AcademicCalendar.objects.get(is_current=True)
+    
     school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
     the_school = school_admin_profile.school
     school = SchoolProfile.objects.get(school=the_school)
@@ -248,14 +250,12 @@ def create_classroom(request):
 def classroom_details(request, pk):
     # Get the classroom object by primary key (pk)
     classroom = get_object_or_404(ClassRoom, pk=pk)
-    
-    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    the_school = school_admin_profile.school
-    school = SchoolProfile.objects.get(school=the_school)
+   
+    school = get_assigned_school(request.user)
 
-    # Safely query all SchoolProfile objects; if empty, it will pass an empty QuerySet
+       # Safely query all SchoolProfile objects; if empty, it will pass an empty QuerySet
     subjects = SchoolProfile.objects.all()  # Make sure there are no missing or required fields that could raise a 404
-    
+        
     students = classroom.students.filter(school=school)  # Assuming classroom has a related name to Student model
 
     male_count = students.filter(gender='male').count()
@@ -265,27 +265,27 @@ def classroom_details(request, pk):
     female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
     male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
 
-    # Initialize selected_student to None
+        # Initialize selected_student to None
     selected_student = None
     selected_student_pk = None
 
-    # Capture the student_id from the request URL (if present)
+        # Capture the student_id from the request URL (if present)
     if request.GET.get('student_id'):
         selected_student_pk = request.GET['student_id']
         selected_student = StudentProfile.objects.get(pk=selected_student_pk)
 
     context = {
-        'classroom': classroom,
-        'subjects': subjects,
-        'students': students,
-        'male_count': male_count,
-        'female_count': female_count,
-        'total_count': total_count,
-        'male_percentage': male_percentage,
-        'female_percentage': female_percentage,
-        'selected_student': selected_student,  # Pass selected student profile to context
-        'selected_student_pk': selected_student_pk,  # Pass selected student profile to context
-    }
+                    'classroom': classroom,
+                    'subjects': subjects,
+                    'students': students,
+                    'male_count': male_count,
+                    'female_count': female_count,
+                    'total_count': total_count,
+                    'male_percentage': male_percentage,
+                    'female_percentage': female_percentage,
+                    'selected_student': selected_student,  # Pass selected student profile to context
+                    'selected_student_pk': selected_student_pk,  # Pass selected student profile to context
+                }
     return render(request, 'student/classroom_details.html', context)
 
 
@@ -416,10 +416,11 @@ def student_attendance(request, student_id):
 from django.db.models import Q
 
 def students_list(request):
-    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
-    the_school = school_admin_profile.school
-    school = SchoolProfile.objects.get(school=the_school)
-    
+    # school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=request.user)
+    # the_school = school_admin_profile.school
+    # school = SchoolProfile.objects.get(school=the_school)
+    school = get_assigned_school(request.user)
+
     # Retrieve filter options from GET request
     assigned_class = request.GET.get('assigned_class')
     gender = request.GET.get('gender')

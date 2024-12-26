@@ -3,9 +3,9 @@
 
 {% block content %}
 
-<div class="container offset-2 mt-4 scroll-container shado p-2 bg1">
+<div class="container offset-2 mt-4 scroll-container shado p-2 border">
   <div >
-      <h2 class="text-info bg-secondary rounded p-2">Select or Create Capture for <span class="text-light">{{ subject }}</span> </h2>
+      <h2 class="text-dark bg-secondary p-2">Select or Create Capture for <span class="text-light">{{ subject }}</span> </h2>
       <h6 class="text-primary">Existing Captures</h6>
       <div class="scroll-container bg1 p-2 mb-2" style="height: 200px;">
         <ul >
@@ -39,7 +39,7 @@
           {% csrf_token %}
           {{ form|crispy }}
           <div class="d-grid">
-            <button type="submit" class="btn bg3 text-white">Submit Created Capture</button>  
+            <button type="submit" class="btn btn-dark ">Submit Created Capture</button>  
           </div>
          
       </form>

@@ -3,14 +3,14 @@
 {% block content %}
   <div class="container mt-5 offset-md-2">
     <div class= "d-flex mt-3">
-       <div class=" col-4 bg1 rounded p-2">
+       <div class=" col-4 border rounded p-2">
        <h1 class="text-success">Grades Page</h1>
        <h6 class="text-primary">Classroom: <span class="text-info">{{ classroom }}</span></h4>
        <h6 class="text-primary">Subject: <span class="text-info">{{ capture.subject }} </span>
        <h6 class="text-primary"> Topic: <span class="text-info">{{ capture.topic }} </span>
        <h6 class="text-primary">Test Type: <span class="text-info">{{ capture.test_type }}</span></h4>
       </div>
-      <div class="col-8 d-flex bg1 rounded p-2 mx-2">
+      <div class="col-8 d-flex border rounded p-2 mx-2">
         <div class="">
           <h4 class="text-primary">Average Female : <span class="text-info">{{female_average}}%</span> </h4>
           <h4 class="text-primary">Average Male : <span class="text-info">{{male_average}}%</span> </h4>
@@ -22,11 +22,9 @@
       </div>
        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       </div>
-    
-   
    
     <table class= "table dark mt-3 rounded">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>Student</th>
                 <th></th>
