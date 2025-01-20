@@ -18,6 +18,7 @@ class StudentProfile(models.Model):
     assigned_class  = models.ForeignKey('ClassRoom', on_delete=models.SET_NULL, null=True, blank=True)
     address         = models.TextField(null=True, blank=True)
     guardian_name   = models.CharField(max_length=255, null=True, blank=True)
+    occupation      = models.CharField(max_length=255, null=True, blank=True)
     guardian_number = models.CharField(max_length=15, null=True, blank=True)
     guardian_email  = models.EmailField(null=True, blank=True)
     date            = models.DateField(auto_now_add=True)

@@ -5,18 +5,18 @@
 <div class="section w-75 offset-md mt-5">
     <h1 class="text-warning">School Admin</h1>
     <div class="row mb-3  gap-2">
-      <div class="col-md rounded bg1  p-3">
+      <div class="col-md rounded border  p-3">
         <h3 class="text-info">Students <span class="badge rounded-pill text-bg-info">{{students_count}}</span> </h3>
         <div class="body d-flex">
           <img src="{% static 'images\boy & girl.png '%}" width="100" alt="">
           <div class="p-2">
-            <h4 ><svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill=""><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M14,7h-4C8.9,7,8,7.9,8,9v6h2v7h4v-7h2V9C16,7.9,15.1,7,14,7z"/><circle cx="12" cy="4" r="2"/></g></g></svg> Boys <span class="badge rounded-pill bgboys">{{male_count}}</span> </h4>
-            <h4><svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill=""><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M13.94,8.31C13.62,7.52,12.85,7,12,7s-1.62,0.52-1.94,1.31L7,16h3v6h4v-6h3L13.94,8.31z"/><circle cx="12" cy="4" r="2"/></g></g></svg> Girls <span class="badge rounded-pill bggirls">{{female_count}}</span> </p></h4>
+            <h4 > Boys <span class="badge rounded-pill bgboys">{{male_count}}</span> </h4>
+            <h4> Girls <span class="badge rounded-pill bggirls">{{female_count}}</span> </p></h4>
           </div>
         </div><hr>
         <a href="{% url 'students_list'%}" class="btn btn-secondary btn-sm">view all..</a>
       </div>
-      <div class="col-md  rounded bg1 p-3">
+      <div class="col-md  rounded border p-3">
         <h3 class="text-warning">Teachers <span class="badge rounded-pill text-bg-info"> {{all_teachers}}</span></h3>
         <div class=" body d-flex">
           
@@ -31,7 +31,7 @@
         </div><hr>
         <a href="{% url 'teacher_list'%}" class="btn btn-secondary btn-sm">view all..</a>
       </div>
-      <div class="col-md  rounded bg1 p-3">
+      <div class="col-md  rounded border p-3">
         <h3 class="text-success">Classes <span class="badge rounded-pill text-bg-info"> {{classes}}</h3>
         <div class="body d-flex">
           <img src="{% static 'images\classes.png '%}" width="100" alt="">
@@ -41,7 +41,7 @@
         </div><hr>
         <a href="{% url 'all_classes' %}" class="btn btn-secondary btn-sm">view all..</a>
       </div>
-      <div class="col-md rounded bg1 p-3">
+      <div class="col-md rounded border p-3">
         <h3 class="text-primary">Subjects <span class="badge rounded-pill text-bg-info"> {{subject_count}}</h3>
         <div class="body d-flex">
          

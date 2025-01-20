@@ -3,6 +3,7 @@ from django.urls import reverse
 from customadmin.models import CustomUser
 from customsettings.models import AcademicCalendar
 from district.models import SchoolAdminProfile
+from teacher.models import TeacherProfile
 from .forms import *
 from .models import   *
 from django.db import transaction
@@ -14,9 +15,10 @@ from .utils import mark_default_attendance
 
 
 def get_assigned_school(user):
-    school_admin_profile = get_object_or_404(SchoolAdminProfile, school_admin=user)
-    the_school = school_admin_profile.school
-    school = get_object_or_404(SchoolProfile, school=the_school)
+    profile = get_object_or_404(SchoolAdminProfile, school_admin=user)
+    _school = profile.school
+    school = get_object_or_404(SchoolProfile, school=_school)
+    
     return school
 
 @login_required
@@ -160,8 +162,7 @@ def assign_classroom(request, pk):
 #--------------------------------student_details-------------------------------------------    
     
 from django.db.models import F
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+
 
 @login_required
 def student_details(request, pk):
@@ -187,6 +188,41 @@ def student_details(request, pk):
     previous_student = StudentProfile.objects.filter(pk__lt=pk,school=current_school,assigned_class=_class).order_by('-pk').first()
 
     return render(request, 'student/student_details.html', {
+        'student_profile': student_profile,
+        'next_student': next_student,
+        'previous_student': previous_student,
+        'user_is_student_school_admin': user_is_student_school_admin,
+        'student_school':student_school
+    })
+#--------------------------------student_details-------------------------------------------    
+    
+from django.db.models import F
+
+
+@login_required
+def student_profile(request, pk):
+    # Retrieve the student profile
+    student_profile = get_object_or_404(StudentProfile, pk=pk)
+    student_school=student_profile.school
+    current_school =student_profile.school
+    _class  =student_profile.assigned_class
+   
+    
+    # Check if the logged-in user is the school admin for the student's school
+    user_is_student_school_admin = False
+    
+    if student_school:
+        the_school = get_user_school(request.user) 
+        the_school = the_school
+    else:
+          
+        student_school = the_school
+
+    # Retrieve the next and previous students
+    next_student = StudentProfile.objects.filter(pk__gt=pk,school=current_school,assigned_class=_class).first()
+    previous_student = StudentProfile.objects.filter(pk__lt=pk,school=current_school,assigned_class=_class).order_by('-pk').first()
+
+    return render(request, 'student/student_profile.html', {
         'student_profile': student_profile,
         'next_student': next_student,
         'previous_student': previous_student,
@@ -246,46 +282,54 @@ def create_classroom(request):
 
 #------------------------------classroom_details----------------------------------
 
+from django.http import HttpResponseNotFound
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.user_type in ['school_admin', 'teacher'])
 def classroom_details(request, pk):
-    # Get the classroom object by primary key (pk)
+    # Fetch the classroom object by primary key (pk)
     classroom = get_object_or_404(ClassRoom, pk=pk)
-   
-    school = get_assigned_school(request.user)
+    
+    # Determine the logged-in user's profile and school
+    profile = None
+    if request.user.user_type == 'school_admin':
+        profile = SchoolAdminProfile.objects.filter(school_admin=request.user).first()
+    elif request.user.user_type == 'teacher':
+        profile = TeacherProfile.objects.filter(teacher=request.user).first()
+    
+    if not profile:
+        return HttpResponseNotFound("Profile not found for the logged-in user.")
+    
+    school = profile.school
 
-       # Safely query all SchoolProfile objects; if empty, it will pass an empty QuerySet
-    subjects = SchoolProfile.objects.all()  # Make sure there are no missing or required fields that could raise a 404
-        
-    students = classroom.students.filter(school=school)  # Assuming classroom has a related name to Student model
+    # Filter students by classroom and the user's school
+    students = classroom.students.filter(school=school)
 
+    # Gender-based statistics
     male_count = students.filter(gender='male').count()
     female_count = students.filter(gender='female').count()
     total_count = students.count()
-
-    female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
     male_percentage = (male_count / total_count) * 100 if total_count > 0 else 0
+    female_percentage = (female_count / total_count) * 100 if total_count > 0 else 0
 
-        # Initialize selected_student to None
+    # Handle selected student (optional)
     selected_student = None
-    selected_student_pk = None
+    selected_student_pk = request.GET.get('student_id')
+    if selected_student_pk:
+        selected_student = get_object_or_404(StudentProfile, pk=selected_student_pk)
 
-        # Capture the student_id from the request URL (if present)
-    if request.GET.get('student_id'):
-        selected_student_pk = request.GET['student_id']
-        selected_student = StudentProfile.objects.get(pk=selected_student_pk)
-
+    # Prepare context for template
     context = {
-                    'classroom': classroom,
-                    'subjects': subjects,
-                    'students': students,
-                    'male_count': male_count,
-                    'female_count': female_count,
-                    'total_count': total_count,
-                    'male_percentage': male_percentage,
-                    'female_percentage': female_percentage,
-                    'selected_student': selected_student,  # Pass selected student profile to context
-                    'selected_student_pk': selected_student_pk,  # Pass selected student profile to context
-                }
+        'classroom': classroom,
+        'students': students,
+        'male_count': male_count,
+        'female_count': female_count,
+        'total_count': total_count,
+        'male_percentage': male_percentage,
+        'female_percentage': female_percentage,
+        'selected_student': selected_student,
+        'selected_student_pk': selected_student_pk,
+    }
     return render(request, 'student/classroom_details.html', context)
 
 

@@ -12,6 +12,7 @@
         <thead class="table-dark">
             <tr>
                 <th>Date</th>
+                <th>Topic</th>
                 <th>Grade</th>
                 <th>Mark</th>
                 <th>Pass Code</th>
@@ -22,6 +23,7 @@
             {% for grade in student_grades %}
             <tr>
                 <td>{{ grade.date|date:"M d, Y" }}{{number}}</td>
+                <td>{{ grade.captured_classroom.capture.topic }}</td>
                 <td>{{ grade.grade }}</td>
                 <td>{{ grade.mark }}</td>
                 <td>{{ grade.pass_code }}</td>

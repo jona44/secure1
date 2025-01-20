@@ -27,7 +27,7 @@
             </div>
             <p><strong>Subjects:</strong> 
                 {% for subject in student_profile.subjects.all %}
-                  <span class="badge bg-primary"><a href="{% url 'student_grades' student_profile.id subject.id %}">{{ subject }}</a> </span>
+                <span class="badge bg-primary"><a href="{% url 'student_grades' student_profile.id subject.id %}">{{ subject }}</a> </span>
                 {% endfor %}
             </p>
             <p><strong>Date of Birth:</strong> <span class="text-secondary">{{ student_profile.date_of_birth }}</span></p>
@@ -42,7 +42,7 @@
     <!-- Guardian Profile Details -->
     <div class="row mb-2">
         <div class="col">
-          <h5 class="text-danger">Guardian Details</h5>
+            <h5 class="text-danger">Guardian Details</h5>
             <p><strong>Guardian Name:</strong> <span class="text-secondary">{{ student_profile.guardian_name }}</span></p>
             <p><strong>Occupation:</strong> <span class="text-secondary">{{ student_profile.occupation }}</span></p>
             <p><strong>Contact Number:</strong> <span class="text-secondary">{{ student_profile.guardian_number }}</span></p>

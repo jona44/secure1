@@ -1,7 +1,4 @@
-from datetime import datetime, timezone
-import datetime
 from django.db import models
-from customadmin.models import CustomUser
 from district.models import District_School_Registration,GradeLevel,AcademicCalendar,Subjects,SchoolAdminProfile
 from django.utils.translation import gettext_lazy as _
 

@@ -15,7 +15,7 @@ def get_user_school(user):
         return TeacherProfile.objects.get(teacher=user).school
     
     elif user.groups.filter(name='school_admin').exists():
-        return SchoolProfile.objects.get(school_admin=user).school  # Adjust to match the field in SchoolProfile
+        return SchoolAdminProfile.objects.get(school_admin=user).school  # Adjust to match the field in SchoolProfile
     
     elif user.groups.filter(name='school_head').exists() or user.groups.filter(name='school_head').exists():
         return SchoolHeadProfile.objects.get(admin=user).school  # Adjust for school_head/deputy_head
